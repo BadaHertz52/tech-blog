@@ -8,3 +8,6 @@ coverage
 yarn.lock
 package-lock.json
 
+# Markdown files
+*.md
+
