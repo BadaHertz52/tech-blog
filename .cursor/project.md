@@ -39,7 +39,7 @@
 ### 파일 및 폴더 구조
 
 ```
-app/
+src/app/
   ├── layout.tsx                    # 루트 레이아웃
   ├── page.tsx                       # 홈 페이지
   ├── api/                           # API 라우트
@@ -58,6 +58,7 @@ app/
   └── //....
 
 src/
+  ├── app/
   ├── components/                    # 공통 컴포넌트
   ├── constants/                     # 공통 상수
   ├── images/                        # 이미지 파일 관리
