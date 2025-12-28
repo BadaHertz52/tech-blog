@@ -5,7 +5,7 @@
 ### 프레임워크 & 빌드 도구
 
 - **Next.js**: App Router 사용
-- **Vite**: 개발 환경 및 빌드 도구
+- **Vite**: Storybook 빌드 도구
 - **Vercel**: 배포 플랫폼
 
 ### 상태 관리
