@@ -1,40 +1,6 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 language: ko-KR
 reviews:
-  high_level_summary_instructions: |
-
-    # 기술 블로그 프로젝트 - 코드 리뷰 가이드
-
-    ## 📋 주요 체크 포인트
-    1. **폴더 구조 규칙**
-       - 페이지 전용 리소스는 `_components/`, `_hooks/`, `_utils/` 디렉토리 사용
-       - 공통 컴포넌트는 `src/components/`에 위치
-       - API 관련 코드는 `src/services/` 디렉토리 구조 준수
-
-    2. **네이밍 컨벤션**
-       - 컴포넌트/타입: PascalCase
-       - 변수/함수: camelCase
-       - 폴더: kebab-case
-       - 상수: UPPER_SNAKE_CASE (속성도 대문자)
-
-    3. **Export 규칙**
-       - Next.js 특수 파일(page.tsx, layout.tsx 등): export default
-       - 일반 컴포넌트: named export
-
-    4. **TypeScript 규칙**
-       - interface를 type보다 우선 사용
-       - 초기값 없을 경우 undefined 명시
-       - any 사용 금지
-
-    5. **Import/CSS 정렬**
-       - Import: 외부 라이브러리 → 내부 모듈 → 타입
-       - Tailwind: 레이아웃 → 스타일 → 상태
-
-    ## 💬 리뷰 스타일
-    - 친절하고 건설적인 피드백 제공
-    - 왜 그런 방식이 좋은지 설명
-    - 대안이 있다면 제시
-    - 칭찬할 부분은 적극적으로 칭찬
   collapse_walkthrough: false
   poem: false
   path_instructions:
