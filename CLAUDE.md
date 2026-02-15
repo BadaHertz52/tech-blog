@@ -65,8 +65,25 @@ tech-blog/
 │   │   └── layout.tsx
 │   │
 │   ├── components/            # 공통 컴포넌트
-│   │   ├── ui/               # 기본 UI 컴포넌트
-│   │   └── layout/           # 레이아웃 컴포넌트
+│   │   ├── Button/            # 복잡한 컴포넌트 (폴더 구조)
+│   │   │   ├── index.tsx      # 메인 컴포넌트
+│   │   │   ├── stories.tsx    # Storybook
+│   │   │   ├── constants.ts   # 상수 (필요시)
+│   │   │   ├── hooks/         # 훅 폴더 (필요시)
+│   │   │   ├── utils.ts       # 유틸리티 (필요시)
+│   │   │   └── components/    # 자식 컴포넌트 (필요시)
+│   │   │       └── ButtonIcon/
+│   │   │           └── index.tsx
+│   │   ├── Card/              # 폴더 구조
+│   │   │   ├── index.tsx
+│   │   │   ├── stories.tsx
+│   │   │   └── components/
+│   │   │       ├── CardHeader/
+│   │   │       ├── CardBody/
+│   │   │       └── CardFooter/
+│   │   ├── Avatar.tsx         # 간단한 컴포넌트 (단일 파일)
+│   │   ├── Badge.tsx          # 단일 파일
+│   │   └── Icon.tsx           # 단일 파일
 │   │
 │   ├── services/              # 서비스 레이어
 │   │   ├── api/              # API 클라이언트
@@ -88,6 +105,15 @@ tech-blog/
 
 - **`app/`**: Next.js App Router 기반 페이지 및 레이아웃
 - **`components/`**: 재사용 가능한 UI 컴포넌트
+  - **폴더 구조** (복잡한 컴포넌트): Storybook, 테스트, 자식 컴포넌트, 훅, 유틸, 상수 등이 있을 때
+    - `index.tsx`: 메인 컴포넌트
+    - `stories.tsx`: Storybook 스토리
+    - `constants.ts`: 컴포넌트 전용 상수
+    - `hooks/`: 컴포넌트 전용 훅
+    - `utils.ts`: 컴포넌트 전용 유틸리티
+    - `components/`: 자식 컴포넌트들
+  - **단일 파일** (간단한 컴포넌트): 위 조건들이 모두 해당되지 않을 때
+    - `[ComponentName].tsx`: 순수 프레젠테이션 컴포넌트
 - **`services/`**: 비즈니스 로직 및 데이터 처리
   - `api/`: API 클라이언트 및 엔드포인트
   - `hooks/`: React Query 등 데이터 페칭 hooks
@@ -179,24 +205,67 @@ export const BlogCard = (props) => {
 }
 ```
 
-### Tailwind CSS 규칙
+### Tailwind CSS 규칙 (스타일 분리)
 
-- **유틸리티 클래스 우선**
-- **커스텀 CSS 최소화**
-- **반응형 모바일 퍼스트**
-- **className prop 제공**
+- **@layer components**: 공통 스타일은 `globals.css`에 정의
+- **variant 스타일**: 컴포넌트 내부 객체로 관리
+- **반응형 모바일 퍼스트**: `sm:`, `md:`, `lg:` 사용
+- **className prop 제공**: 외부 스타일 주입 가능
 
+#### 스타일 작성 방식
+
+**1. 기본 스타일 - `src/app/globals.css`**
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply px-md py-sm rounded-xs font-medium transition-all duration-200;
+  }
+
+  .btn:hover {
+    @apply opacity-90;
+  }
+
+  .card {
+    @apply bg-bg-white rounded-md p-lg shadow-md;
+  }
+}
+```
+
+**2. Variant 스타일 - 컴포넌트 로직**
 ```typescript
-// ✅ Good
-<div className="flex items-center gap-4 p-6 bg-white rounded-lg">
+// ✅ Good - Variant를 객체로 관리
+export const Button = ({
+  variant = 'primary',
+  className = '',
+  ...props
+}: ButtonProps) => {
+  const variantStyles = {
+    primary: 'bg-primary-blue text-white hover:bg-blue-600',
+    secondary: 'bg-gray-light text-text-primary hover:bg-gray-medium',
+    danger: 'bg-red-500 text-white hover:bg-red-600',
+  }
 
-// ✅ Good - 반응형
-<div className="text-sm md:text-base lg:text-lg">
+  return (
+    <button className={`btn ${variantStyles[variant]} ${className}`} {...props} />
+  )
+}
 
-// ✅ Good - className prop
-export const Card = ({ className = '' }) => (
-  <div className={`p-4 bg-white ${className}`}>
+// ❌ Bad - 인라인 Tailwind 클래스 나열
+export const Button = () => (
+  <button className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600" />
 )
+```
+
+**3. 폴더 구조**
+```
+components/
+├── Button/
+│   ├── index.tsx        # 컴포넌트 + variant
+│   └── stories.tsx      # Storybook
 ```
 
 ---
