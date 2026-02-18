@@ -96,6 +96,10 @@ const config: Config = {
       boxShadow: {
         md: "0px 25px 50px -12px #e5e7eb",
       },
+      screens: {
+        xs: "425px", // min-width 425px
+      },
+      height: {
     },
   },
   plugins: [],
