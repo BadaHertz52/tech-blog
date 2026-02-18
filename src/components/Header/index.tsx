@@ -2,23 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import clsx from "clsx";
 
 import Icon from "@/components/Icon";
-
-interface NavItem {
-  label: string;
-  href: string;
-}
-
-const NAV_ITEMS: NavItem[] = [
-  { label: "Articles", href: "/articles" },
-  { label: "About Me", href: "/about-me" },
-];
+import DarkModeButton from "./components/DarkModeButton";
+import NavLinks from "./components/NavLinks";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white backdrop-blur-md">
@@ -32,23 +26,8 @@ export default function Header() {
 
         {/* PC/태블릿 네비게이션 (425px 이상) */}
         <nav className="xs:flex xs:gap-md hidden h-9 items-center gap-xs">
-          {NAV_ITEMS.map(({ label, href }) => (
-            <Link
-              key={label}
-              href={href}
-              className="text-sm font-medium text-text-primary"
-            >
-              {label}
-            </Link>
-          ))}
-
-          <button
-            type="button"
-            aria-label="다크모드 토글"
-            className="flex h-9 w-9 items-center justify-center rounded-sm bg-gray-light"
-          >
-            <Icon name="moon" width={20} height={20} />
-          </button>
+          <NavLinks variant="pc" />
+          <DarkModeButton variant="pc" />
         </nav>
 
         {/* 모바일 햄버거 버튼 (425px 미만) */}
@@ -63,38 +42,23 @@ export default function Header() {
             name="chevron-right"
             width={24}
             height={24}
-            className={`${isMobileMenuOpen ? "-rotate-90" : "rotate-90"}`}
+            className={clsx(isMobileMenuOpen ? "-rotate-90" : "rotate-90")}
           />
         </button>
       </div>
 
       {/* 모바일 드롭다운 메뉴 */}
       <div
-        className={`xs:hidden absolute left-0 right-0 top-full w-full overflow-hidden bg-primary-blue transition-all duration-300 ease-in-out ${isMobileMenuOpen ? "h-[52]" : "h-0"}`}
+        className={clsx(
+          "xs:hidden absolute left-0 right-0 top-full w-full",
+          "overflow-hidden bg-primary-blue",
+          "transition-all duration-300 ease-in-out",
+          isMobileMenuOpen ? "h-[52]" : "h-0"
+        )}
       >
         <nav className="flex items-center justify-between px-md py-xs">
-          {NAV_ITEMS.map(({ label, href }) => (
-            <Link
-              key={label}
-              href={href}
-              className="text-sm font-medium text-white"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {label}
-            </Link>
-          ))}
-          <button
-            type="button"
-            aria-label="다크모드 토글"
-            className="flex h-9 w-9 items-center justify-center rounded-sm"
-          >
-            <Icon
-              name="moon"
-              width={20}
-              height={20}
-              color={"var(--color-white)"}
-            />
-          </button>
+          <NavLinks variant="mobile" onClickLink={closeMobileMenu} />
+          <DarkModeButton variant="mobile" />
         </nav>
       </div>
     </header>
