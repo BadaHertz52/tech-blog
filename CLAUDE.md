@@ -141,14 +141,13 @@ tech-blog/
 
 ### Export 규칙
 
-- **페이지 컴포넌트** (`app/page.tsx`, `app/layout.tsx`): `export default`
-- **일반 컴포넌트**: `named export`
+- **모든 컴포넌트** (일반 컴포넌트, 페이지 포함): `export default function`
 - **유틸 함수**: `named export`
 - **타입/인터페이스**: `export type`, `export interface`
 
 ```typescript
 // ✅ Good - 컴포넌트
-export const BlogCard = ({ ... }) => { ... }
+export default function BlogCard({ ... }: BlogCardProps) { ... }
 
 // ✅ Good - 페이지
 export default function BlogPage() { ... }
@@ -157,7 +156,7 @@ export default function BlogPage() { ... }
 export const formatDate = (date: Date) => { ... }
 
 // ❌ Bad - 컴포넌트
-export default BlogCard
+export const BlogCard = ({ ... }) => { ... }
 ```
 
 ### TypeScript 규칙
@@ -186,18 +185,16 @@ const user: any = { ... }
 
 ### React 규칙
 
-- **함수형 컴포넌트** 사용
+- **함수형 컴포넌트** 사용 (`export default function`)
 - **Hooks 규칙** 준수
 - **Props 구조 분해**
-- **displayName 설정** (Storybook용)
+- **displayName 자동 추론** (`export default function ComponentName`으로 자동 설정)
 
 ```typescript
 // ✅ Good
-export const BlogCard = ({ title, description }: BlogCardProps) => {
+export default function BlogCard({ title, description }: BlogCardProps) {
   return <div>{title}</div>
 }
-
-BlogCard.displayName = 'BlogCard'
 
 // ❌ Bad
 export const BlogCard = (props) => {
@@ -238,11 +235,11 @@ export const BlogCard = (props) => {
 **2. Variant 스타일 - 컴포넌트 로직**
 ```typescript
 // ✅ Good - Variant를 객체로 관리
-export const Button = ({
+export default function Button({
   variant = 'primary',
   className = '',
   ...props
-}: ButtonProps) => {
+}: ButtonProps) {
   const variantStyles = {
     primary: 'bg-primary-blue text-white hover:bg-blue-600',
     secondary: 'bg-gray-light text-text-primary hover:bg-gray-medium',
@@ -255,9 +252,9 @@ export const Button = ({
 }
 
 // ❌ Bad - 인라인 Tailwind 클래스 나열
-export const Button = () => (
-  <button className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600" />
-)
+export default function Button() {
+  return <button className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600" />
+}
 ```
 
 **3. 폴더 구조**
