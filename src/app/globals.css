@@ -12,6 +12,14 @@
   body {
     @apply font-pretendard text-base text-text-primary;
   }
+
+  button {
+    cursor: auto;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
 }
 
 @layer components {
