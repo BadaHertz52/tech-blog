@@ -12,13 +12,17 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Articles", href: "/articles" },
-  { label: "About", href: "/about" },
+  { label: "About Me", href: "/about-me" },
 ];
 
 export default function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
+
   return (
-    <header className="h-header sticky top-0 z-50 w-full bg-white px-lg py-md backdrop-blur-md">
-      <div className="mx-auto flex max-w-screen-xl items-center justify-between">
+    <header className="sticky top-0 z-50 w-full bg-white backdrop-blur-md">
+      <div className="h-header xs:px-lg mx-auto flex max-w-screen-xl items-center justify-between px-md">
         <Link href="/" className="xs:gap-sm flex items-center gap-xs">
           <Icon name="bada" width={28} height={28} />
           <span className="text-xl font-extrabold text-text-primary">
@@ -26,7 +30,8 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="xs:gap-md flex h-9 items-center gap-xs align-middle">
+        {/* PC/태블릿 네비게이션 (425px 이상) */}
+        <nav className="xs:flex xs:gap-md hidden h-9 items-center gap-xs">
           {NAV_ITEMS.map(({ label, href }) => (
             <Link
               key={label}
@@ -43,6 +48,52 @@ export default function Header() {
             className="flex h-9 w-9 items-center justify-center rounded-sm bg-gray-light"
           >
             <Icon name="moon" width={20} height={20} />
+          </button>
+        </nav>
+
+        {/* 모바일 햄버거 버튼 (425px 미만) */}
+        <button
+          type="button"
+          aria-label="메뉴 열기"
+          aria-expanded={isMobileMenuOpen}
+          onClick={toggleMobileMenu}
+          className="xs:hidden flex h-6 w-6 items-center justify-center"
+        >
+          <Icon
+            name="chevron-right"
+            width={24}
+            height={24}
+            className={`${isMobileMenuOpen ? "-rotate-90" : "rotate-90"}`}
+          />
+        </button>
+      </div>
+
+      {/* 모바일 드롭다운 메뉴 */}
+      <div
+        className={`xs:hidden absolute left-0 right-0 top-full w-full overflow-hidden bg-primary-blue transition-all duration-300 ease-in-out ${isMobileMenuOpen ? "h-[52]" : "h-0"}`}
+      >
+        <nav className="flex items-center justify-between px-md py-xs">
+          {NAV_ITEMS.map(({ label, href }) => (
+            <Link
+              key={label}
+              href={href}
+              className="text-sm font-medium text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {label}
+            </Link>
+          ))}
+          <button
+            type="button"
+            aria-label="다크모드 토글"
+            className="flex h-9 w-9 items-center justify-center rounded-sm"
+          >
+            <Icon
+              name="moon"
+              width={20}
+              height={20}
+              color={"var(--color-white)"}
+            />
           </button>
         </nav>
       </div>

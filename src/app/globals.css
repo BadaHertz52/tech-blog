@@ -5,6 +5,7 @@
 @layer base {
   :root {
     --color-gray-charcoal: theme(colors.gray.charcoal);
+    --color-white: theme(colors.white);
   }
 
   /* 기본 폰트 설정 */
@@ -16,14 +17,14 @@
 @layer components {
   /* Heading 스타일 - 반응형 */
   .heading-h1 {
-    @apply text-h1-mobile md:text-h1-desktop font-extrabold;
+    @apply text-h1-mobile font-extrabold md:text-h1-desktop;
   }
 
   .heading-h2 {
-    @apply text-h2-mobile md:text-h2-desktop font-extrabold;
+    @apply text-h2-mobile font-extrabold md:text-h2-desktop;
   }
 
   .heading-h3 {
-    @apply text-h3-mobile md:text-h3-desktop font-extrabold;
+    @apply text-h3-mobile font-extrabold md:text-h3-desktop;
   }
 }
