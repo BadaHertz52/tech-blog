@@ -30,6 +30,7 @@ const config: Config = {
         // Background Colors
         bg: {
           "pale-blue": "#F8F9FA",
+          "white-anti-gray": "#F8FAFC",
           white: "#FFFFFF",
         },
         // Text Colors

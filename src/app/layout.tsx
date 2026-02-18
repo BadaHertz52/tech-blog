@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="ko" className={pretendard.variable}>
       <body className={pretendard.className}>
         <Header />
-        {children}
+        <main className="bg-bg-white-anti-gray flex-1">{children}</main>
         <Footer />
       </body>
     </html>
