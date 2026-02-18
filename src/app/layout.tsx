@@ -35,7 +35,9 @@ export default function RootLayout({
         )}
       >
         <Header />
-        <main className="bg-bg-white-anti-gray flex-1">{children}</main>
+        <main className="bg-bg-white-anti-gray flex flex-1 items-center justify-center p-[32]">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
