@@ -100,6 +100,8 @@ const config: Config = {
         xs: "425px", // min-width 425px
       },
       height: {
+        header: "69px",
+      },
     },
   },
   plugins: [],
