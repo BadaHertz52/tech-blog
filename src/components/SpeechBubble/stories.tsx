@@ -24,9 +24,9 @@ export const AllPositions: Story = {
   render: () => (
     <div className="flex flex-col gap-8 bg-gray-800 p-12">
       <SpeechBubble tailPosition="top">top</SpeechBubble>
-      <SpeechBubble tailPosition="bottom">말풍선 메시지</SpeechBubble>
-      <SpeechBubble tailPosition="left">말풍선 메시지</SpeechBubble>
-      <SpeechBubble tailPosition="right">말풍선 메시지</SpeechBubble>
+      <SpeechBubble tailPosition="bottom">bottom</SpeechBubble>
+      <SpeechBubble tailPosition="left">left</SpeechBubble>
+      <SpeechBubble tailPosition="right">right</SpeechBubble>
     </div>
   ),
 };

@@ -12,12 +12,12 @@ interface SpeechBubbleProps {
 }
 
 const tailPositionStyles: Record<TailPosition, string> = {
-  top: "top-full left-1/2 -translate-x-1/2 border-x-transparent border-b-transparent",
   bottom:
-    "bottom-full left-1/2 -translate-x-1/2 border-x-transparent border-t-transparent",
-  left: "left-full top-1/2 -translate-y-1/2 border-y-transparent border-r-transparent",
+    "top-full left-1/2 -translate-x-1/2 border-x-transparent border-b-transparent",
+  top: "bottom-full left-1/2 -translate-x-1/2 border-x-transparent border-t-transparent",
   right:
-    "right-full top-1/2 -translate-y-1/2 border-y-transparent border-l-transparent",
+    "left-full top-1/2 -translate-y-1/2 border-y-transparent border-r-transparent",
+  left: "right-full top-1/2 -translate-y-1/2 border-y-transparent border-l-transparent",
 };
 
 export default function SpeechBubble({
@@ -32,7 +32,7 @@ export default function SpeechBubble({
       {/* 말풍선 박스 */}
       <div
         className={clsx(
-          "whitespace-nowrap rounded-xs px-sm py-xs",
+          "w-full whitespace-nowrap rounded-xs px-sm py-xs",
           bgColor,
           textColor,
           "shadow-[0px_8px_16px_-2px_rgba(27,33,44,0.12)]"
