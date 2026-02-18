@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 
 import "./globals.css";
 
+import clsx from "clsx";
+
 import Header from "@/components/Header";
 
 const pretendard = localFont({
@@ -25,8 +27,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className={pretendard.variable}>
-      <body className={pretendard.className}>
+    <html lang="ko" className={clsx(pretendard.variable, "bg-gray-300")}>
+      <body
+        className={clsx(
+          pretendard.className,
+          "mx-auto flex min-h-screen max-w-[1440px] flex-col text-text-primary"
+        )}
+      >
         <Header />
         <main className="bg-bg-white-anti-gray flex-1">{children}</main>
         <Footer />
