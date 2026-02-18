@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 
 import "./globals.css";
 
+import Header from "@/components/Header";
+
 const pretendard = localFont({
   src: "../assets/fonts/pretendard/PretendardVariable.woff2",
   display: "swap",
@@ -25,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={pretendard.variable}>
       <body className={pretendard.className}>
+        <Header />
         {children}
         <Footer />
       </body>
