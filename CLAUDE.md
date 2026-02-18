@@ -142,7 +142,7 @@ tech-blog/
 ### Export 규칙
 
 - **모든 컴포넌트** (일반 컴포넌트, 페이지 포함): `export default function`
-- **유틸 함수**: `named export`
+- **유틸 함수**: `named export` (`const fn = () => {}`)
 - **타입/인터페이스**: `export type`, `export interface`
 
 ```typescript
@@ -158,6 +158,21 @@ export const formatDate = (date: Date) => { ... }
 // ❌ Bad - 컴포넌트
 export const BlogCard = ({ ... }) => { ... }
 ```
+
+### 함수 선언 방식
+
+#### 컴포넌트 — `export default function`
+
+- 파일 최상단에서 default export 대상을 즉시 식별 가능 (1 file = 1 component 원칙)
+- `function` 키워드는 제네릭, 오버로드 등 TypeScript 타입 기능과의 호환성이 높음
+- `displayName`이 함수명으로 자동 추론되어 React DevTools에서 디버깅 용이
+
+#### 유틸 함수 — `const fn = () => {}`
+
+- `const` 선언으로 의도치 않은 재할당 방지
+- 화살표 함수는 반환 타입 추론이 명확하며, 타입 시그니처를 변수에 직접 주석처럼 붙일 수 있음
+- 하나의 파일에 복수의 함수를 `named export`로 관리하는 유틸 파일 구조와 일관성 유지
+- hoisting 불필요 — 유틸 함수는 선언 위치가 명확할수록 의존 관계 파악이 쉬움
 
 ### TypeScript 규칙
 
@@ -554,5 +569,5 @@ yarn build           # 프로덕션 빌드 (타입 체크 포함)
 
 ---
 
-**Last Updated**: 2026-02-15
+**Last Updated**: 2026-02-18
 **Version**: 1.1.0
