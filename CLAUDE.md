@@ -54,7 +54,7 @@
 ```
 tech-blog/
 ├── .claude/                    # Claude Code 환경
-│   ├── skills/                 # Skills 정의 (9개 스킬)
+│   ├── skills/                 # Skills 정의 (10개 스킬)
 │   └── memory/                 # Auto memory
 │
 ├── src/
@@ -341,9 +341,16 @@ POST /api/comments
 
 ---
 
-### 자동화 Skills (4개)
+### 자동화 Skills (5개)
 
-#### 6. Team Review (통합 검토)
+#### 6. Create PR (PR 본문 작성)
+```
+/create-pr
+```
+
+**용도**: 브랜치명에서 이슈 번호 추출 + 커밋 내역 기반 PR 제목·본문 작성 후 출력
+
+#### 7. Team Review (통합 검토)
 ```
 /team-review
 
