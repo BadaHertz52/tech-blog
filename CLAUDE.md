@@ -180,6 +180,7 @@ export const BlogCard = ({ ... }) => { ... }
 - **any 타입 사용 금지** (ESLint에서 error로 설정)
 - **명시적 타입 정의**
 - **미사용 변수 금지** (단, `_`로 시작하는 변수는 허용)
+- **`interface`를 `type`보다 우선 사용** (유니온/교차 타입 등 `interface`로 표현 불가한 경우에만 `type` 사용)
 
 ```typescript
 // ✅ Good

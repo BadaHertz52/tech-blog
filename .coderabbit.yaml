@@ -91,11 +91,11 @@ reviews:
         **페이지 전용 유틸 규칙:**
         - 특정 페이지에서만 사용되는 유틸 함수
         - `_utils/` 디렉토리에 위치
-        - 함수 선언문 사용
+        - `const fn = () => {}` 형태의 화살표 함수 + named export 사용
         - named export 사용
 
         **체크리스트:**
-        ✅ 함수 선언문(function) 사용
+        ✅ `export const fn = () => {}` 형태 사용
         ✅ camelCase 네이밍
         ✅ 재사용 가능하다면 src/utils/로 이동 제안
     - path: src/components/**/*.tsx
@@ -153,13 +153,13 @@ reviews:
     - path: src/services/api/**/*.ts
       instructions: |
         **API 메서드 규칙:**
-        - 함수 선언문 사용
+        - `const fn = () => {}` 형태의 화살표 함수 + named export 사용
         - named export 사용
         - 에러 핸들링 필수
         - 타입 안전성 확보
 
         **체크리스트:**
-        ✅ 함수 선언문 사용
+        ✅ `export const fn = () => {}` 형태 사용
         ✅ try-catch 에러 핸들링
         ✅ 반환 타입 명시
         ✅ API 엔드포인트는 endpoints.ts에서 import
@@ -204,13 +204,13 @@ reviews:
     - path: src/utils/**/*.ts
       instructions: |
         **공통 유틸리티 규칙:**
-        - 함수 선언문 사용 (화살표 함수 지양)
+        - `const fn = () => {}` 형태의 화살표 함수 + named export 사용
         - named export 사용
         - 순수 함수 지향
         - 단위 테스트 권장
 
         **체크리스트:**
-        ✅ 함수 선언문 사용
+        ✅ `export const fn = () => {}` 형태 사용
         ✅ camelCase 네이밍
         ✅ 타입 명시
         ✅ 사이드 이펙트 없음
