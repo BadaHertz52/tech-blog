@@ -8,7 +8,7 @@ export default function Home() {
     <div className="relative w-full">
       <Image
         src={heroImage}
-        alt="데스트 셋업"
+        alt="데스크 셋업"
         priority
         placeholder="blur"
         sizes="100%"
