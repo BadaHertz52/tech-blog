@@ -17,7 +17,7 @@ export default function Home() {
       <button
         type="button"
         disabled
-        className="absolute left-[20%] top-[34%] translate-x-[-50%] translate-y-[-50%] text-[12px] leading-[1.4] xs:top-[36%] md:top-[36%] md:text-sm [@media(max-width:320px)]:top-[32%]"
+        className="absolute left-[20%] top-[34%] -translate-x-1/2 -translate-y-1/2 text-[12px] leading-[1.4] xs:top-[36%] md:top-[36%] md:text-sm [@media(max-width:320px)]:top-[32%]"
       >
         <SpeechBubble tailPosition="bottom">Coming Soon</SpeechBubble>
       </button>
