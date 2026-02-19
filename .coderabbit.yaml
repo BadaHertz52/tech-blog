@@ -1,10 +1,45 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 language: ko-KR
 reviews:
+  high_level_summary_instructions: |
+    # 기술 블로그 프로젝트 - 코드 리뷰 가이드
+
+    ## 📋 주요 체크 포인트
+    1. **폴더 구조 규칙**
+       - 페이지 전용 리소스는 `_components/`, `_hooks/`, `_utils/` 디렉토리 사용
+       - 공통 컴포넌트는 `src/components/`에 위치
+       - API 관련 코드는 `src/services/` 디렉토리 구조 준수
+       - 이미지/폰트 등 정적 자산은 `src/assets/`에 위치
+
+    2. **Export 규칙**
+       - 컴포넌트(일반/페이지 모두): `export default function`
+       - 유틸 함수: named export (`export const fn = () => {}`)
+       - 타입/인터페이스: `export type`, `export interface`
+
+    3. **네이밍 컨벤션**
+       - 컴포넌트/타입: PascalCase
+       - 변수/함수: camelCase
+       - 폴더: kebab-case
+       - 상수: UPPER_SNAKE_CASE (속성도 대문자)
+
+    4. **TypeScript 규칙**
+       - any 사용 금지 (ESLint error)
+       - interface를 type보다 우선 사용
+       - strict mode 준수
+
+    5. **Import/CSS 정렬**
+       - Import: (외부 라이브러리 + 외부 타입) → (내부 모듈 + CSS + 내부 타입)
+       - Tailwind: 레이아웃 → 스타일 → 상태
+
+    ## 💬 리뷰 스타일
+    - 친절하고 건설적인 피드백 제공
+    - 왜 그런 방식이 좋은지 설명
+    - 대안이 있다면 제시
+    - 칭찬할 부분은 적극적으로 칭찬
   collapse_walkthrough: false
   poem: false
   path_instructions:
-    - path: app/**/page.tsx
+    - path: src/app/**/page.tsx
       instructions: |
         **Next.js 페이지 컴포넌트 규칙:**
         - 반드시 `export default function` 사용 (Next.js App Router 필수)
@@ -13,10 +48,10 @@ reviews:
         - 서버 컴포넌트 vs 클라이언트 컴포넌트 구분 확인
 
         **체크리스트:**
-        ✅ export default 사용
+        ✅ export default function 사용
         ✅ 함수명이 페이지 역할을 명확히 표현
         ✅ async/await 사용 시 서버 컴포넌트 확인
-    - path: app/**/layout.tsx
+    - path: src/app/**/layout.tsx
       instructions: |
         **레이아웃 컴포넌트 규칙:**
         - 반드시 `export default function` 사용
@@ -24,21 +59,22 @@ reviews:
         - metadata export 권장
 
         **체크리스트:**
-        ✅ export default 사용
-    - path: app/**/_components/**/*.tsx
+        ✅ export default function 사용
+        ✅ children prop 존재 확인
+    - path: src/app/**/_components/**/*.tsx
       instructions: |
         **페이지 전용 컴포넌트 규칙:**
         - 특정 페이지에서만 사용되는 컴포넌트
         - `_components/` 디렉토리에 위치 (Next.js 라우터에서 제외됨)
-        - named export 사용 (export function ComponentName)
+        - `export default function` 사용
         - Props는 interface로 타입 정의
 
         **체크리스트:**
-        ✅ named export 사용
+        ✅ export default function 사용
         ✅ 컴포넌트명 PascalCase
         ✅ Props 타입 interface로 정의
         ✅ 다른 페이지에서도 재사용 가능하다면 src/components/로 이동 제안
-    - path: app/**/_hooks/**/*.ts
+    - path: src/app/**/_hooks/**/*.ts
       instructions: |
         **페이지 전용 훅 규칙:**
         - 특정 페이지에서만 사용되는 커스텀 훅
@@ -50,33 +86,46 @@ reviews:
         ✅ 함수명이 'use'로 시작
         ✅ React 훅 규칙 준수
         ✅ 다른 페이지에서도 재사용 가능하다면 src/services/hooks/로 이동 제안
-    - path: app/**/_utils/**/*.ts
+    - path: src/app/**/_utils/**/*.ts
       instructions: |
         **페이지 전용 유틸 규칙:**
         - 특정 페이지에서만 사용되는 유틸 함수
         - `_utils/` 디렉토리에 위치
-        - 함수 선언문 사용
+        - `const fn = () => {}` 형태의 화살표 함수 + named export 사용
         - named export 사용
 
         **체크리스트:**
-        ✅ 함수 선언문(function) 사용
+        ✅ `export const fn = () => {}` 형태 사용
         ✅ camelCase 네이밍
         ✅ 재사용 가능하다면 src/utils/로 이동 제안
     - path: src/components/**/*.tsx
       instructions: |
         **공통 컴포넌트 규칙:**
         - 여러 페이지에서 재사용되는 컴포넌트
-        - named export 사용 (export function ComponentName)
-        - Props는 interface로 타입 정의
-        - Storybook 스토리 파일 존재 확인 (*.stories.tsx)
+        - `export default function` 사용 (named export 사용 금지)
+        - Props는 [ComponentName]Props 형태의 interface로 타입 정의
+        - 복잡한 컴포넌트는 폴더 구조 (index.tsx + stories.tsx)
+        - 간단한 컴포넌트는 단일 파일 ([ComponentName].tsx)
         - Tailwind CSS 사용 (레이아웃 → 스타일 → 상태 순서)
+        - className prop으로 외부 스타일 주입 가능하게 설계
 
         **체크리스트:**
-        ✅ named export 사용
-        ✅ Props interface 정의
-        ✅ Storybook 스토리 파일 있는지 확인
+        ✅ export default function 사용
+        ✅ Props interface 이름이 [ComponentName]Props 형태
+        ✅ Storybook stories.tsx 파일 존재 확인
         ✅ Tailwind 클래스 정렬 순서 확인
         ✅ 접근성(a11y) 고려
+    - path: src/assets/**/*
+      instructions: |
+        **정적 자산 규칙:**
+        - 이미지: `src/assets/images/`에 위치
+        - 폰트: `src/assets/fonts/`에 위치
+        - Next.js Image 컴포넌트 사용 권장 (일반 img 태그 지양)
+        - 이미지 파일명은 kebab-case
+
+        **체크리스트:**
+        ✅ 올바른 assets 하위 디렉토리 사용
+        ✅ 파일명 kebab-case
     - path: src/components/**/*.stories.tsx
       instructions: |
         **Storybook 스토리 규칙:**
@@ -104,13 +153,13 @@ reviews:
     - path: src/services/api/**/*.ts
       instructions: |
         **API 메서드 규칙:**
-        - 함수 선언문 사용
+        - `const fn = () => {}` 형태의 화살표 함수 + named export 사용
         - named export 사용
         - 에러 핸들링 필수
         - 타입 안전성 확보
 
         **체크리스트:**
-        ✅ 함수 선언문 사용
+        ✅ `export const fn = () => {}` 형태 사용
         ✅ try-catch 에러 핸들링
         ✅ 반환 타입 명시
         ✅ API 엔드포인트는 endpoints.ts에서 import
@@ -155,13 +204,13 @@ reviews:
     - path: src/utils/**/*.ts
       instructions: |
         **공통 유틸리티 규칙:**
-        - 함수 선언문 사용 (화살표 함수 지양)
+        - `const fn = () => {}` 형태의 화살표 함수 + named export 사용
         - named export 사용
         - 순수 함수 지향
         - 단위 테스트 권장
 
         **체크리스트:**
-        ✅ 함수 선언문 사용
+        ✅ `export const fn = () => {}` 형태 사용
         ✅ camelCase 네이밍
         ✅ 타입 명시
         ✅ 사이드 이펙트 없음
@@ -186,7 +235,7 @@ reviews:
         ✅ 객체 속성도 대문자
         ✅ as const 사용
         ✅ export 키워드 사용
-    - path: app/api/**/*.ts
+    - path: src/app/api/**/*.ts
       instructions: |
         **API 라우트 규칙:**
         - Next.js API Route 핸들러 컨벤션 준수
@@ -222,9 +271,8 @@ reviews:
         - 반응형은 모바일 퍼스트
 
         **Import 정렬 순서:**
-        1. 외부 라이브러리 (react, next 등)
-        2. 내부 모듈 (컴포넌트, 유틸 등)
-        3. 타입 (import type)
+        1. 외부 라이브러리 (react, next 등) + 외부 타입 (import type)
+        2. 내부 모듈 (@/, ./) + CSS + 내부 타입 (import type)
 
         **체크리스트:**
         ✅ Import 문 정렬 순서
@@ -248,3 +296,6 @@ reviews:
     base_branches:
       - main
       - develop
+issue_enrichment:
+  auto_enrich:
+    enabled: true

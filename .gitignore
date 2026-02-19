@@ -10,3 +10,4 @@ dist/
 # Storybook
 storybook-static/
 
+.claude/
