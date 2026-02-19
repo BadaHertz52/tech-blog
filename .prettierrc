@@ -12,23 +12,15 @@
     "prettier-plugin-tailwindcss"
   ],
   "importOrder": [
-    "^react$",
-    "^react-dom$",
-    "^next",
-    "^@tanstack",
-    "^zustand",
     "<THIRD_PARTY_MODULES>",
+    "<TYPES>",
     "",
     "^@/(.*)$",
-    "^[./]",
-    "",
-    "<TYPES>^react",
-    "<TYPES>^next",
-    "<TYPES><THIRD_PARTY_MODULES>",
-    "",
+    "^(?!.*\\.css$)[./].*$",
+    "\\.css$",
     "<TYPES>^@/(.*)$",
     "<TYPES>^[./]"
   ],
-  "importOrderTypeScriptVersion": "5.0.0",
-  "importOrderSortSpecifiers": true
+  "importOrderSafeSideEffects": ["\\.css$"],
+  "importOrderTypeScriptVersion": "5.0.0"
 }

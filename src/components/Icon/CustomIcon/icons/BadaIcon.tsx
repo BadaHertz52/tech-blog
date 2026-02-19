@@ -1,8 +1,7 @@
 import Image from "next/image";
+import type React from "react";
 
 import badaImg from "@/assets/images/bada.webp";
-
-import type React from "react";
 
 interface BadaIconProps {
   width?: number;

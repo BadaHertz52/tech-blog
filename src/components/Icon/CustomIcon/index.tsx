@@ -1,9 +1,8 @@
+import type React from "react";
+
 import BadaIcon from "./icons/BadaIcon";
 import GitHubIcon from "./icons/GitHubIcon";
 import LinkedInIcon from "./icons/LinkedInIcon";
-
-import type React from "react";
-
 import type { CustomIconName } from "../types";
 
 type CustomIconComponent = React.FC<React.SVGProps<SVGSVGElement>>;

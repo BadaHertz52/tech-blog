@@ -11,8 +11,8 @@ import {
   PlayCircle,
   Search,
   Sun,
-  type LucideProps,
 } from "lucide-react";
+import type { LucideProps } from "lucide-react";
 
 import type { LucideIconName } from "./types";
 

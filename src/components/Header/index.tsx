@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
 import clsx from "clsx";
+import Link from "next/link";
+import { useState } from "react";
 
 import Icon from "@/components/Icon";
 import DarkModeButton from "./components/DarkModeButton";

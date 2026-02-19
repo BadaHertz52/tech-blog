@@ -28,7 +28,7 @@ reviews:
        - strict mode 준수
 
     5. **Import/CSS 정렬**
-       - Import: 외부 라이브러리 → 내부 모듈 → 타입
+       - Import: (외부 라이브러리 + 외부 타입) → (내부 모듈 + CSS + 내부 타입)
        - Tailwind: 레이아웃 → 스타일 → 상태
 
     ## 💬 리뷰 스타일
@@ -271,9 +271,8 @@ reviews:
         - 반응형은 모바일 퍼스트
 
         **Import 정렬 순서:**
-        1. 외부 라이브러리 (react, next 등)
-        2. 내부 모듈 (컴포넌트, 유틸 등)
-        3. 타입 (import type)
+        1. 외부 라이브러리 (react, next 등) + 외부 타입 (import type)
+        2. 내부 모듈 (@/, ./) + CSS + 내부 타입 (import type)
 
         **체크리스트:**
         ✅ Import 문 정렬 순서

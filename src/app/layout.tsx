@@ -1,15 +1,11 @@
+import clsx from "clsx";
 import localFont from "next/font/local";
+import type { Metadata } from "next";
+import type React from "react";
 
 import Footer from "@/components/Footer";
-
-import type React from "react";
-import type { Metadata } from "next";
-
-import "./globals.css";
-
-import clsx from "clsx";
-
 import Header from "@/components/Header";
+import "./globals.css";
 
 const pretendard = localFont({
   src: "../assets/fonts/pretendard/PretendardVariable.woff2",
