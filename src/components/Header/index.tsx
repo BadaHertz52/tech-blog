@@ -33,7 +33,7 @@ export default function Header() {
         {/* 모바일 햄버거 버튼 (425px 미만) */}
         <button
           type="button"
-          aria-label="메뉴 열기"
+          aria-label={`${isMobileMenuOpen ? "메뉴 닫기" : "메뉴 열기"}`}
           aria-expanded={isMobileMenuOpen}
           onClick={toggleMobileMenu}
           className="flex h-6 w-6 items-center justify-center xs:hidden"
