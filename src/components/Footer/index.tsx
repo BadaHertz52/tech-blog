@@ -48,7 +48,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="rounded-button flex h-10 w-10 cursor-pointer items-center justify-center bg-gray-light text-gray-charcoal"
+                className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-button bg-gray-light text-gray-charcoal"
               >
                 <span>
                   <Icon name={name} width={16} height={16} />
