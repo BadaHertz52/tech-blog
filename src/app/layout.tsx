@@ -35,7 +35,7 @@ export default function RootLayout({
         )}
       >
         <Header />
-        <main className="bg-bg-white-anti-gray relative flex flex-1 items-center justify-center p-[24] md:p-[32]">
+        <main className="relative flex flex-1 items-center justify-center bg-bg-white-anti-gray p-lg md:p-xl">
           {children}
         </main>
         <Footer />

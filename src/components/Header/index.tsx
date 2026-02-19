@@ -16,8 +16,8 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white backdrop-blur-md">
-      <div className="h-header xs:px-lg mx-auto flex max-w-screen-xl items-center justify-between px-md">
-        <Link href="/" className="xs:gap-sm flex items-center gap-xs">
+      <div className="mx-auto flex h-header max-w-screen-xl items-center justify-between px-md xs:px-lg">
+        <Link href="/" className="flex items-center gap-xs xs:gap-sm">
           <Icon name="bada" width={28} height={28} />
           <span className="text-xl font-extrabold text-text-primary">
             BADA.DEV
@@ -25,7 +25,7 @@ export default function Header() {
         </Link>
 
         {/* PC/태블릿 네비게이션 (425px 이상) */}
-        <nav className="xs:flex xs:gap-md hidden h-9 items-center gap-xs">
+        <nav className="hidden h-9 items-center gap-xs xs:flex xs:gap-md">
           <NavLinks variant="pc" />
           <DarkModeButton variant="pc" />
         </nav>
@@ -36,7 +36,7 @@ export default function Header() {
           aria-label="메뉴 열기"
           aria-expanded={isMobileMenuOpen}
           onClick={toggleMobileMenu}
-          className="xs:hidden flex h-6 w-6 items-center justify-center"
+          className="flex h-6 w-6 items-center justify-center xs:hidden"
         >
           <Icon
             name="chevron-right"
@@ -50,7 +50,7 @@ export default function Header() {
       {/* 모바일 드롭다운 메뉴 */}
       <div
         className={clsx(
-          "xs:hidden absolute left-0 right-0 top-full w-full",
+          "absolute left-0 right-0 top-full w-full xs:hidden",
           "overflow-hidden bg-primary-blue",
           "transition-all duration-300 ease-in-out",
           isMobileMenuOpen ? "h-[52]" : "h-0"

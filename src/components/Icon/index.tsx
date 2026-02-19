@@ -14,8 +14,24 @@ export default function Icon({
   ...rest
 }: IconProps) {
   if (isLucideIconName(name)) {
-    return <LucideIcon name={name} width={width} height={height} color={color} {...rest} />;
+    return (
+      <LucideIcon
+        name={name}
+        width={width}
+        height={height}
+        color={color}
+        {...rest}
+      />
+    );
   }
 
-  return <CustomIcon name={name} width={width} height={height} color={color} {...rest} />;
+  return (
+    <CustomIcon
+      name={name}
+      width={width}
+      height={height}
+      color={color}
+      {...rest}
+    />
+  );
 }
