@@ -70,16 +70,6 @@ const config: Config = {
         bold: "700",
         extrabold: "800",
       },
-      lineHeight: {
-        tight: "20px",
-        normal: "28px",
-        relaxed: "29.25px",
-      },
-      letterSpacing: {
-        tight: "-0.5px",
-        tighter: "-0.45px",
-        normal: "0px",
-      },
       spacing: {
         xs: "8px",
         sm: "12px",
