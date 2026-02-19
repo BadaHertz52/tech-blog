@@ -11,7 +11,7 @@ export default function Home() {
         alt="데스크 셋업"
         priority
         placeholder="blur"
-        sizes="100%"
+        sizes="(max-width:768px) calc(100vw - 24px *2), (max-width: 1440px) calc(100vw - 32px * 2), calc(1440px - 32px * 2)"
         className="rounded-card h-auto w-full"
       />
       <button
