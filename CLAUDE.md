@@ -359,7 +359,7 @@ POST /api/comments
 
 **용도**: 5명의 전문가가 동시에 종합 검토
 
-#### 7. Design to Code
+#### 8. Design to Code
 ```
 /design-to-code
 
@@ -369,7 +369,7 @@ Figma URL: [링크]
 
 **용도**: Figma → React 컴포넌트 자동 생성
 
-#### 8. Validate
+#### 9. Validate
 ```
 /validate
 
@@ -378,7 +378,7 @@ Figma URL: [링크]
 
 **용도**: TypeScript, ESLint, Prettier 검증 및 자동 수정
 
-#### 9. Generate Component
+#### 10. Generate Component
 ```
 /generate-component
 
