@@ -20,7 +20,15 @@
     "<THIRD_PARTY_MODULES>",
     "",
     "^@/(.*)$",
-    "^[./]"
+    "^[./]",
+    "",
+    "<TYPES>^react",
+    "<TYPES>^next",
+    "<TYPES><THIRD_PARTY_MODULES>",
+    "",
+    "<TYPES>^@/(.*)$",
+    "<TYPES>^[./]"
   ],
+  "importOrderTypeScriptVersion": "5.0.0",
   "importOrderSortSpecifiers": true
 }

@@ -1,5 +1,6 @@
 import CustomIcon from "./CustomIcon";
 import LucideIcon, { LUCIDE_ICON_MAP } from "./LucideIcon";
+
 import type { IconName, LucideIconName } from "./types";
 
 const isLucideIconName = (name: IconName): name is LucideIconName => {

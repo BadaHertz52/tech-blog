@@ -1,4 +1,5 @@
 import Icon from "@/components/Icon";
+
 import type { CustomIconName } from "@/components/Icon/types";
 
 interface SocialLink {

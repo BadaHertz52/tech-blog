@@ -1,5 +1,6 @@
-import type React from "react";
 import clsx from "clsx";
+
+import type React from "react";
 
 type TailPosition = "top" | "bottom" | "left" | "right";
 
