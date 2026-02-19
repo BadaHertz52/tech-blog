@@ -53,7 +53,7 @@ export default function Header() {
           "absolute left-0 right-0 top-full w-full xs:hidden",
           "overflow-hidden bg-primary-blue",
           "transition-all duration-300 ease-in-out",
-          isMobileMenuOpen ? "h-[52]" : "h-0"
+          isMobileMenuOpen ? "h-[52px]" : "h-0"
         )}
       >
         <nav className="flex items-center justify-between px-md py-xs">

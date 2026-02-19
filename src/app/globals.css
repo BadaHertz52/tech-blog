@@ -14,7 +14,7 @@
   }
 
   button {
-    cursor: auto;
+    cursor: pointer;
   }
 
   button:disabled {

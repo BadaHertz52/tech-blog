@@ -5,7 +5,7 @@ import SpeechBubble from "@/components/SpeechBubble";
 
 export default function Home() {
   return (
-    <div className="relative file:w-full">
+    <div className="relative w-full">
       <Image
         src={heroImage}
         alt="데스트 셋업"
