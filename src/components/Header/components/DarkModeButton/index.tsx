@@ -25,7 +25,7 @@ export default function DarkModeButton({ variant }: DarkModeButtonProps) {
       type="button"
       aria-label="다크모드 토글"
       className={clsx(
-        "flex h-9 w-9 items-center justify-center rounded-sm",
+        "rounded-button flex h-9 w-9 items-center justify-center",
         button
       )}
     >

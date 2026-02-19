@@ -32,7 +32,7 @@ export default function SpeechBubble({
       {/* 말풍선 박스 */}
       <div
         className={clsx(
-          "w-full whitespace-nowrap rounded-xs p-[4px] text-center xs:px-[2px] xs:py-xs",
+          "w-full whitespace-nowrap rounded-[8px] p-[4px] text-center xs:px-[2px] xs:py-xs",
           bgColor,
           textColor,
           "shadow-[0px_8px_16px_-2px_rgba(27,33,44,0.12)]"

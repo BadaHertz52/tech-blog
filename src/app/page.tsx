@@ -12,7 +12,7 @@ export default function Home() {
         priority
         placeholder="blur"
         sizes="100%"
-        className="h-auto w-full rounded-md"
+        className="rounded-card h-auto w-full"
       />
       <button
         type="button"

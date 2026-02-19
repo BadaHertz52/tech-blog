@@ -81,10 +81,8 @@ const config: Config = {
         "footer-horizontal": "104px",
       },
       borderRadius: {
-        xs: "8px",
-        sm: "12px",
-        md: "16px",
-        lg: "24px",
+        button: "12px", // rounded-button → 버튼용
+        card: "24px", // rounded-card → 카드/미디어용
       },
       boxShadow: {
         md: "0px 25px 50px -12px #e5e7eb",
