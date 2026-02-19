@@ -15,7 +15,3 @@ export type LucideIconName =
 export type CustomIconName = "github" | "linkedin" | "bada";
 
 export type IconName = LucideIconName | CustomIconName;
-
-export interface IconProps extends React.SVGProps<SVGSVGElement> {
-  name: IconName;
-}

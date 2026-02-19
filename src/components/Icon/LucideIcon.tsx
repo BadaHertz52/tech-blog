@@ -31,7 +31,7 @@ export const LUCIDE_ICON_MAP: Record<LucideIconName, React.FC<LucideProps>> = {
   sun: Sun,
 };
 
-export interface LucideIconProps extends LucideProps {
+interface LucideIconProps extends LucideProps {
   name: LucideIconName;
 }
 

@@ -1,3 +1,4 @@
+import type React from "react";
 import clsx from "clsx";
 
 type TailPosition = "top" | "bottom" | "left" | "right";
@@ -5,7 +6,6 @@ type TailPosition = "top" | "bottom" | "left" | "right";
 interface SpeechBubbleProps {
   tailPosition?: TailPosition;
   children: React.ReactNode;
-  className?: string;
   bgColor?: string;
   textColor?: string;
   tailColor?: string;

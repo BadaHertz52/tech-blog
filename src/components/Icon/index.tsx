@@ -1,10 +1,14 @@
 import CustomIcon from "./CustomIcon";
 import LucideIcon, { LUCIDE_ICON_MAP } from "./LucideIcon";
-import type { IconName, IconProps, LucideIconName } from "./types";
+import type { IconName, LucideIconName } from "./types";
 
 const isLucideIconName = (name: IconName): name is LucideIconName => {
   return LUCIDE_ICON_MAP.hasOwnProperty(name);
 };
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  name: IconName;
+}
 
 export default function Icon({
   name,
