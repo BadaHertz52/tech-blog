@@ -13,7 +13,7 @@ export default function ArticlesPage() {
         <ul>
           {articles.map((article) => (
             <li key={article.slug}>
-              <Link href={`/articles/${article.slug.replace("mock-", "")}`}>
+              <Link href={`/articles/${article.slug}`}>
                 <h2>{article.title}</h2>
                 <p>{article.description}</p>
                 <small>{article.date}</small>

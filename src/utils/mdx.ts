@@ -9,7 +9,7 @@ import {
   ArticleMeta,
 } from "@/types/article";
 
-const ARTICLE_DATA_DIRECTORY = path.join(process.cwd(), "data/articles");
+const ARTICLE_DATA_DIRECTORY = path.join(process.cwd(), "public/articles");
 
 /**
  * 읽기 시간 계산 (분 단위)
@@ -23,7 +23,7 @@ const calculateReadingTime = (content: string): number => {
 };
 
 /**
- * 모든 MDX 포스트 파일명 가져오기
+ * 모든 MDX 포스트 폴더명 가져오기
  */
 const getAllArticlesSlugs = (): string[] => {
   if (!fs.existsSync(ARTICLE_DATA_DIRECTORY)) {
@@ -32,15 +32,17 @@ const getAllArticlesSlugs = (): string[] => {
 
   return fs
     .readdirSync(ARTICLE_DATA_DIRECTORY)
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => file.replace(/\.mdx$/, ""));
+    .filter((file) => {
+      const fullPath = path.join(ARTICLE_DATA_DIRECTORY, file);
+      return fs.statSync(fullPath).isDirectory();
+    });
 };
 
 /**
  * 단일 포스트 파일 읽기
  */
 const readArticleFile = (slug: string): string => {
-  const filePath = path.join(ARTICLE_DATA_DIRECTORY, `${slug}.mdx`);
+  const filePath = path.join(ARTICLE_DATA_DIRECTORY, slug, "index.mdx");
 
   if (!fs.existsSync(filePath)) {
     throw new Error(`Article not found: ${slug}`);

@@ -92,12 +92,25 @@ tech-blog/
 │   ├── types/                 # TypeScript 타입 정의
 │   ├── utils/                 # 유틸리티 함수
 │   ├── constants/             # 상수
-│   ├── images/                # 이미지 리소스
+│   ├── images/                # UI 컴포넌트용 이미지
 │   └── stories/               # Storybook 스토리
 │
-├── data/
-│   └── articles/              # MDX 아티클 파일
 ├── public/                    # 정적 파일
+│   ├── articles/              # 아티클 + 미디어 (핵심)
+│   │   ├── 2025-retrospective/
+│   │   │   ├── index.mdx
+│   │   │   └── images/
+│   │   │       ├── hero.webp
+│   │   │       └── ...
+│   │   ├── nextjs-optimization/
+│   │   │   ├── index.mdx
+│   │   │   └── images/
+│   │   │       └── ...
+│   │   └── [article-slug]/
+│   │       ├── index.mdx
+│   │       └── images/        # 아티클별 미디어
+│   ├── assets/                # UI 리소스 (비권장)
+│   └── ...
 ├── .storybook/               # Storybook 설정
 └── CLAUDE.md                  # 이 파일
 ```
@@ -122,9 +135,12 @@ tech-blog/
 - **`types/`**: TypeScript 타입 및 인터페이스
 - **`utils/`**: 순수 함수형 유틸리티
 - **`constants/`**: 상수 및 설정값
-- **`images/`**: 이미지 리소스
+- **`images/`**: UI 컴포넌트용 이미지 리소스
 - **`stories/`**: Storybook 컴포넌트 스토리
-- **`data/articles/`**: MDX 아티클 파일 (Markdown + frontmatter)
+- **`public/articles/`**: MDX 아티클 + 미디어 통합 관리 (**핵심 콘텐츠**)
+  - 각 아티클 폴더 구조: `[slug]/index.mdx` + `[slug]/images/`
+  - 한 곳에서만 관리하므로 중복 제거 및 유지보수 용이
+  - Next.js가 자동으로 정적 파일 제공
 
 ---
 
