@@ -1,8 +1,8 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Image from "next/image";
 
-import { getAllArticles, getArticleBySlug } from "@/utils/mdx";
 import { resolveArticleImagePath } from "@/utils/article";
+import { getAllArticles, getArticleBySlug } from "@/utils/mdx";
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -10,7 +10,7 @@ interface ArticlePageProps {
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     return (
@@ -60,7 +60,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 }
 
 export async function generateStaticParams() {
-  const articles = getAllArticles();
+  const articles = await getAllArticles();
 
   return articles.map((article) => ({
     slug: article.slug,
