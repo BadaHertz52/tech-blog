@@ -39,10 +39,9 @@ export default function Header() {
           className="flex h-6 w-6 items-center justify-center xs:hidden"
         >
           <Icon
-            name="chevron-right"
+            name={isMobileMenuOpen ? "chevron-up" : "chevron-down"}
             width={24}
             height={24}
-            className={clsx(isMobileMenuOpen ? "-rotate-90" : "rotate-90")}
           />
         </button>
       </div>

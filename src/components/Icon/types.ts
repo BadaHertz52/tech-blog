@@ -6,6 +6,8 @@ export type LucideIconName =
   | "calendar"
   | "clock"
   | "chevron-right"
+  | "chevron-down"
+  | "chevron-up"
   | "message-square"
   | "home"
   | "arrow-up"
