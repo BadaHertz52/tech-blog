@@ -35,7 +35,7 @@
 
 ### Backend / CMS
 - **Auth**: GitHub OAuth (사용자 인증)
-- **Database**: (TBD - 댓글, 북마크 등)
+- **Database**: Vercel KV (TBD - 조회 수, 좋아요 등)
 
 ### Development
 - **Package Manager**: Yarn
