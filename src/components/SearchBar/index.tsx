@@ -26,6 +26,7 @@ export default function SearchBar({
         value={value}
         placeholder={placeholder}
         maxLength={maxLength}
+        aria-label="검색 입력"
         className="border-border-light w-full rounded-lg border bg-bg-white py-[8.8px] pl-4 text-text-primary placeholder-text-secondary"
         style={{ paddingRight: `calc(${searchIconWidth} + 4px + 16px + 2px)` }}
         {...restProps}

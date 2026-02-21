@@ -30,7 +30,11 @@ export default function ArticlesContent({
               <p>다른 키워드로 시도하거나 전체 글을 둘러보세요.</p>
             </EmptyState.Content>
             <EmptyState.Actions>
-              <ButtonLink variant="primary" href={ROUTES.articles}>
+              <ButtonLink
+                variant="primary"
+                href={ROUTES.articles}
+                aria-label="전체 글 보러가기"
+              >
                 전체 글 보러가기
               </ButtonLink>
             </EmptyState.Actions>
