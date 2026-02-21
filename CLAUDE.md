@@ -34,7 +34,6 @@
 - **UI Documentation**: Storybook 10
 
 ### Backend / CMS
-- **CMS**: Notion API (블로그 콘텐츠 관리)
 - **Auth**: GitHub OAuth (사용자 인증)
 - **Database**: (TBD - 댓글, 북마크 등)
 
