@@ -1,23 +1,18 @@
-import Link from "next/link";
-
+import ArticleCard from "@/components/ArticleCard";
 import { getAllArticles } from "@/utils/mdx";
 
-export default function ArticlesPage() {
-  const articles = getAllArticles();
+export default async function ArticlesPage() {
+  const articles = await getAllArticles();
 
   return (
     <main>
-      <h1>블로그 포스트</h1>
+      <h1 className="sr-only">블로그 포스트 리스트</h1>
 
       <section>
-        <ul>
+        <ul className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
             <li key={article.slug}>
-              <Link href={`/articles/${article.slug}`}>
-                <h2>{article.title}</h2>
-                <p>{article.description}</p>
-                <small>{article.date}</small>
-              </Link>
+              <ArticleCard article={article} />
             </li>
           ))}
         </ul>
