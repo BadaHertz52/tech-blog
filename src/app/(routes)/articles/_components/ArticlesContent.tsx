@@ -1,7 +1,7 @@
 import ArticleCard from "@/components/ArticleCard";
-import Button from "@/components/Button";
+import ButtonLink from "@/components/ButtonLink";
 import EmptyState from "@/components/EmptyState";
-import Icon from "@/components/Icon";
+import { ROUTES } from "@/constants/paths";
 import { ArticleCardData } from "@/types/article";
 
 interface ArticlesContentProps {
@@ -30,9 +30,7 @@ export default function ArticlesContent({
               <p>다른 키워드로 시도하거나 전체 글을 둘러보세요.</p>
             </EmptyState.Content>
             <EmptyState.Actions>
-              <Button variant="primary">
-                <a href="/articles">전체 글 보러가기</a>
-              </Button>
+              <ButtonLink href={ROUTES.articles}>전체 글 보러가기</ButtonLink>
             </EmptyState.Actions>
           </EmptyState>
         </div>
