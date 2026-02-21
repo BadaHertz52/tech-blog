@@ -3,7 +3,7 @@ import { ChangeEvent } from "react";
 import Icon from "../Icon";
 
 interface SearchBarProps {
-  searchBarWidth: string;
+  searchBarClassName?: string;
   searchIconWidth?: string;
   value: string;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -11,14 +11,14 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({
-  searchBarWidth,
+  searchBarClassName = "w-full h-full",
   searchIconWidth = "17.5px",
   value,
   handleChange,
   placeholder = "Search articles...",
 }: SearchBarProps) {
   return (
-    <div className="relative" style={{ width: searchBarWidth }}>
+    <div className={`relative ${searchBarClassName ?? ""}`}>
       <Icon
         name="search"
         width={searchIconWidth}
@@ -29,8 +29,8 @@ export default function SearchBar({
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
-        className="border-border-light w-full rounded-lg border bg-bg-white py-[8.8px] pr-4 text-center text-text-primary placeholder-text-secondary"
-        style={{ paddingLeft: `calc(${searchIconWidth} + 4px + 16px)` }}
+        className="border-border-light w-full rounded-lg border bg-bg-white py-[8.8px] pr-4 text-text-primary placeholder-text-secondary"
+        style={{ paddingLeft: `calc(${searchIconWidth} + 4px + 16px + 2px)` }}
       />
     </div>
   );

@@ -13,7 +13,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    searchBarWidth: "200px",
+    searchBarClassName: "w-80vw sm:w-[314px]",
     searchIconWidth: "17.5px",
     value: "",
     handleChange: () => {},
