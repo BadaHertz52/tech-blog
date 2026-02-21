@@ -1,0 +1,46 @@
+---
+title: "CORS 에러 해결하기"
+description: "브라우저 보안 정책 이해"
+date: "2026-02-18"
+category: "troubleshooting"
+thumbnail: "/images/bada.webp"
+slug: "troubleshooting-cors-error"
+views: 0
+---
+
+## CORS란?
+
+CORS는 브라우저의 보안 정책입니다. 다른 도메인의 리소스에 접근하려면 서버에서 명시적으로 허용해야 합니다.
+
+## 에러 메시지
+
+```
+Access to XMLHttpRequest at 'http://api.example.com/data'
+from origin 'http://localhost:3000'
+has been blocked by CORS policy
+```
+
+## 해결 방법
+
+### 1. 서버에서 CORS 헤더 설정
+
+```javascript
+// Node.js/Express
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST");
+  next();
+});
+```
+
+### 2. Next.js API Routes 활용
+
+```javascript
+// pages/api/data.js
+export default function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.json({ message: "success" });
+}
+```
+
+프록시를 통해 요청하면 CORS 에러를 피할 수 있습니다.
