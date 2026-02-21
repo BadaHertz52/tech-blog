@@ -1,22 +1,27 @@
 import { ReactNode } from "react";
 
-import { BUTTON_VARIANTS, BUTTON_BASE } from "@/constants/buttonStyles";
-
 interface ButtonProps extends React.ComponentProps<"button"> {
-  variant?: keyof typeof BUTTON_VARIANTS;
+  variant?: "primary" | "secondary" | "black";
   children: ReactNode;
 }
+
+const variantClasses = {
+  primary: "btn-primary",
+  secondary: "btn-secondary",
+  black: "btn-black",
+} as const;
 
 export default function Button({
   variant = "primary",
   className = "",
   children,
   type = "button",
+  style,
   ...props
 }: ButtonProps) {
   return (
     <button
-      className={`${BUTTON_BASE} ${BUTTON_VARIANTS[variant]} ${className}`}
+      className={`${variantClasses[variant]} ${className}`}
       type={type}
       {...props}
     >
