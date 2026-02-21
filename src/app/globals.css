@@ -8,6 +8,10 @@
     --color-white: theme(colors.white);
   }
 
+  html {
+    overscroll-behavior: none;
+  }
+
   /* 기본 폰트 설정 */
   body {
     @apply font-pretendard text-base text-text-primary;
