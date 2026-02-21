@@ -24,6 +24,27 @@ const calculateReadingTime = (content: string): number => {
 };
 
 /**
+ * 날짜 문자열이 YYYY-MM-DD 형식이고 유효한지 검증
+ * @param dateString - 검증할 날짜 문자열
+ * @returns 유효한 날짜면 true, 아니면 false
+ */
+const isValidDate = (dateString: unknown): dateString is string => {
+  if (typeof dateString !== "string") {
+    return false;
+  }
+
+  // YYYY-MM-DD 형식 검증
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRegex.test(dateString)) {
+    return false;
+  }
+
+  // Date 객체로 파싱 후 유효성 검증
+  const date = new Date(dateString);
+  return !isNaN(date.getTime());
+};
+
+/**
  * 모든 MDX 포스트 폴더명 가져오기
  */
 const getAllArticlesSlugs = (): string[] => {
@@ -62,8 +83,17 @@ export const getAllArticles = async (): Promise<ArticleCardData[]> => {
     const fileContent = readArticleFile(slug);
     const { data, content } = matter(fileContent);
 
+    const meta = data as ArticleMeta;
+
+    // 날짜 형식 검증
+    if (!isValidDate(meta.date)) {
+      throw new Error(
+        `Invalid date format in "${slug}": "${meta.date}". Expected YYYY-MM-DD format.`
+      );
+    }
+
     return {
-      ...(data as ArticleMeta),
+      ...meta,
       readingTime: calculateReadingTime(content),
     };
   });
@@ -76,8 +106,17 @@ export const getArticleBySlug = async (slug: string): Promise<Article> => {
   const fileContent = readArticleFile(slug);
   const { data, content } = matter(fileContent);
 
+  const meta = data as ArticleMeta;
+
+  // 날짜 형식 검증
+  if (!isValidDate(meta.date)) {
+    throw new Error(
+      `Invalid date format in "${slug}": "${meta.date}". Expected YYYY-MM-DD format.`
+    );
+  }
+
   return {
-    ...(data as ArticleMeta),
+    ...meta,
     content,
   };
 };
