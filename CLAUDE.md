@@ -95,6 +95,8 @@ tech-blog/
 │   ├── images/                # 이미지 리소스
 │   └── stories/               # Storybook 스토리
 │
+├── data/
+│   └── articles/              # MDX 아티클 파일
 ├── public/                    # 정적 파일
 ├── .storybook/               # Storybook 설정
 └── CLAUDE.md                  # 이 파일
@@ -122,6 +124,32 @@ tech-blog/
 - **`constants/`**: 상수 및 설정값
 - **`images/`**: 이미지 리소스
 - **`stories/`**: Storybook 컴포넌트 스토리
+- **`data/articles/`**: MDX 아티클 파일 (Markdown + frontmatter)
+
+---
+
+## 🌐 페이지 라우트 경로
+
+| 경로 | 설명 | 파일 위치 |
+|---|---|---|
+| `/` | 홈페이지 | `src/app/(routes)/page.tsx` |
+| `/articles` | 포스트 리스트 (전체) | `src/app/(routes)/articles/page.tsx` |
+| `/articles/[slug]` | 포스트 상세 페이지 | `src/app/(routes)/articles/[slug]/page.tsx` |
+| `/articles?category=[category]` | 카테고리별 포스트 리스트 | `src/app/(routes)/articles/page.tsx` |
+
+### 라우트 상수 관리
+- **위치**: `src/constants/paths.ts`
+- **사용**: 라우트 경로를 동적으로 생성하거나 참조할 때
+- **예시**:
+  ```typescript
+  import { ROUTES } from '@/constants/paths'
+
+  // 포스트 링크
+  href={ROUTES.article('nextjs-optimization')}  // '/articles/nextjs-optimization'
+
+  // 카테고리 페이지 (쿼리 파라미터)
+  href={ROUTES.category('frontend')}            // '/articles?category=frontend'
+  ```
 
 ---
 
