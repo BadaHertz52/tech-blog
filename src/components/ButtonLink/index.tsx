@@ -1,26 +1,28 @@
+import Link from "next/link";
 import { ReactNode } from "react";
 
-import { BUTTON_VARIANTS, BUTTON_BASE } from "@/constants/buttonStyles";
+import { BUTTON_BASE, BUTTON_VARIANTS } from "@/constants/buttonStyles";
 
-interface ButtonProps extends React.ComponentProps<"button"> {
+interface ButtonLinkProps extends Omit<React.ComponentProps<"a">, "href"> {
+  href: string;
   variant?: keyof typeof BUTTON_VARIANTS;
   children: ReactNode;
 }
 
-export default function Button({
+export default function ButtonLink({
+  href,
   variant = "primary",
   className = "",
   children,
-  type = "button",
   ...props
-}: ButtonProps) {
+}: ButtonLinkProps) {
   return (
-    <button
+    <Link
+      href={href}
       className={`${BUTTON_BASE} ${BUTTON_VARIANTS[variant]} ${className}`}
-      type={type}
       {...props}
     >
       {children}
-    </button>
+    </Link>
   );
 }
