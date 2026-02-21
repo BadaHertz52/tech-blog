@@ -391,6 +391,50 @@ Props: title, description, date, imageUrl, href
 
 ---
 
+## 🌿 브랜치 & 이슈 컨벤션
+
+### 커밋/이슈 타입
+
+| 타입 | 설명 |
+|---|---|
+| `feat` | 새로운 기능 추가 |
+| `fix` | 버그 수정 |
+| `docs` | 문서 수정 (README, CLAUDE.md 등) |
+| `style` | 코드 포맷팅, 스타일 변경 (기능 변경 없음) |
+| `refactor` | 코드 리팩토링 (기능 변경 없음) |
+| `ci` | CI/CD, 빌드, 설정 파일 변경 |
+| `chore` | 패키지 설치, 기타 잡무 |
+| `test` | 테스트 코드 추가/수정 |
+
+### 브랜치명 컨벤션
+
+```
+타입/이슈번호-작업-설명
+```
+
+```bash
+# 예시
+feat/6-mdx-infra
+feat/7-blog-list-page
+fix/12-card-thumbnail-error
+docs/3-claude-code-design-setting
+```
+
+### 이슈 제목 컨벤션
+
+```
+타입: 이슈 작업 내용
+```
+
+```
+# 예시
+feat: MDX 인프라 구축
+feat: 블로그 리스트 페이지 구현
+fix: BlogCard 썸네일 이미지 오류 수정
+```
+
+---
+
 ## 🔄 개발 워크플로우
 
 ### 새 기능 개발 프로세스
