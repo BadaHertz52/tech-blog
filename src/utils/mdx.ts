@@ -1,3 +1,5 @@
+"use server";
+
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
@@ -32,7 +34,9 @@ const getAllArticlesSlugs = (): string[] => {
 
   return fs.readdirSync(ARTICLE_DATA_DIRECTORY).filter((file) => {
     const fullPath = path.join(ARTICLE_DATA_DIRECTORY, file);
-    return fs.statSync(fullPath).isDirectory();
+    const isDirectory = fs.statSync(fullPath).isDirectory();
+    const hasMdxFile = fs.existsSync(path.join(fullPath, 'index.mdx'));
+    return isDirectory && hasMdxFile;
   });
 };
 
@@ -53,7 +57,7 @@ const readArticleFile = (slug: string): string => {
  * 전체 포스트 목록 반환 (리스트 페이지용)
  * 최신순 정렬
  */
-export const getAllArticles = (): ArticleCardData[] => {
+export const getAllArticles = async (): Promise<ArticleCardData[]> => {
   const slugs = getAllArticlesSlugs();
 
   const posts = slugs.map((slug) => {
@@ -75,7 +79,7 @@ export const getAllArticles = (): ArticleCardData[] => {
 /**
  * 단일 포스트 반환 (상세 페이지용)
  */
-export const getArticleBySlug = (slug: string): Article => {
+export const getArticleBySlug = async (slug: string): Promise<Article> => {
   const fileContent = readArticleFile(slug);
   const { data, content } = matter(fileContent);
 
@@ -88,8 +92,10 @@ export const getArticleBySlug = (slug: string): Article => {
 /**
  * 이전/다음 포스트 반환 (상세 페이지 네비게이션용)
  */
-export const getAdjacentArticles = (slug: string): AdjacentPosts => {
-  const articles = getAllArticles();
+export const getAdjacentArticles = async (
+  slug: string
+): Promise<AdjacentPosts> => {
+  const articles = await getAllArticles();
   const currentIndex = articles.findIndex((article) => article.slug === slug);
 
   if (currentIndex === -1) {
@@ -106,6 +112,9 @@ export const getAdjacentArticles = (slug: string): AdjacentPosts => {
 /**
  * 카테고리별 포스트 필터링
  */
-export const getArticlesByCategory = (category: string): ArticleCardData[] => {
-  return getAllArticles().filter((article) => article.category === category);
+export const getArticlesByCategory = async (
+  category: string
+): Promise<ArticleCardData[]> => {
+  const articles = await getAllArticles();
+  return articles.filter((article) => article.category === category);
 };
