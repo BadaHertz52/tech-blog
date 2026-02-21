@@ -43,3 +43,5 @@ export interface AdjacentPosts {
   prev: ArticleCardData | null;
   next: ArticleCardData | null;
 }
+
+export type ArticleSort = "newest" | "oldest";

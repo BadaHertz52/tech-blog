@@ -1,5 +1,3 @@
-"use server";
-
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
@@ -9,6 +7,7 @@ import {
   Article,
   ArticleCardData,
   ArticleMeta,
+  ArticleSort,
 } from "@/types/article";
 
 const ARTICLE_DATA_DIRECTORY = path.join(process.cwd(), "public/articles");
@@ -35,7 +34,7 @@ const getAllArticlesSlugs = (): string[] => {
   return fs.readdirSync(ARTICLE_DATA_DIRECTORY).filter((file) => {
     const fullPath = path.join(ARTICLE_DATA_DIRECTORY, file);
     const isDirectory = fs.statSync(fullPath).isDirectory();
-    const hasMdxFile = fs.existsSync(path.join(fullPath, 'index.mdx'));
+    const hasMdxFile = fs.existsSync(path.join(fullPath, "index.mdx"));
     return isDirectory && hasMdxFile;
   });
 };
@@ -55,12 +54,11 @@ const readArticleFile = (slug: string): string => {
 
 /**
  * 전체 포스트 목록 반환 (리스트 페이지용)
- * 최신순 정렬
  */
 export const getAllArticles = async (): Promise<ArticleCardData[]> => {
   const slugs = getAllArticlesSlugs();
 
-  const posts = slugs.map((slug) => {
+  return slugs.map((slug) => {
     const fileContent = readArticleFile(slug);
     const { data, content } = matter(fileContent);
 
@@ -69,11 +67,6 @@ export const getAllArticles = async (): Promise<ArticleCardData[]> => {
       readingTime: calculateReadingTime(content),
     };
   });
-
-  // 날짜 기준 최신순 정렬
-  return posts.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
 };
 
 /**
@@ -110,11 +103,45 @@ export const getAdjacentArticles = async (
 };
 
 /**
- * 카테고리별 포스트 필터링
+ * 검색어로 포스트 필터링 (title, description 대상)
  */
-export const getArticlesByCategory = async (
-  category: string
-): Promise<ArticleCardData[]> => {
-  const articles = await getAllArticles();
-  return articles.filter((article) => article.category === category);
+export const filterArticlesBySearch = (
+  articles: ArticleCardData[],
+  search: string
+): ArticleCardData[] => {
+  if (!search.trim()) {
+    return articles;
+  }
+
+  const searchLower = search.toLowerCase();
+
+  return articles.filter((article) => {
+    const titleMatch = article.title.toLowerCase().includes(searchLower);
+    const descriptionMatch = article.description
+      .toLowerCase()
+      .includes(searchLower);
+    return titleMatch || descriptionMatch;
+  });
+};
+
+/**
+ * 포스트 정렬
+ * @param articles - 아티클 배열
+ * @param sort - 'newest' | 'oldest'
+ * @returns 정렬된 아티클 배열
+ */
+export const sortArticles = (
+  articles: ArticleCardData[],
+  sort: ArticleSort
+): ArticleCardData[] => {
+  if (sort === "oldest") {
+    return [...articles].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+  }
+
+  // 기본값: 'newest'
+  return [...articles].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 };

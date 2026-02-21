@@ -1,22 +1,36 @@
-import ArticleCard from "@/components/ArticleCard";
-import { getAllArticles } from "@/utils/mdx";
+import { parseArticleSort } from "@/utils/article";
+import {
+  filterArticlesBySearch,
+  getAllArticles,
+  sortArticles,
+} from "@/utils/mdx";
+import ArticlesContent from "./_components/ArticlesContent";
+import ArticlesControls from "./_components/ArticlesControls";
 
-export default async function ArticlesPage() {
-  const articles = await getAllArticles();
+interface ArticlesPageProps {
+  searchParams: Promise<{ search?: string; sort?: string }>;
+}
+
+export default async function ArticlesPage({
+  searchParams,
+}: ArticlesPageProps) {
+  const params = await searchParams;
+  const currentSearch = params.search || "";
+  const currentSort = parseArticleSort(params.sort);
+
+  const allArticles = await getAllArticles();
+  const filteredArticles = filterArticlesBySearch(allArticles, currentSearch);
+  const sortedArticles = sortArticles(filteredArticles, currentSort);
 
   return (
-    <main>
-      <h1 className="sr-only">블로그 포스트 리스트</h1>
+    <>
+      <h1 className="sr-only">블로그 아티클 리스트</h1>
 
-      <section>
-        <ul className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {articles.map((article) => (
-            <li key={article.slug}>
-              <ArticleCard article={article} />
-            </li>
-          ))}
-        </ul>
-      </section>
-    </main>
+      <ArticlesControls
+        currentSearch={currentSearch}
+        currentSort={currentSort}
+      />
+      <ArticlesContent articleCards={sortedArticles} />
+    </>
   );
 }
