@@ -5,7 +5,7 @@ import matter from "gray-matter";
 import {
   AdjacentPosts,
   Article,
-  ArticleCard,
+  ArticleCardData,
   ArticleMeta,
 } from "@/types/article";
 
@@ -30,12 +30,10 @@ const getAllArticlesSlugs = (): string[] => {
     return [];
   }
 
-  return fs
-    .readdirSync(ARTICLE_DATA_DIRECTORY)
-    .filter((file) => {
-      const fullPath = path.join(ARTICLE_DATA_DIRECTORY, file);
-      return fs.statSync(fullPath).isDirectory();
-    });
+  return fs.readdirSync(ARTICLE_DATA_DIRECTORY).filter((file) => {
+    const fullPath = path.join(ARTICLE_DATA_DIRECTORY, file);
+    return fs.statSync(fullPath).isDirectory();
+  });
 };
 
 /**
@@ -55,7 +53,7 @@ const readArticleFile = (slug: string): string => {
  * 전체 포스트 목록 반환 (리스트 페이지용)
  * 최신순 정렬
  */
-export const getAllArticles = (): ArticleCard[] => {
+export const getAllArticles = (): ArticleCardData[] => {
   const slugs = getAllArticlesSlugs();
 
   const posts = slugs.map((slug) => {
@@ -108,6 +106,6 @@ export const getAdjacentArticles = (slug: string): AdjacentPosts => {
 /**
  * 카테고리별 포스트 필터링
  */
-export const getArticlesByCategory = (category: string): ArticleCard[] => {
+export const getArticlesByCategory = (category: string): ArticleCardData[] => {
   return getAllArticles().filter((article) => article.category === category);
 };
