@@ -34,7 +34,6 @@
 - **UI Documentation**: Storybook 10
 
 ### Backend / CMS
-- **CMS**: Notion API (블로그 콘텐츠 관리)
 - **Auth**: GitHub OAuth (사용자 인증)
 - **Database**: (TBD - 댓글, 북마크 등)
 
@@ -96,6 +95,8 @@ tech-blog/
 │   ├── images/                # 이미지 리소스
 │   └── stories/               # Storybook 스토리
 │
+├── data/
+│   └── articles/              # MDX 아티클 파일
 ├── public/                    # 정적 파일
 ├── .storybook/               # Storybook 설정
 └── CLAUDE.md                  # 이 파일
@@ -123,6 +124,32 @@ tech-blog/
 - **`constants/`**: 상수 및 설정값
 - **`images/`**: 이미지 리소스
 - **`stories/`**: Storybook 컴포넌트 스토리
+- **`data/articles/`**: MDX 아티클 파일 (Markdown + frontmatter)
+
+---
+
+## 🌐 페이지 라우트 경로
+
+| 경로 | 설명 | 파일 위치 |
+|---|---|---|
+| `/` | 홈페이지 | `src/app/(routes)/page.tsx` |
+| `/articles` | 포스트 리스트 (전체) | `src/app/(routes)/articles/page.tsx` |
+| `/articles/[slug]` | 포스트 상세 페이지 | `src/app/(routes)/articles/[slug]/page.tsx` |
+| `/articles?category=[category]` | 카테고리별 포스트 리스트 | `src/app/(routes)/articles/page.tsx` |
+
+### 라우트 상수 관리
+- **위치**: `src/constants/paths.ts`
+- **사용**: 라우트 경로를 동적으로 생성하거나 참조할 때
+- **예시**:
+  ```typescript
+  import { ROUTES } from '@/constants/paths'
+
+  // 포스트 링크
+  href={ROUTES.article('nextjs-optimization')}  // '/articles/nextjs-optimization'
+
+  // 카테고리 페이지 (쿼리 파라미터)
+  href={ROUTES.category('frontend')}            // '/articles?category=frontend'
+  ```
 
 ---
 
@@ -388,6 +415,53 @@ Props: title, description, date, imageUrl, href
 ```
 
 **용도**: React 컴포넌트 템플릿 자동 생성
+
+---
+
+## 🌿 브랜치 & 이슈 컨벤션
+
+### 커밋/이슈 타입
+
+| 타입 | 설명 |
+|---|---|
+| `feat` | 새로운 기능 추가 |
+| `fix` | 버그 수정 |
+| `docs` | 문서 수정 (README, CLAUDE.md 등) |
+| `style` | 코드 포맷팅, 스타일 변경 (기능 변경 없음) |
+| `refactor` | 코드 리팩토링 (기능 변경 없음) |
+| `ci` | CI/CD, 빌드, 설정 파일 변경 |
+| `chore` | 패키지 설치, 기타 잡무 |
+| `test` | 테스트 코드 추가/수정 |
+
+### 커밋 시 지켜야하는 규칙
+- 커밋 메세지에서 클로드를 협업자로 추가하지 않는다. (Co-Authored-By: Claude ~ 와 같은 내용을 추가하지 않는다. )
+
+
+### 브랜치명 컨벤션
+```
+타입/이슈번호-작업-설명
+```
+
+```bash
+# 예시
+feat/6-mdx-infra
+feat/7-blog-list-page
+fix/12-card-thumbnail-error
+docs/3-claude-code-design-setting
+```
+
+### 이슈 제목 컨벤션
+
+```
+타입: 이슈 작업 내용
+```
+
+```
+# 예시
+feat: MDX 인프라 구축
+feat: 블로그 리스트 페이지 구현
+fix: BlogCard 썸네일 이미지 오류 수정
+```
 
 ---
 

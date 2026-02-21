@@ -1,0 +1,44 @@
+---
+title: "개인 프로젝트로 배운 것들"
+description: "작은 사이드 프로젝트가 얼마나 많은 것을 가르쳐주는지 깨달았습니다."
+date: "2026-02-16"
+category: "project"
+thumbnail: "/images/bada.webp"
+slug: "personal-project-journey"
+views: 0
+---
+
+## 프로젝트 구조의 중요성
+
+처음에는 파일을 무분별하게 만들었지만, 프로젝트가 커지면서 구조의 중요성을 알게 되었습니다.
+
+```typescript
+// 좋은 구조 예시
+src/
+├── components/
+├── services/
+├── hooks/
+├── utils/
+└── types/
+```
+
+## 테스트 코드의 가치
+
+초반에는 테스트 코드를 생략했는데, 나중에 버그를 수정하는 비용이 훨씬 컸습니다.
+
+```typescript
+// 간단한 유틸 함수 테스트
+describe("formatDate", () => {
+  it("should format date correctly", () => {
+    expect(formatDate(new Date())).toBeDefined();
+  });
+});
+```
+
+## 배운 교훈
+
+- 초기 설계가 중요함
+- 코드 리뷰는 성장의 기회
+- 점진적 개선이 최선
+
+작은 프로젝트부터 시작해 큰 것을 만들어보세요.

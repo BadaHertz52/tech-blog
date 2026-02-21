@@ -1,0 +1,50 @@
+---
+title: "async/await 완벽 가이드"
+description: "비동기 프로그래밍 마스터하기"
+date: "2026-02-19"
+category: "cs"
+thumbnail: "/images/hero.webp"
+slug: "understanding-async-await"
+views: 0
+---
+
+## 기본 문법
+
+```javascript
+// Promise 방식
+function fetchData() {
+  return fetch("/api/data")
+    .then((res) => res.json())
+    .then((data) => console.log(data))
+    .catch((err) => console.error(err));
+}
+
+// async/await 방식 (더 깔끔함)
+async function fetchData() {
+  try {
+    const res = await fetch("/api/data");
+    const data = await res.json();
+    console.log(data);
+  } catch (err) {
+    console.error(err);
+  }
+}
+```
+
+## 에러 처리
+
+try-catch 블록으로 에러를 처리합니다.
+
+```javascript
+async function getData() {
+  try {
+    const res = await fetch("/api/users/1");
+    if (!res.ok) throw new Error("Failed");
+    return await res.json();
+  } catch (error) {
+    console.error("데이터 로드 실패:", error);
+  }
+}
+```
+
+async/await는 콜백 지옥에서 벗어나게 해줍니다.

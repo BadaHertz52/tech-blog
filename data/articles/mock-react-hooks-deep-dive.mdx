@@ -1,0 +1,47 @@
+---
+title: "React Hooks 깊이 있게 이해하기"
+description: "Hooks는 함수형 컴포넌트에서 상태와 생명주기를 사용할 수 있게 해줍니다."
+date: "2026-02-20"
+category: "frontend"
+thumbnail: "/images/bada.webp"
+slug: "react-hooks-deep-dive"
+views: 0
+---
+
+## useEffect의 의존성 배열
+
+`useEffect`의 두 번째 인자인 의존성 배열은 매우 중요합니다.
+
+```javascript
+// 1. 의존성 배열이 없으면 매 렌더링마다 실행
+useEffect(() => {
+  console.log("실행됨");
+});
+
+// 2. 빈 배열이면 마운트 시에만 실행
+useEffect(() => {
+  console.log("마운트됨");
+}, []);
+
+// 3. 특정 값이 변할 때만 실행
+useEffect(() => {
+  console.log("count 변함");
+}, [count]);
+```
+
+## 클린업 함수
+
+효과를 정리하는 함수를 반환할 수 있습니다.
+
+```javascript
+useEffect(() => {
+  const handleResize = () => console.log("resize");
+  window.addEventListener("resize", handleResize);
+
+  return () => {
+    window.removeEventListener("resize", handleResize);
+  };
+}, []);
+```
+
+올바른 의존성 배열 관리로 메모리 누수를 방지할 수 있습니다.
