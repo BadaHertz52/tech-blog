@@ -27,7 +27,7 @@ export default function Header() {
         {/* PC/태블릿 네비게이션 (425px 이상) */}
         <nav className="hidden h-9 items-center gap-xs xs:flex xs:gap-md">
           <NavLinks variant="pc" />
-          <DarkModeButton variant="pc" />
+          {/* <DarkModeButton variant="pc" /> */}
         </nav>
 
         {/* 모바일 햄버거 버튼 (425px 미만) */}
@@ -58,7 +58,7 @@ export default function Header() {
       >
         <nav className="flex items-center justify-between px-md py-xs">
           <NavLinks variant="mobile" onClickLink={closeMobileMenu} />
-          <DarkModeButton variant="mobile" />
+          {/* <DarkModeButton variant="mobile" /> */}
         </nav>
       </div>
     </header>
