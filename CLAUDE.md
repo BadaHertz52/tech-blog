@@ -35,7 +35,7 @@
 
 ### Backend / CMS
 - **Auth**: GitHub OAuth (사용자 인증)
-- **Database**: Vercel KV (TBD - 조회 수, 좋아요 등)
+- **Database**: Vercel KV (TBD - 조회 수, 좋아요, 공유 횟수 등)
 
 ### Development
 - **Package Manager**: Yarn
@@ -323,6 +323,40 @@ components/
 │   ├── index.tsx        # 컴포넌트 + variant
 │   └── stories.tsx      # Storybook
 ```
+
+### Props 확장 규칙
+
+네이티브 HTML 태그의 props를 받을 때는 **`React.ComponentProps`**를 사용합니다:
+
+```typescript
+// ✅ Good - React.ComponentProps 사용
+interface SearchBarProps extends Omit<
+  React.ComponentProps<"input">,
+  "value" | "className" | "type"  // 필요시 제외
+> {
+  customProp?: string;
+  value: string;
+}
+
+// ❌ Bad - 명시적 props 나열만
+interface SearchBarProps {
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  // ... 계속 추가해야함
+}
+```
+
+**이유:**
+- `ref` 등 React 시스템 props 지원
+- HTML 속성이 추가되어도 자동 반영
+- 타입 안전성 확보
+- 사용자가 모든 native props 활용 가능
+
+**제외 규칙:**
+- 컴포넌트에서 관리하는 props (`value`, `onChange` 등): `Omit`으로 제외
+- 고정된 props (`type="text"` 등): 제외 고려
+- 대체되는 props (`className` → `customClassName` 등): 제외
 
 ---
 

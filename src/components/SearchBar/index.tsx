@@ -1,5 +1,3 @@
-import { ChangeEvent, InputHTMLAttributes } from "react";
-
 import Icon from "../Icon";
 
 interface SearchBarProps extends Omit<
