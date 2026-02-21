@@ -10,7 +10,7 @@ const VARIANT_STYLE = {
   other: "",
 };
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.ComponentProps<"button"> {
   variant?: keyof typeof VARIANT_STYLE;
   children: ReactNode;
 }
