@@ -23,6 +23,11 @@ reviews:
   collapse_walkthrough: false
   poem: false
   path_instructions:
+    - path: "**/*.config.{ts,js}"
+      instructions: |
+        **설정 파일 규칙:**
+        - Docstring 검사 무시
+        - 설정 파일은 코드 리뷰 대상 제외
     - path: src/app/**/page.tsx
       instructions: |
         **Next.js 페이지 컴포넌트 규칙:**
