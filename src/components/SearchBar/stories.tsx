@@ -17,5 +17,6 @@ export const Default: Story = {
     searchIconWidth: "17.5px",
     value: "",
     placeholder: "Search articles...",
+    onSearchClick: () => alert("Search button clicked!"),
   },
 };

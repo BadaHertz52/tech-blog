@@ -86,6 +86,7 @@ export default function ArticlesControls({
         value={searchValue}
         onChange={handleSearchChange}
         onKeyDown={handleSearchKeyDown}
+        onSearchClick={searchArticles}
         placeholder="Search articles..."
       />
       <Dropdown
