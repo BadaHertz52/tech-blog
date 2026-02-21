@@ -1,23 +1,23 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, InputHTMLAttributes } from "react";
 
 import Icon from "../Icon";
 
-interface SearchBarProps {
+interface SearchBarProps extends Omit<
+  React.ComponentProps<"input">,
+  "value" | "className" | "type"
+> {
   searchBarClassName?: string;
   searchIconWidth?: string;
   value: string;
-  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  placeholder?: string;
 }
 
 export default function SearchBar({
   searchBarClassName = "w-full h-full",
   searchIconWidth = "17.5px",
   value,
-  handleChange,
-  onKeyDown,
   placeholder = "Search articles...",
+  maxLength = 100,
+  ...restProps
 }: SearchBarProps) {
   return (
     <div className={`relative ${searchBarClassName ?? ""}`}>
@@ -29,11 +29,11 @@ export default function SearchBar({
       <input
         type="text"
         value={value}
-        onChange={handleChange}
-        onKeyDown={onKeyDown}
         placeholder={placeholder}
+        maxLength={maxLength}
         className="border-border-light w-full rounded-lg border bg-bg-white py-[8.8px] pr-4 text-text-primary placeholder-text-secondary"
         style={{ paddingLeft: `calc(${searchIconWidth} + 4px + 16px + 2px)` }}
+        {...restProps}
       />
     </div>
   );

@@ -84,7 +84,7 @@ export default function ArticlesControls({
       <SearchBar
         searchBarClassName="w-[calc(100% - 175px)] xs:w-[200px] sm:w-[250px] lg:w-[300px]"
         value={searchValue}
-        handleChange={handleSearchChange}
+        onChange={handleSearchChange}
         onKeyDown={handleSearchKeyDown}
         placeholder="Search articles..."
       />

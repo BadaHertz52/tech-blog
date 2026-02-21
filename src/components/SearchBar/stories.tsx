@@ -16,7 +16,6 @@ export const Default: Story = {
     searchBarClassName: "w-80vw sm:w-[314px]",
     searchIconWidth: "17.5px",
     value: "",
-    handleChange: () => {},
     placeholder: "Search articles...",
   },
 };
