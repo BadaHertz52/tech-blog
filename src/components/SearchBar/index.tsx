@@ -7,6 +7,7 @@ interface SearchBarProps {
   searchIconWidth?: string;
   value: string;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
 }
 
@@ -15,6 +16,7 @@ export default function SearchBar({
   searchIconWidth = "17.5px",
   value,
   handleChange,
+  onKeyDown,
   placeholder = "Search articles...",
 }: SearchBarProps) {
   return (
@@ -28,6 +30,7 @@ export default function SearchBar({
         type="text"
         value={value}
         onChange={handleChange}
+        onKeyDown={onKeyDown}
         placeholder={placeholder}
         className="border-border-light w-full rounded-lg border bg-bg-white py-[8.8px] pr-4 text-text-primary placeholder-text-secondary"
         style={{ paddingLeft: `calc(${searchIconWidth} + 4px + 16px + 2px)` }}
