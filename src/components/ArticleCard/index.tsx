@@ -21,15 +21,15 @@ export default function ArticleCard({
   return (
     <Link href={ROUTES.article(article.slug)}>
       <div
-        className={`flex cursor-pointer flex-col gap-5 overflow-hidden ${className}`}
+        className={`group flex cursor-pointer flex-col gap-5 overflow-hidden ${className}`}
       >
         {/* 썸네일 영역 */}
-        <div className="relative aspect-video w-full flex-shrink-0 overflow-hidden rounded-3xl transition-transform duration-200 hover:scale-105">
+        <div className="relative aspect-video w-full flex-shrink-0 overflow-hidden rounded-3xl">
           <Image
             src={thumbnailUrl}
             alt={article.title}
+            className="rounded-3xl object-cover transition-transform duration-300 group-hover:scale-125"
             fill
-            className="object-cover"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
 
