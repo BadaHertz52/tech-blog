@@ -39,4 +39,9 @@
   .heading-h3 {
     @apply text-h3-mobile font-extrabold md:text-h3-desktop;
   }
+
+  /* 스크린 리더기용 텍스트 (화면에서 비노출) */
+  .sr-only {
+    @apply absolute -inset-1 -m-px h-px w-px;
+  }
 }
