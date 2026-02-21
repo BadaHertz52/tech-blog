@@ -18,7 +18,7 @@ interface DropdownProps {
 }
 
 export default function Dropdown({
-  dropdownClassName = "",
+  dropdownClassName = "w-full",
   options,
   selectedValue,
   onSelect,
@@ -53,13 +53,10 @@ export default function Dropdown({
   };
 
   return (
-    <div
-      className={`relative ${dropdownClassName ?? "w-full"}`}
-      ref={dropdownRef}
-    >
+    <div className={`relative ${dropdownClassName}`} ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="border-border-light hover:bg-bg-light flex w-full items-center justify-between rounded-lg border bg-bg-white px-4 py-3 text-text-primary transition-colors"
+        className="border-border-light hover:bg-bg-light flex h-full w-full items-center justify-between rounded-lg border bg-bg-white px-[21px] py-[13px] text-text-primary transition-colors"
       >
         <span>{displayLabel}</span>
         <Icon
@@ -75,7 +72,7 @@ export default function Dropdown({
             <li key={option.value}>
               <button
                 onClick={() => handleSelect(option.value)}
-                className={`block w-full px-4 py-3 text-left transition-colors hover:bg-bg-pale-blue ${
+                className={`block w-full px-[21px] py-[13px] text-left transition-colors hover:bg-bg-pale-blue ${
                   selectedValue === option.value
                     ? "text-primary-blue"
                     : "text-text-primary"
