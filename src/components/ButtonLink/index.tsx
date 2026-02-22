@@ -18,7 +18,6 @@ export default function ButtonLink({
   variant = "primary",
   className = "",
   children,
-  style,
   ...props
 }: ButtonLinkProps) {
   return (
