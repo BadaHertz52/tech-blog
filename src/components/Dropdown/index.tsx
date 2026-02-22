@@ -73,7 +73,7 @@ export default function Dropdown({
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
         onKeyDown={handleButtonKeyDown}
-        className="border-border-light hover:bg-bg-light focus:bg-bg-light flex h-full w-full items-center justify-between rounded-lg border bg-bg-white px-[21px] py-[13px] text-text-primary transition-colors"
+        className="border-border-light hover:bg-bg-light focus:bg-bg-light flex h-full w-full items-center justify-between gap-1 rounded-lg border bg-bg-white px-[21px] py-[13px] text-text-primary transition-colors"
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-label={`${placeholder} 드롭다운`}

@@ -82,7 +82,7 @@ export default function ArticlesControls({
   return (
     <div className="mb-8 flex h-[46px] w-full items-center justify-end gap-4">
       <SearchBar
-        searchBarClassName="w-[calc(100% - 175px)] xs:w-[200px] sm:w-[250px] lg:w-[300px]"
+        searchBarClassName="flex-1 min-w-[180px] xs:max-w-[250px] lg:max-w-[300px]"
         value={keywordValue}
         onChange={handleKeywordChange}
         onKeyDown={handleKeywordKeyDown}
@@ -94,7 +94,7 @@ export default function ArticlesControls({
         selectedValue={currentSort}
         onSelect={handleSortSelect}
         placeholder="Sort by"
-        dropdownClassName="w-[159px] h-full "
+        dropdownClassName="h-full "
       />
     </div>
   );
