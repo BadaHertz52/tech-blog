@@ -35,7 +35,7 @@
 
 ### Backend / CMS
 - **Auth**: GitHub OAuth (사용자 인증)
-- **Database**: (TBD - 댓글, 북마크 등)
+- **Database**: Vercel KV (TBD - 조회 수, 좋아요, 공유 횟수 등)
 
 ### Development
 - **Package Manager**: Yarn
@@ -50,7 +50,7 @@
 
 ## 📁 폴더 구조
 
-```
+```sh
 tech-blog/
 ├── .claude/                    # Claude Code 환경
 │   ├── skills/                 # Skills 정의 (10개 스킬)
@@ -92,12 +92,25 @@ tech-blog/
 │   ├── types/                 # TypeScript 타입 정의
 │   ├── utils/                 # 유틸리티 함수
 │   ├── constants/             # 상수
-│   ├── images/                # 이미지 리소스
+│   ├── images/                # UI 컴포넌트용 이미지
 │   └── stories/               # Storybook 스토리
 │
-├── data/
-│   └── articles/              # MDX 아티클 파일
 ├── public/                    # 정적 파일
+│   ├── articles/              # 아티클 + 미디어 (핵심)
+│   │   ├── 2025-retrospective/
+│   │   │   ├── index.mdx
+│   │   │   └── images/
+│   │   │       ├── hero.webp
+│   │   │       └── ...
+│   │   ├── nextjs-optimization/
+│   │   │   ├── index.mdx
+│   │   │   └── images/
+│   │   │       └── ...
+│   │   └── [article-slug]/
+│   │       ├── index.mdx
+│   │       └── images/        # 아티클별 미디어
+│   ├── assets/                # UI 리소스 (비권장)
+│   └── ...
 ├── .storybook/               # Storybook 설정
 └── CLAUDE.md                  # 이 파일
 ```
@@ -122,9 +135,12 @@ tech-blog/
 - **`types/`**: TypeScript 타입 및 인터페이스
 - **`utils/`**: 순수 함수형 유틸리티
 - **`constants/`**: 상수 및 설정값
-- **`images/`**: 이미지 리소스
+- **`images/`**: UI 컴포넌트용 이미지 리소스
 - **`stories/`**: Storybook 컴포넌트 스토리
-- **`data/articles/`**: MDX 아티클 파일 (Markdown + frontmatter)
+- **`public/articles/`**: MDX 아티클 + 미디어 통합 관리 (**핵심 콘텐츠**)
+  - 각 아티클 폴더 구조: `[slug]/index.mdx` + `[slug]/images/`
+  - 한 곳에서만 관리하므로 중복 제거 및 유지보수 용이
+  - Next.js가 자동으로 정적 파일 제공
 
 ---
 
@@ -162,6 +178,7 @@ tech-blog/
 | 컴포넌트 | PascalCase | `BlogCard.tsx` |
 | 함수/변수 | camelCase | `formatDate()`, `userName` |
 | 상수 | UPPER_SNAKE_CASE | `MAX_POSTS_PER_PAGE` |
+| 상수 객체 프로퍼티 | camelCase | `{ primary: "...", secondary: "..." }` |
 | 폴더 | kebab-case | `blog-post/` |
 | 타입/인터페이스 | PascalCase | `BlogPost`, `UserProfile` |
 | Props 인터페이스 | [Component]Props | `BlogCardProps` |
@@ -209,6 +226,38 @@ export const BlogCard = ({ ... }) => { ... }
 - **미사용 변수 금지** (단, `_`로 시작하는 변수는 허용)
 - **`interface`를 `type`보다 우선 사용** (유니온/교차 타입 등 `interface`로 표현 불가한 경우에만 `type` 사용)
 
+#### React 타입 Import 규칙
+
+React 타입을 사용할 때는 **직접 import**하여 번들 크기를 최적화합니다:
+
+```typescript
+// ✅ Good - 필요한 타입만 직접 import (tree-shaking 최적화)
+import { KeyboardEvent, ChangeEvent, useEffect, useState } from "react"
+
+const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === "Enter") searchArticles()
+}
+
+// ❌ Bad - 불필요한 React 네임스페이스 import (번들 크기 증가)
+import React, { ChangeEvent, useEffect, useState } from "react"
+
+const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === "Enter") searchArticles()
+}
+
+// ✅ Good - 타입만 필요한 경우 (layout.tsx 등)
+import type React from "react"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // ...
+}
+```
+
+**이유:**
+- `React` 객체를 직접 import할 필요가 없음 (타입만 사용)
+- 직접 import하면 tree-shaking이 더 효율적
+- 코드도 더 간결해짐 (`React.KeyboardEvent` → `KeyboardEvent`)
+
 ```typescript
 // ✅ Good
 interface User {
@@ -250,7 +299,7 @@ export const BlogCard = (props) => {
 - **@layer components**: 공통 스타일은 `globals.css`에 정의
 - **variant 스타일**: 컴포넌트 내부 객체로 관리
 - **반응형 모바일 퍼스트**: `sm:`, `md:`, `lg:` 사용
-- **className prop 제공**: 외부 스타일 주입 가능
+- **className prop (선택사항)**: 재사용성이 높거나 외부 스타일 주입이 필요한 경우에만 제공
 
 #### 스타일 작성 방식
 
@@ -280,7 +329,7 @@ export const BlogCard = (props) => {
 // ✅ Good - Variant를 객체로 관리
 export default function Button({
   variant = 'primary',
-  className = '',
+  className = '',  // 재사용성 높음: className 제공
   ...props
 }: ButtonProps) {
   const variantStyles = {
@@ -294,19 +343,277 @@ export default function Button({
   )
 }
 
+// ✅ Good - 내부 전용 컴포넌트: className 불필요
+export default function LoadingUI() {
+  return (
+    <div className="flex items-center justify-center gap-2">
+      <div className="h-2 w-2 animate-bounce rounded-full bg-blue-500" />
+      <div className="h-2 w-2 animate-bounce rounded-full bg-blue-500" style={{ animationDelay: '0.1s' }} />
+      <div className="h-2 w-2 animate-bounce rounded-full bg-blue-500" style={{ animationDelay: '0.2s' }} />
+    </div>
+  )
+}
+
 // ❌ Bad - 인라인 Tailwind 클래스 나열
 export default function Button() {
   return <button className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600" />
 }
 ```
 
-**3. 폴더 구조**
-```
+**3. className prop 제공 기준**
+
+| 상황 | className 제공 | 예시 |
+|---|---|---|
+| **재사용성 높음** | ✅ 제공 | Button, Card, Input |
+| **구성 가능한 컴포넌트** | ✅ 제공 | Layout, Container, Wrapper |
+| **내부 전용 컴포넌트** | ❌ 불필요 | LoadingUI, Badge, Icon |
+| **고정된 스타일** | ❌ 불필요 | Alert, Spinner (고정 디자인) |
+
+**4. 폴더 구조**
+```sh
 components/
 ├── Button/
 │   ├── index.tsx        # 컴포넌트 + variant
 │   └── stories.tsx      # Storybook
 ```
+
+### Props 확장 규칙
+
+네이티브 HTML 태그의 props를 받을 때는 **`React.ComponentProps`**를 사용합니다:
+
+```typescript
+// ✅ Good - React.ComponentProps 사용
+interface SearchBarProps extends Omit<
+  React.ComponentProps<"input">,
+  "value" | "className" | "type"  // 필요시 제외
+> {
+  customProp?: string;
+  value: string;
+}
+
+// ❌ Bad - 명시적 props 나열만
+interface SearchBarProps {
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  // ... 계속 추가해야함
+}
+```
+
+**이유:**
+- `ref` 등 React 시스템 props 지원
+- HTML 속성이 추가되어도 자동 반영
+- 타입 안전성 확보
+- 사용자가 모든 native props 활용 가능
+
+**제외 규칙:**
+- 컴포넌트에서 관리하는 props (`value`, `onChange` 등): `Omit`으로 제외
+- 고정된 props (`type="text"` 등): 제외 고려
+- 대체되는 props (`className` → `customClassName` 등): 제외
+
+### setState를 Props로 전달하지 않기
+
+**원칙**: `setState` 함수를 props로 넘기거나 반환하지 않습니다. 상태 변경 책임을 명확히 합니다.
+
+```typescript
+// ❌ Bad - setState를 props로 전달
+interface DropdownProps {
+  setFocusedIndex: React.Dispatch<React.SetStateAction<number | null>>;
+}
+
+// ❌ Bad - setState를 반환값으로 노출
+const useMyHook = () => {
+  const [count, setCount] = useState(0);
+  return { count, setCount };  // setCount 노출 금지
+};
+
+// ✅ Good - 핸들러 함수로 상태 변경 캡슐화
+interface DropdownProps {
+  onOpenWithFocus: () => void;  // 의도를 명확히 하는 핸들러
+  onClose: () => void;
+}
+
+// ✅ Good - 상태 변경 로직을 훅 내부에서 관리
+const useMyHook = () => {
+  const [count, setCount] = useState(0);
+  const increment = () => setCount(c => c + 1);
+  const decrement = () => setCount(c => c - 1);
+  return { count, increment, decrement };  // 행동만 노출
+};
+```
+
+**이유:**
+- **캡슐화**: 상태 변경 로직이 훅/컴포넌트 내부에 숨겨짐
+- **의도 명확성**: `onOpenWithFocus()`는 "포커스와 함께 열기"를 명확히 표현
+- **책임 분리**: 어디서 상태가 변경되는지 추적하기 쉬움
+- **재사용성**: 다양한 상황에 맞게 핸들러를 구성 가능
+
+### 상수 컨벤션
+
+**기본 규칙**: `UPPER_SNAKE_CASE`
+**객체 프로퍼티**: `camelCase`
+
+객체 프로퍼티는 **소비자 API의 관례를 우선**합니다. Props 값으로 직접 사용되는 경우 camelCase를 유지하여 React 컴포넌트 생태계의 일반적인 관례(`variant="primary"`)와 일치시킵니다:
+
+```typescript
+// ✅ Good - 상수명 대문자, 프로퍼티는 camelCase
+const VARIANT_CLASSES = {
+  primary: "btn-primary",
+  secondary: "btn-secondary",
+  danger: "btn-danger",
+} as const;
+
+const RESPONSIVE_STYLES = {
+  base: { size: 25, radius: 6 },
+  "425px": { size: 30, radius: 7 },
+  "600px": { size: 40, radius: 9 },
+} as const;
+
+const SOCIAL_LINKS: SocialLink[] = [
+  { name: "github", href: "https://...", label: "GitHub 프로필" },
+  { name: "linkedin", href: "https://...", label: "LinkedIn 프로필" },
+];
+
+// 컴포넌트에서 사용 (Props 값)
+<Button variant="primary" />  // ✅ camelCase 유지
+```
+
+**이유:**
+- React UI 컴포넌트 생태계의 일반적 관례 준수 (Material-UI, shadcn/ui 등)
+- Props 값으로 직접 사용될 때 일관성 있는 API 제공
+- 상수 식별자는 대문자로 명확히 구분
+
+#### 📋 예외: 공식 문서 및 일반적 관례 따르는 경우
+
+**공식 문서나 생태계의 일반적인 관례를 따르는 경우는 해당 관례를 우선합니다:**
+
+```typescript
+// ✅ Good - Storybook Meta 객체 (공식 문서 패턴)
+import type { Meta } from "@storybook/react";
+
+const meta = {
+  title: "Components/SearchBar",
+  component: SearchBar,
+  tags: ["autodocs"],
+} satisfies Meta<typeof SearchBar>;
+
+export default meta;
+
+// ✅ Good - Storybook 스토리 export (관례)
+export const Default = { args: { ... } }
+export const WithSearch = { args: { ... } }
+
+// ✅ Good - Mock 데이터 (테스트 관례)
+const mockArticles = [
+  { id: 1, title: "Article 1", slug: "article-1" },
+  { id: 2, title: "Article 2", slug: "article-2" },
+]
+
+// ✅ Good - React Query queryKey (TanStack 공식 권장)
+const queryKey = ["articles", { category, sort }]
+
+// ❌ Bad - 불필요한 대문자화
+const META = { ... }              // 공식 문서에서 const meta 사용
+const MOCK_ARTICLES = [...]       // Mock 데이터는 camelCase 관례
+const QUERY_KEY = [...]           // React Query는 배열 변수명 camelCase
+```
+
+**기준:**
+- 공식 문서(Storybook, React Query 등)에서 제시하는 예제 형식 따르기
+- 생태계에서 널리 사용하는 관례를 존중하기
+- "상수"라는 이유만으로 무조건 대문자화하지 않기
+
+**예외 적용 영역:**
+- Storybook 메타 데이터 및 스토리 export
+- React Query queryKey, useMutation key 등
+- Test framework에서 권장하는 패턴
+- 라이브러리 공식 예제를 그대로 따르는 경우
+- Mock 데이터, 테스트 픽처(fixtures)
+
+---
+
+### Tailwind 클래스 Props 네이밍 규칙
+
+Props에 **Tailwind CSS 클래스명**을 전달할 때는 `TwClass` suffix를 사용합니다.
+단, Props명이 CSS 속성명과 혼동될 가능성이 **없으면** 일반 `className`을 사용해도 됩니다:
+
+#### Suffix 사용 기준
+
+**🔴 `TwClass` suffix 필수** — Props명이 CSS 속성명과 혼동 가능한 경우:
+
+```typescript
+// ❌ Bad - CSS 속성명으로 혼동 가능
+interface Props {
+  height: string;        // CSS height 속성인가?
+  width: string;         // CSS width 속성인가?
+  className: string;     // className 속성인가?
+}
+
+// ✅ Good - TwClass suffix로 명확히
+interface LoadingFallbackProps {
+  heightTwClass: string;      // "h-96", "h-80" 등 (명확함)
+  widthTwClass?: string;      // "w-full", "w-96" 등 (명확함)
+  customTwClass?: string;     // 커스텀 Tailwind 클래스 (명확함)
+}
+
+export default function LoadingFallback({
+  heightTwClass = "h-96",
+  widthTwClass = "w-full",
+  customTwClass,
+}: LoadingFallbackProps) {
+  return (
+    <div className={`relative ${heightTwClass} ${widthTwClass} ${customTwClass ?? ''} flex items-center justify-center`}>
+      {/* ... */}
+    </div>
+  )
+}
+```
+
+**🟢 일반 `className` 사용 가능** — Props명이 명확한 경우:
+
+```typescript
+// ✅ Good - Props명이 명확하면 className으로 충분
+interface ArticleCardProps {
+  article: ArticleCardData;
+  className?: string;    // 컴포넌트 wrapper의 추가 스타일
+}
+
+export default function ArticleCard({
+  article,
+  className = "",
+}: ArticleCardProps) {
+  return (
+    <div className={`card-container ${className}`}>
+      {/* ... */}
+    </div>
+  )
+}
+
+// ✅ Good - React.ComponentProps 상속도 OK
+interface ButtonProps extends React.ComponentProps<"button"> {
+  variant?: "primary" | "secondary";
+  children: ReactNode;
+}
+
+export default function Button({
+  variant = "primary",
+  className = "",  // native button prop
+  children,
+  ...props
+}: ButtonProps) {
+  return (
+    <button className={`${variantStyles[variant]} ${className}`} {...props}>
+      {children}
+    </button>
+  )
+}
+```
+
+**이유:**
+- `TwClass` suffix로 "이건 Tailwind 클래스다"를 명시적으로 표현
+- CSS `style` prop의 속성명(`height`, `width` 등)과의 혼동 방지
+- Props명이 이미 명확하면 굳이 suffix를 붙일 필요 없음
+- 항상 유효한 Tailwind 클래스명만 전달되도록 강제
 
 ---
 
@@ -315,7 +622,7 @@ components/
 ### 전문가 검토 Skills (5개)
 
 #### 1. PM Review
-```
+```bash
 /pm-review
 
 이 3개 기능 중 우선순위를 정해줘:
@@ -327,7 +634,7 @@ components/
 **용도**: 기능 우선순위, 비즈니스 가치 분석, 로드맵 수립
 
 #### 2. UX Review
-```
+```bash
 /ux-review
 
 BlogCard 컴포넌트의 UX와 접근성을 검토해줘.
@@ -336,7 +643,7 @@ BlogCard 컴포넌트의 UX와 접근성을 검토해줘.
 **용도**: 사용자 경험, WCAG 2.1 접근성, 모바일 UX
 
 #### 3. Design Review
-```
+```bash
 /design-review
 
 Figma 디자인을 분석해줘:
@@ -348,7 +655,7 @@ Figma 디자인을 분석해줘:
 **용도**: Figma ↔ 코드 일관성, 디자인 시스템, 색상/타이포그래피
 
 #### 4. Security Review
-```
+```bash
 /security-review
 
 댓글 API의 보안을 검토해줘:
@@ -358,7 +665,7 @@ POST /api/comments
 **용도**: OWASP Top 10, API 보안, 취약점 분석
 
 #### 5. Refactor Review
-```
+```bash
 /refactor-review
 
 전체 프로젝트의 코드 구조를 평가해줘.
@@ -372,14 +679,14 @@ POST /api/comments
 ### 자동화 Skills (5개)
 
 #### 6. Create PR (PR 본문 작성)
-```
+```bash
 /create-pr
 ```
 
 **용도**: 브랜치명에서 이슈 번호 추출 + 커밋 내역 기반 PR 제목·본문 작성 후 출력
 
 #### 7. Team Review (통합 검토)
-```
+```bash
 /team-review
 
 새로 만든 댓글 기능을 전체적으로 검토해줘.
@@ -388,7 +695,7 @@ POST /api/comments
 **용도**: 5명의 전문가가 동시에 종합 검토
 
 #### 8. Design to Code
-```
+```bash
 /design-to-code
 
 Figma URL: [링크]
@@ -398,7 +705,7 @@ Figma URL: [링크]
 **용도**: Figma → React 컴포넌트 자동 생성
 
 #### 9. Validate
-```
+```bash
 /validate
 
 전체 코드를 검증하고 자동으로 수정해줘.
@@ -407,7 +714,7 @@ Figma URL: [링크]
 **용도**: TypeScript, ESLint, Prettier 검증 및 자동 수정
 
 #### 10. Generate Component
-```
+```bash
 /generate-component
 
 컴포넌트명: BlogCard
@@ -438,7 +745,7 @@ Props: title, description, date, imageUrl, href
 
 
 ### 브랜치명 컨벤션
-```
+```sh
 타입/이슈번호-작업-설명
 ```
 
@@ -452,11 +759,11 @@ docs/3-claude-code-design-setting
 
 ### 이슈 제목 컨벤션
 
-```
+```sh
 타입: 이슈 작업 내용
 ```
 
-```
+```sh
 # 예시
 feat: MDX 인프라 구축
 feat: 블로그 리스트 페이지 구현
@@ -491,7 +798,7 @@ fix: BlogCard 썸네일 이미지 오류 수정
 ### 일일 개발 루틴
 
 **개발 시작 전, 데일리 스크럼**
-```
+```bash
 /pm-review
 오늘 뭘 할까?
 ```
@@ -502,7 +809,7 @@ fix: BlogCard 썸네일 이미지 오류 수정
 - `/design-to-code`로 Figma 구현
 
 **작업 종료 전**
-```
+```bash
 /validate
 전체 코드를 검증하고 수정해줘.
 
@@ -514,7 +821,7 @@ yarn format
 ```
 
 **주간 리뷰**
-```
+```bash
 /team-review
 이번 주 작업 전체를 검토해줘.
 ```
@@ -633,6 +940,43 @@ yarn build           # 프로덕션 빌드 (타입 체크 포함)
 - `/team-review`는 리소스가 많이 들므로 신중히 사용
 - 자동 생성 코드는 **반드시 검토** 후 사용
 - 보안 검토는 **정기적으로** 수행
+
+---
+
+## ✅ Claude Code 협업 원칙
+
+### 수정 전 승인 프로세스
+Claude Code는 **파일 수정이 필요한 경우**, 다음 프로세스를 반드시 거칩니다:
+
+1. **변경 사항 요약**: 수정할 파일, 위치, 변경 내용을 **간단히 채팅창에 먼저 설명**
+   - 파일명 명시
+   - 변경 전/후 주요 내용
+   - 한두 문장으로 간결하게
+2. **이유 설명**: 왜 이렇게 수정하는 것이 필요한지 근거 제시
+3. **승인 대기**: 사용자의 명시적 승인(동의) 없이 수정하지 않음
+4. **수정 실행**: 승인 후에만 파일 수정 진행
+
+**예시:**
+```markdown
+❌ 좋지 않은 예:
+- 사용자의 명시적 승인 없이 파일 자동 수정
+
+✅ 좋은 예:
+1. ".coderabbit.yaml의 high_level_summary_instructions 섹션을
+   더 간결하게 수정하고 싶습니다.
+   현재 10가지 항목을 9가지 핵심 항목으로 단축하고,
+   포맷을 불릿 리스트로 변경합니다."
+2. "이유는 리뷰가 더 빠르고 명확해지기 위함입니다"
+3. 사용자가 "적용해줘" 등으로 승인
+4. 그 후 파일 수정 진행
+```
+
+### 예외 상황
+**승인 없이 즉시 수정 가능한 경우:**
+- 사용자가 명시적으로 지시한 작업 (예: "이 파일 수정해줘")
+- 자동 수정 도구 실행 (yarn format, yarn lint --fix)
+- 긴급 버그 수정 (보안 취약점 등)
+- 명백한 오타/문법 오류
 
 ---
 

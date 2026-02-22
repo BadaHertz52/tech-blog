@@ -1,6 +1,7 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Image from "next/image";
 
+import { resolveArticleImagePath } from "@/utils/article";
 import { getAllArticles, getArticleBySlug } from "@/utils/mdx";
 
 interface ArticlePageProps {
@@ -9,7 +10,7 @@ interface ArticlePageProps {
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = getArticleBySlug(`mock-${slug}`);
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     return (
@@ -19,14 +20,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     );
   }
 
+  const thumbnailUrl = article.thumbnail
+    ? resolveArticleImagePath(slug, article.thumbnail)
+    : null;
+
   return (
     <article className="h-full w-full">
       <header>
         {/* 썸네일 */}
-        {article.thumbnail && (
+        {thumbnailUrl && (
           <figure>
             <Image
-              src={article.thumbnail}
+              src={thumbnailUrl}
               alt={article.title}
               width={1200}
               height={600}
@@ -55,9 +60,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 }
 
 export async function generateStaticParams() {
-  const articles = getAllArticles();
+  const articles = await getAllArticles();
 
   return articles.map((article) => ({
-    slug: article.slug.replace("mock-", ""),
+    slug: article.slug,
   }));
 }

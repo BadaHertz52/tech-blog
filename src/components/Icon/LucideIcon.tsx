@@ -1,7 +1,9 @@
 import {
   ArrowUp,
   Calendar,
+  ChevronDown,
   ChevronRight,
+  ChevronUp,
   Clock,
   ExternalLink,
   Home,
@@ -20,6 +22,8 @@ export const LUCIDE_ICON_MAP: Record<LucideIconName, React.FC<LucideProps>> = {
   "arrow-up": ArrowUp,
   calendar: Calendar,
   "chevron-right": ChevronRight,
+  "chevron-down": ChevronDown,
+  "chevron-up": ChevronUp,
   clock: Clock,
   "external-link": ExternalLink,
   home: Home,
