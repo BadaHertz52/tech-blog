@@ -21,7 +21,7 @@ export default async function ArticlesPage({
   const currentKeyword = params.keyword || "";
   const currentSort = parseArticleSort(params.sort);
 
-  const allArticles = await getAllArticles();
+  const allArticles = getAllArticles();
   const filteredArticles = filterArticlesBySearch(allArticles, currentKeyword);
   const sortedArticles = sortArticles(filteredArticles, currentSort);
 

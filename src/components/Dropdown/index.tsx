@@ -90,7 +90,7 @@ export default function Dropdown({
         <ul
           className="border-border-light absolute top-full z-10 mt-1 w-full rounded-lg border bg-bg-white shadow-lg"
           role="listbox"
-          aria-label="Dropdown options"
+          aria-label="드롭다운 옵션 목록"
         >
           {options.map((option, index) => (
             <li
