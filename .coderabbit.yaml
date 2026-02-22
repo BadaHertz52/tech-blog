@@ -20,7 +20,7 @@ reviews:
     **내용** + **제안**
     - 내용과 제안은 핵심 내용만 담아서 간결하게 작성
     - 내용과 제안에는 why와 how 포함
-  collapse_walkthrough: false
+  collapse_walkthrough: true
   poem: false
   path_instructions:
     - path: "**/*.config.{ts,js}"
