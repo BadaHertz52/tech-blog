@@ -87,7 +87,7 @@ export default function ArticlesControls({
         onChange={handleKeywordChange}
         onKeyDown={handleKeywordKeyDown}
         onSearchClick={searchArticles}
-        placeholder="Search articles..."
+        placeholder="아티클을 검색해보세요"
       />
       <Dropdown
         options={SORT_OPTIONS}
