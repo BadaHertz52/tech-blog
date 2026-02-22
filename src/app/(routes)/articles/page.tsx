@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+
+import LoadingFallback from "@/components/LoadingFallback";
 import { parseArticleSort } from "@/utils/article";
 import {
   filterArticlesBySearch,
@@ -25,12 +28,13 @@ export default async function ArticlesPage({
   return (
     <>
       <h1 className="sr-only">블로그 아티클 리스트</h1>
-
-      <ArticlesControls
-        currentKeyword={currentKeyword}
-        currentSort={currentSort}
-      />
-      <ArticlesContent articleCards={sortedArticles} />
+      <Suspense fallback={<LoadingFallback />}>
+        <ArticlesControls
+          currentKeyword={currentKeyword}
+          currentSort={currentSort}
+        />
+        <ArticlesContent articleCards={sortedArticles} />
+      </Suspense>
     </>
   );
 }

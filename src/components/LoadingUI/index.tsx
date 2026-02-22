@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 
 const DEFAULT_KEYCAP_TEXT = "LOADING";
@@ -168,7 +170,7 @@ export default function LoadingUI({
         }
       `}</style>
 
-      <div className="flex items-center justify-center py-12">
+      <div className="flex items-center justify-center">
         <section className="keyboard-container">
           {keycapText.split("").map((char, index) => (
             <div
