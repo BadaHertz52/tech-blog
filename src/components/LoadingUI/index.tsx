@@ -170,7 +170,12 @@ export default function LoadingUI({
         }
       `}</style>
 
-      <div className="flex items-center justify-center">
+      <div
+        className="flex items-center justify-center"
+        role="status"
+        aria-label="로딩 중"
+        aria-live="polite"
+      >
         <section className="keyboard-container">
           {keycapText.split("").map((char, index) => (
             <div
