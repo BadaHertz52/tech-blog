@@ -178,6 +178,7 @@ tech-blog/
 | 컴포넌트 | PascalCase | `BlogCard.tsx` |
 | 함수/변수 | camelCase | `formatDate()`, `userName` |
 | 상수 | UPPER_SNAKE_CASE | `MAX_POSTS_PER_PAGE` |
+| 상수 객체 프로퍼티 | camelCase | `{ primary: "...", secondary: "..." }` |
 | 폴더 | kebab-case | `blog-post/` |
 | 타입/인터페이스 | PascalCase | `BlogPost`, `UserProfile` |
 | Props 인터페이스 | [Component]Props | `BlogCardProps` |
@@ -357,6 +358,43 @@ interface SearchBarProps {
 - 컴포넌트에서 관리하는 props (`value`, `onChange` 등): `Omit`으로 제외
 - 고정된 props (`type="text"` 등): 제외 고려
 - 대체되는 props (`className` → `customClassName` 등): 제외
+
+### 상수 컨벤션
+
+**상수 이름**: `UPPER_SNAKE_CASE`
+**상수 객체 프로퍼티**: `camelCase`
+
+객체 프로퍼티는 **소비자 API의 관례를 우선**합니다. Props 값으로 직접 사용되는 경우 camelCase를 유지하여 React 컴포넌트 생태계의 일반적인 관례(`variant="primary"`)와 일치시킵니다:
+
+```typescript
+// ✅ Good - 상수명 대문자, 프로퍼티는 camelCase
+const VARIANT_CLASSES = {
+  primary: "btn-primary",
+  secondary: "btn-secondary",
+  danger: "btn-danger",
+} as const;
+
+const RESPONSIVE_STYLES = {
+  base: { size: 25, radius: 6 },
+  "425px": { size: 30, radius: 7 },
+  "600px": { size: 40, radius: 9 },
+} as const;
+
+const SOCIAL_LINKS: SocialLink[] = [
+  { name: "github", href: "https://...", label: "GitHub 프로필" },
+  { name: "linkedin", href: "https://...", label: "LinkedIn 프로필" },
+];
+
+// 컴포넌트에서 사용 (Props 값)
+<Button variant="primary" />  // ✅ camelCase 유지
+```
+
+**이유:**
+- React UI 컴포넌트 생태계의 일반적 관례 준수 (Material-UI, shadcn/ui 등)
+- Props 값으로 직접 사용될 때 일관성 있는 API 제공
+- 상수 식별자는 대문자로 명확히 구분
+
+---
 
 ### Tailwind 클래스 Props 네이밍 규칙
 
