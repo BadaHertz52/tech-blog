@@ -50,7 +50,7 @@
 
 ## 📁 폴더 구조
 
-```
+```sh
 tech-blog/
 ├── .claude/                    # Claude Code 환경
 │   ├── skills/                 # Skills 정의 (10개 스킬)
@@ -267,7 +267,7 @@ export const BlogCard = (props) => {
 - **@layer components**: 공통 스타일은 `globals.css`에 정의
 - **variant 스타일**: 컴포넌트 내부 객체로 관리
 - **반응형 모바일 퍼스트**: `sm:`, `md:`, `lg:` 사용
-- **className prop 제공**: 외부 스타일 주입 가능
+- **className prop (선택사항)**: 재사용성이 높거나 외부 스타일 주입이 필요한 경우에만 제공
 
 #### 스타일 작성 방식
 
@@ -297,7 +297,7 @@ export const BlogCard = (props) => {
 // ✅ Good - Variant를 객체로 관리
 export default function Button({
   variant = 'primary',
-  className = '',
+  className = '',  // 재사용성 높음: className 제공
   ...props
 }: ButtonProps) {
   const variantStyles = {
@@ -311,14 +311,34 @@ export default function Button({
   )
 }
 
+// ✅ Good - 내부 전용 컴포넌트: className 불필요
+export default function LoadingUI() {
+  return (
+    <div className="flex items-center justify-center gap-2">
+      <div className="h-2 w-2 animate-bounce rounded-full bg-blue-500" />
+      <div className="h-2 w-2 animate-bounce rounded-full bg-blue-500" style={{ animationDelay: '0.1s' }} />
+      <div className="h-2 w-2 animate-bounce rounded-full bg-blue-500" style={{ animationDelay: '0.2s' }} />
+    </div>
+  )
+}
+
 // ❌ Bad - 인라인 Tailwind 클래스 나열
 export default function Button() {
   return <button className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600" />
 }
 ```
 
-**3. 폴더 구조**
-```
+**3. className prop 제공 기준**
+
+| 상황 | className 제공 | 예시 |
+|---|---|---|
+| **재사용성 높음** | ✅ 제공 | Button, Card, Input |
+| **구성 가능한 컴포넌트** | ✅ 제공 | Layout, Container, Wrapper |
+| **내부 전용 컴포넌트** | ❌ 불필요 | LoadingUI, Badge, Icon |
+| **고정된 스타일** | ❌ 불필요 | Alert, Spinner (고정 디자인) |
+
+**4. 폴더 구조**
+```sh
 components/
 ├── Button/
 │   ├── index.tsx        # 컴포넌트 + variant
@@ -358,6 +378,43 @@ interface SearchBarProps {
 - 컴포넌트에서 관리하는 props (`value`, `onChange` 등): `Omit`으로 제외
 - 고정된 props (`type="text"` 등): 제외 고려
 - 대체되는 props (`className` → `customClassName` 등): 제외
+
+### setState를 Props로 전달하지 않기
+
+**원칙**: `setState` 함수를 props로 넘기거나 반환하지 않습니다. 상태 변경 책임을 명확히 합니다.
+
+```typescript
+// ❌ Bad - setState를 props로 전달
+interface DropdownProps {
+  setFocusedIndex: React.Dispatch<React.SetStateAction<number | null>>;
+}
+
+// ❌ Bad - setState를 반환값으로 노출
+const useMyHook = () => {
+  const [count, setCount] = useState(0);
+  return { count, setCount };  // setCount 노출 금지
+};
+
+// ✅ Good - 핸들러 함수로 상태 변경 캡슐화
+interface DropdownProps {
+  onOpenWithFocus: () => void;  // 의도를 명확히 하는 핸들러
+  onClose: () => void;
+}
+
+// ✅ Good - 상태 변경 로직을 훅 내부에서 관리
+const useMyHook = () => {
+  const [count, setCount] = useState(0);
+  const increment = () => setCount(c => c + 1);
+  const decrement = () => setCount(c => c - 1);
+  return { count, increment, decrement };  // 행동만 노출
+};
+```
+
+**이유:**
+- **캡슐화**: 상태 변경 로직이 훅/컴포넌트 내부에 숨겨짐
+- **의도 명확성**: `onOpenWithFocus()`는 "포커스와 함께 열기"를 명확히 표현
+- **책임 분리**: 어디서 상태가 변경되는지 추적하기 쉬움
+- **재사용성**: 다양한 상황에 맞게 핸들러를 구성 가능
 
 ### 상수 컨벤션
 
@@ -486,7 +543,7 @@ export default function Button({
 ### 전문가 검토 Skills (5개)
 
 #### 1. PM Review
-```
+```bash
 /pm-review
 
 이 3개 기능 중 우선순위를 정해줘:
@@ -498,7 +555,7 @@ export default function Button({
 **용도**: 기능 우선순위, 비즈니스 가치 분석, 로드맵 수립
 
 #### 2. UX Review
-```
+```bash
 /ux-review
 
 BlogCard 컴포넌트의 UX와 접근성을 검토해줘.
@@ -507,7 +564,7 @@ BlogCard 컴포넌트의 UX와 접근성을 검토해줘.
 **용도**: 사용자 경험, WCAG 2.1 접근성, 모바일 UX
 
 #### 3. Design Review
-```
+```bash
 /design-review
 
 Figma 디자인을 분석해줘:
@@ -519,7 +576,7 @@ Figma 디자인을 분석해줘:
 **용도**: Figma ↔ 코드 일관성, 디자인 시스템, 색상/타이포그래피
 
 #### 4. Security Review
-```
+```bash
 /security-review
 
 댓글 API의 보안을 검토해줘:
@@ -529,7 +586,7 @@ POST /api/comments
 **용도**: OWASP Top 10, API 보안, 취약점 분석
 
 #### 5. Refactor Review
-```
+```bash
 /refactor-review
 
 전체 프로젝트의 코드 구조를 평가해줘.
@@ -543,14 +600,14 @@ POST /api/comments
 ### 자동화 Skills (5개)
 
 #### 6. Create PR (PR 본문 작성)
-```
+```bash
 /create-pr
 ```
 
 **용도**: 브랜치명에서 이슈 번호 추출 + 커밋 내역 기반 PR 제목·본문 작성 후 출력
 
 #### 7. Team Review (통합 검토)
-```
+```bash
 /team-review
 
 새로 만든 댓글 기능을 전체적으로 검토해줘.
@@ -559,7 +616,7 @@ POST /api/comments
 **용도**: 5명의 전문가가 동시에 종합 검토
 
 #### 8. Design to Code
-```
+```bash
 /design-to-code
 
 Figma URL: [링크]
@@ -569,7 +626,7 @@ Figma URL: [링크]
 **용도**: Figma → React 컴포넌트 자동 생성
 
 #### 9. Validate
-```
+```bash
 /validate
 
 전체 코드를 검증하고 자동으로 수정해줘.
@@ -578,7 +635,7 @@ Figma URL: [링크]
 **용도**: TypeScript, ESLint, Prettier 검증 및 자동 수정
 
 #### 10. Generate Component
-```
+```bash
 /generate-component
 
 컴포넌트명: BlogCard
@@ -609,7 +666,7 @@ Props: title, description, date, imageUrl, href
 
 
 ### 브랜치명 컨벤션
-```
+```sh
 타입/이슈번호-작업-설명
 ```
 
@@ -623,11 +680,11 @@ docs/3-claude-code-design-setting
 
 ### 이슈 제목 컨벤션
 
-```
+```sh
 타입: 이슈 작업 내용
 ```
 
-```
+```sh
 # 예시
 feat: MDX 인프라 구축
 feat: 블로그 리스트 페이지 구현
@@ -662,7 +719,7 @@ fix: BlogCard 썸네일 이미지 오류 수정
 ### 일일 개발 루틴
 
 **개발 시작 전, 데일리 스크럼**
-```
+```bash
 /pm-review
 오늘 뭘 할까?
 ```
@@ -673,7 +730,7 @@ fix: BlogCard 썸네일 이미지 오류 수정
 - `/design-to-code`로 Figma 구현
 
 **작업 종료 전**
-```
+```bash
 /validate
 전체 코드를 검증하고 수정해줘.
 
@@ -685,7 +742,7 @@ yarn format
 ```
 
 **주간 리뷰**
-```
+```bash
 /team-review
 이번 주 작업 전체를 검토해줘.
 ```
@@ -821,7 +878,7 @@ Claude Code는 **파일 수정이 필요한 경우**, 다음 프로세스를 반
 4. **수정 실행**: 승인 후에만 파일 수정 진행
 
 **예시:**
-```
+```markdown
 ❌ 좋지 않은 예:
 - 사용자의 명시적 승인 없이 파일 자동 수정
 
