@@ -11,7 +11,7 @@ import type { DropdownOption } from "@/components/Dropdown";
 
 interface ArticlesControlsProps {
   currentSearch: string;
-  currentSort: string;
+  currentSort: ArticleSort;
 }
 
 type SearchParamsQueryKey = "search" | "sort";

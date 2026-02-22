@@ -2,11 +2,10 @@ import Icon from "../Icon";
 
 interface SearchBarProps extends Omit<
   React.ComponentProps<"input">,
-  "value" | "className" | "type"
+  "className" | "type"
 > {
   searchBarClassName?: string;
   searchIconWidth?: string;
-  value: string;
   onSearchClick: () => void;
 }
 
@@ -17,7 +16,7 @@ export default function SearchBar({
   placeholder = "Search articles...",
   maxLength = 100,
   onSearchClick,
-  ...restProps
+  ...restInputProps
 }: SearchBarProps) {
   return (
     <div className={`relative ${searchBarClassName ?? ""}`}>
@@ -29,7 +28,7 @@ export default function SearchBar({
         aria-label="검색 입력"
         className="border-border-light w-full rounded-lg border bg-bg-white py-[8.8px] pl-4 text-text-primary placeholder-text-secondary"
         style={{ paddingRight: `calc(${searchIconWidth} + 4px + 16px + 2px)` }}
-        {...restProps}
+        {...restInputProps}
       />
       <button
         type="button"

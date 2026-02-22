@@ -16,7 +16,6 @@ export default function Button({
   className = "",
   children,
   type = "button",
-  style,
   ...props
 }: ButtonProps) {
   return (
