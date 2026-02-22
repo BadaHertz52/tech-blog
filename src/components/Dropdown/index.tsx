@@ -40,7 +40,9 @@ export default function Dropdown({
   } = useDropdownKeyboard({
     optionsLength: options.length,
     isOpen,
-    onOpen: () => setIsOpen(true),
+    onOpenWithFocus: () => {
+      setIsOpen(true);
+    },
     onClose: () => setIsOpen(false),
     onSelect: (index) => handleSelect(options[index].value),
   });
@@ -71,7 +73,13 @@ export default function Dropdown({
     <div className={`relative ${dropdownClassName}`} ref={dropdownRef}>
       <button
         ref={buttonRef}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          if (isOpen) {
+            setIsOpen(false);
+          } else {
+            setIsOpen(true);
+          }
+        }}
         onKeyDown={handleButtonKeyDown}
         className="border-border-light hover:bg-bg-light focus:bg-bg-light flex h-full w-full items-center justify-between gap-1 rounded-lg border bg-bg-white p-3 text-text-primary transition-colors xs:px-[21px] xs:py-[13px]"
         aria-haspopup="listbox"

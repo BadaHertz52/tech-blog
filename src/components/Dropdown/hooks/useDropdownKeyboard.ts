@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 interface UseDropdownKeyboardProps {
   optionsLength: number;
   isOpen: boolean;
-  onOpen: () => void;
+  onOpenWithFocus: () => void;
   onClose: () => void;
   onSelect?: (index: number) => void;
 }
@@ -11,7 +11,7 @@ interface UseDropdownKeyboardProps {
 export const useDropdownKeyboard = ({
   optionsLength,
   isOpen,
-  onOpen,
+  onOpenWithFocus,
   onClose,
   onSelect,
 }: UseDropdownKeyboardProps) => {
@@ -26,9 +26,11 @@ export const useDropdownKeyboard = ({
     }
   }, [focusedIndex]);
 
-  // Reset focused index when dropdown closes
+  // Set initial focus when dropdown opens
   useEffect(() => {
-    if (!isOpen) {
+    if (isOpen && focusedIndex === null) {
+      setFocusedIndex(0);
+    } else if (!isOpen) {
       setFocusedIndex(null);
     }
   }, [isOpen]);
@@ -41,8 +43,7 @@ export const useDropdownKeyboard = ({
       case " ":
         event.preventDefault();
         if (!isOpen) {
-          onOpen();
-          setFocusedIndex(0);
+          onOpenWithFocus();
         } else {
           onClose();
         }
@@ -50,8 +51,7 @@ export const useDropdownKeyboard = ({
       case "ArrowDown":
         event.preventDefault();
         if (!isOpen) {
-          onOpen();
-          setFocusedIndex(0);
+          onOpenWithFocus();
         } else if (focusedIndex !== null && focusedIndex < optionsLength - 1) {
           setFocusedIndex(focusedIndex + 1);
         } else if (focusedIndex === optionsLength - 1) {
@@ -61,8 +61,7 @@ export const useDropdownKeyboard = ({
       case "ArrowUp":
         event.preventDefault();
         if (!isOpen) {
-          onOpen();
-          setFocusedIndex(optionsLength - 1);
+          onOpenWithFocus();
         } else if (focusedIndex !== null && focusedIndex > 0) {
           setFocusedIndex(focusedIndex - 1);
         } else if (focusedIndex === 0) {
