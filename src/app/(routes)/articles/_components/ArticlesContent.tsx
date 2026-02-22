@@ -12,7 +12,7 @@ export default function ArticlesContent({
   articleCards,
 }: ArticlesContentProps) {
   return (
-    <section className="h-full w-full">
+    <section className="relative h-full w-full">
       {articleCards.length > 0 ? (
         <ul className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {articleCards.map((article) => (
