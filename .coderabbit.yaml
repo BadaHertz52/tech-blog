@@ -122,10 +122,16 @@ reviews:
         - 다양한 상태와 props 조합 테스트
         - args, argTypes 활용
 
+        **상수명 컨벤션 예외:**
+        - 테스트 케이스 args는 실제 Props 값 형식 유지 (camelCase)
+        - Mock 데이터는 상수명 대문자화 적용 안 함
+        - 예: `args: { title: "...", variant: "primary" }` (UPPER_SNAKE_CASE 불필요)
+
         **체크리스트:**
         ✅ 기본 스토리 존재
         ✅ 다양한 변형(variant) 스토리
         ✅ 인터랙티브 컨트롤 설정
+        ✅ args는 실제 Props 형식과 일치
     - path: src/stores/**/*.ts
       instructions: |
         **Zustand 스토어 규칙:**
