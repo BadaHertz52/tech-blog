@@ -122,15 +122,33 @@ reviews:
         - 다양한 상태와 props 조합 테스트
         - args, argTypes 활용
 
-        **상수명 컨벤션 예외:**
-        - 테스트 케이스 args는 실제 Props 값 형식 유지 (camelCase)
-        - Mock 데이터는 상수명 대문자화 적용 안 함
-        - 예: `args: { title: "...", variant: "primary" }` (UPPER_SNAKE_CASE 불필요)
+        **공식 문서 패턴 따르기:**
+        - Meta 객체명: const meta = { ... } (공식 권장)
+        - 스토리 export: export const StoryName = { ... } (camelCase)
+        - Mock 데이터: const mockData = [...] (camelCase)
+        - args는 실제 Props 형식 유지
+
+        **예시:**
+        ```typescript
+        import type { Meta } from "@storybook/react";
+
+        const meta = {
+          title: "Components/SearchBar",
+          component: SearchBar,
+          tags: ["autodocs"],
+        } satisfies Meta<typeof SearchBar>;
+
+        export default meta;
+
+        export const Default = { args: { ... } }
+        export const WithSearch = { args: { ... } }
+        ```
 
         **체크리스트:**
+        ✅ const meta = { ... } 패턴 사용 (공식 권장)
+        ✅ satisfies Meta<typeof Component> 사용
         ✅ 기본 스토리 존재
         ✅ 다양한 변형(variant) 스토리
-        ✅ 인터랙티브 컨트롤 설정
         ✅ args는 실제 Props 형식과 일치
     - path: src/stores/**/*.ts
       instructions: |
@@ -212,14 +230,15 @@ reviews:
     - path: src/constants/**/*.ts
       instructions: |
         **상수 정의 규칙:**
-        - 상수 이름: UPPER_SNAKE_CASE
+        - 상수 이름: UPPER_SNAKE_CASE (기본)
         - 상수 객체 프로퍼티: camelCase (Props 값으로 직접 사용되는 관례 준수)
         - as const 사용하여 리터럴 타입 유지
         - 논리적 그룹화
 
-        **이유:**
-        React UI 컴포넌트 생태계의 일반적 관례를 따릅니다.
-        Props 값으로 직접 사용될 때 variant="primary"처럼 camelCase를 유지합니다.
+        **공식 문서/생태계 관례 예외:**
+        - Storybook: const meta = { ... } (공식 권장)
+        - React Query: queryKey = ["articles", ...] (공식 권장)
+        - 라이브러리 공식 예제를 따르는 경우 해당 관례 우선
 
         **예시:**
         ```typescript
@@ -235,10 +254,11 @@ reviews:
         ```
 
         **체크리스트:**
-        ✅ UPPER_SNAKE_CASE 상수명
+        ✅ UPPER_SNAKE_CASE 상수명 (기본)
         ✅ camelCase 프로퍼티명
         ✅ as const 사용
         ✅ export 키워드 사용
+        ✅ 공식 문서 관례는 우선적용
     - path: src/app/api/**/*.ts
       instructions: |
         **API 라우트 규칙:**

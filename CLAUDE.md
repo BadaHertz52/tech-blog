@@ -418,8 +418,8 @@ const useMyHook = () => {
 
 ### 상수 컨벤션
 
-**상수 이름**: `UPPER_SNAKE_CASE`
-**상수 객체 프로퍼티**: `camelCase`
+**기본 규칙**: `UPPER_SNAKE_CASE`
+**객체 프로퍼티**: `camelCase`
 
 객체 프로퍼티는 **소비자 API의 관례를 우선**합니다. Props 값으로 직접 사용되는 경우 camelCase를 유지하여 React 컴포넌트 생태계의 일반적인 관례(`variant="primary"`)와 일치시킵니다:
 
@@ -451,42 +451,52 @@ const SOCIAL_LINKS: SocialLink[] = [
 - Props 값으로 직접 사용될 때 일관성 있는 API 제공
 - 상수 식별자는 대문자로 명확히 구분
 
-#### 📋 예외: Storybook 테스트 케이스
+#### 📋 예외: 공식 문서 및 일반적 관례 따르는 경우
 
-**Storybook의 테스트 케이스나 목 데이터(Mock data)는 `camelCase` 또는 실제 사용되는 형식을 유지합니다:**
+**공식 문서나 생태계의 일반적인 관례를 따르는 경우는 해당 관례를 우선합니다:**
 
 ```typescript
-// ✅ Good - Storybook 테스트 케이스
-export const Default = {
-  args: {
-    title: "Test Article",          // 실제 Props 값
-    date: "2025-02-22",             // 실제 데이터 형식
-    tags: ["react", "typescript"],  // 실제 배열 형식
-  }
-}
+// ✅ Good - Storybook Meta 객체 (공식 문서 패턴)
+import type { Meta } from "@storybook/react";
 
-export const WithLongDescription = {
-  args: {
-    description: "Long text...",
-    variant: "primary",             // Props 값이므로 camelCase 유지
-  }
-}
+const meta = {
+  title: "Components/SearchBar",
+  component: SearchBar,
+  tags: ["autodocs"],
+} satisfies Meta<typeof SearchBar>;
 
-// ✅ Good - Mock 데이터
-const mockArticles = [              // Mock 데이터는 camelCase
+export default meta;
+
+// ✅ Good - Storybook 스토리 export (관례)
+export const Default = { args: { ... } }
+export const WithSearch = { args: { ... } }
+
+// ✅ Good - Mock 데이터 (테스트 관례)
+const mockArticles = [
   { id: 1, title: "Article 1", slug: "article-1" },
   { id: 2, title: "Article 2", slug: "article-2" },
 ]
 
-// ❌ Bad - 불필요한 상수명 대문자화
-const MOCK_ARTICLES = [...]         // Mock 데이터는 상수명 대문자화 불필요
+// ✅ Good - React Query queryKey (TanStack 공식 권장)
+const queryKey = ["articles", { category, sort }]
+
+// ❌ Bad - 불필요한 대문자화
+const META = { ... }              // 공식 문서에서 const meta 사용
+const MOCK_ARTICLES = [...]       // Mock 데이터는 camelCase 관례
+const QUERY_KEY = [...]           // React Query는 배열 변수명 camelCase
 ```
 
-**이유:**
-- Storybook 스토리는 컴포넌트의 실제 사용 시나리오를 보여주기 위함
-- Props 값은 실제 데이터와 동일한 형식을 유지해야 정확한 테스트 가능
-- Mock 데이터도 실제 데이터와 동일한 구조를 반영해야 함
-- 테스트 케이스는 문서이자 예제이므로, 실제 사용 방식을 따르는 것이 더 명확
+**기준:**
+- 공식 문서(Storybook, React Query 등)에서 제시하는 예제 형식 따르기
+- 생태계에서 널리 사용하는 관례를 존중하기
+- "상수"라는 이유만으로 무조건 대문자화하지 않기
+
+**예외 적용 영역:**
+- Storybook 메타 데이터 및 스토리 export
+- React Query queryKey, useMutation key 등
+- Test framework에서 권장하는 패턴
+- 라이브러리 공식 예제를 그대로 따르는 경우
+- Mock 데이터, 테스트 픽처(fixtures)
 
 ---
 
