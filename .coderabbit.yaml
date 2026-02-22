@@ -30,152 +30,65 @@ reviews:
         - 설정 파일은 코드 리뷰 대상 제외
     - path: src/app/**/page.tsx
       instructions: |
-        **Next.js 페이지 컴포넌트 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - export default function 사용
-        - 함수명은 PascalCase
-        - 서버/클라이언트 컴포넌트 구분 확인
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Export 규칙", "React 규칙" 참고
     - path: src/app/**/layout.tsx
       instructions: |
-        **레이아웃 컴포넌트 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - export default function 사용
-        - children prop 필수
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Export 규칙", "React 규칙" 참고
     - path: src/app/**/_components/**/*.tsx
       instructions: |
-        **페이지 전용 컴포넌트 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - _components/ 디렉토리에 위치
-        - export default function 사용
-        - Props는 interface로 정의
-        - 재사용 가능하면 src/components/로 이동 제안
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Export 규칙", "React 규칙" 참고
+        (페이지 전용 컴포넌트는 _components/ 디렉토리에만 위치, 재사용 가능하면 src/components/ 이동)
     - path: src/app/**/_hooks/**/*.ts
       instructions: |
-        **페이지 전용 훅 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - _hooks/ 디렉토리에 위치
-        - 함수명은 'use'로 시작
-        - named export 사용
-        - 재사용 가능하면 src/services/hooks/로 이동 제안
+        CLAUDE.md → "🎨 코딩 컨벤션" → "함수 선언 방식" 참고
+        (_hooks/ 디렉토리에 위치, 재사용 가능하면 src/services/hooks/ 이동)
     - path: src/app/**/_utils/**/*.ts
       instructions: |
-        **페이지 전용 유틸 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - _utils/ 디렉토리에 위치
-        - const fn = () => {} 형태 사용
-        - named export 사용
-        - 재사용 가능하면 src/utils/로 이동 제안
+        CLAUDE.md → "🎨 코딩 컨벤션" → "함수 선언 방식" 참고
+        (_utils/ 디렉토리에 위치, 재사용 가능하면 src/utils/ 이동)
     - path: src/components/**/*.tsx
       instructions: |
-        **공통 컴포넌트 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - export default function 사용
-        - Props는 [ComponentName]Props interface로 정의
-        - Tailwind CSS 사용 (레이아웃 → 스타일 → 상태)
-        - className prop 제공 기준 확인
-        - Storybook stories.tsx 파일 동시 작성
-        - 접근성(WCAG) 고려
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Export 규칙", "React 규칙", "Tailwind CSS 규칙" 참고
     - path: src/assets/**/*
       instructions: |
-        **정적 자산 규칙:**
-        CLAUDE.md의 "폴더 구조" 섹션 참고
-        - 이미지/폰트 폴더 분리
-        - Next.js Image 컴포넌트 사용
-        - 파일명은 kebab-case
+        CLAUDE.md → "📁 폴더 구조" 참고
     - path: src/components/**/*.stories.tsx
       instructions: |
-        **Storybook 스토리 규칙:**
-        CLAUDE.md의 "상수 컨벤션" 섹션 참고
-        - 컴포넌트와 같은 디렉토리에 위치
-        - const meta = { ... } 패턴 사용 (공식 권장)
-        - 다양한 상태와 props 조합 테스트
-        - args는 실제 Props 형식 유지
+        CLAUDE.md → "### 상수 컨벤션" → "#### 📋 예외: 공식 문서 및 일반적 관례 따르는 경우" 참고
     - path: src/stores/**/*.ts
       instructions: |
-        **Zustand 스토어 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - 파일명: use[StoreName]Store.ts
-        - 스토어 타입은 interface로 정의
-        - 액션 함수는 동사로 시작
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Naming Conventions", "TypeScript 규칙" 참고
     - path: src/services/api/**/*.ts
       instructions: |
-        **API 메서드 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - const fn = () => {} 형태 사용
-        - named export 사용
-        - try-catch 에러 핸들링
-        - 반환 타입 명시
+        CLAUDE.md → "🎨 코딩 컨벤션" → "함수 선언 방식", "TypeScript 규칙" 참고
     - path: src/services/endpoints.ts
       instructions: |
-        **API 엔드포인트 규칙:**
-        CLAUDE.md의 "상수 컨벤션" 섹션 참고
-        - UPPER_SNAKE_CASE 상수로 정의
-        - 논리적 그룹화
-        - 문서화 주석 포함
+        CLAUDE.md → "### 상수 컨벤션" 참고
     - path: src/services/hooks/**/*.ts
       instructions: |
-        **React Query 커스텀 훅 규칙:**
-        CLAUDE.md의 "상수 컨벤션" 섹션 참고
-        - 훅 이름은 'use'로 시작
-        - queryKey는 배열 형식 (CLAUDE.md 예외 규칙)
-        - 에러 핸들링 필수
-        - 반환 타입 명시
+        CLAUDE.md → "### 상수 컨벤션" → "#### 📋 예외: 공식 문서 및 일반적 관례 따르는 경우" 참고
+        (React Query queryKey는 공식 관례에 따라 배열 형식)
     - path: src/types/**/*.ts
       instructions: |
-        **타입 정의 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - interface를 type보다 우선 사용
-        - 유니온/교차 타입만 type 사용
-        - 타입명은 PascalCase
-        - export 키워드 사용
+        CLAUDE.md → "🎨 코딩 컨벤션" → "TypeScript 규칙" 참고
     - path: src/utils/**/*.ts
       instructions: |
-        **공통 유틸리티 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - const fn = () => {} 형태 사용
-        - named export 사용
-        - camelCase 네이밍
-        - 순수 함수 지향
+        CLAUDE.md → "🎨 코딩 컨벤션" → "함수 선언 방식", "Naming Conventions" 참고
     - path: src/constants/**/*.ts
       instructions: |
-        **상수 정의 규칙:**
-        CLAUDE.md의 "상수 컨벤션" 섹션 참고
-        - 기본: UPPER_SNAKE_CASE
-        - 공식 문서/생태계 관례 예외 확인
-        - 객체 프로퍼티: camelCase
-        - as const 사용
+        CLAUDE.md → "### 상수 컨벤션" 참고
     - path: src/app/api/**/*.ts
       instructions: |
-        **API 라우트 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - HTTP 메서드 함수로 export (GET, POST 등)
-        - NextRequest, NextResponse 타입 사용
-        - try-catch 에러 핸들링
-        - 적절한 HTTP 상태 코드 반환
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Export 규칙", "TypeScript 규칙" 참고
     - path: src/services/api/notion/**/*.ts
       instructions: |
-        **Notion API 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - @notionhq/client 타입 활용
-        - 에러 핸들링 필수
-        - React Query 캐싱 전략 고려
-        - 데이터 변환 함수 분리
+        CLAUDE.md → "🎨 코딩 컨벤션" → "TypeScript 규칙" 참고
     - path: "**/*.tsx"
       instructions: |
-        **Tailwind CSS 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - 클래스 순서: 레이아웃 → 스타일 → 상태
-        - 반응형은 모바일 퍼스트
-        - className prop 제공 기준 확인
-        - Import 정렬: 외부 라이브러리 → 내부 모듈 (Prettier가 자동 처리)
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Tailwind CSS 규칙" 참고
     - path: "**/*.ts"
       instructions: |
-        **TypeScript 전역 규칙:**
-        CLAUDE.md의 "코딩 컨벤션" 섹션 참고
-        - any 사용 금지
-        - interface를 type보다 우선 사용
-        - 초기값 없으면 undefined 명시
-        - 명시적 타입 정의
+        CLAUDE.md → "🎨 코딩 컨벤션" → "TypeScript 규칙" 참고
   auto_review:
     base_branches:
       - main
