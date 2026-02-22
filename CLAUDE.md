@@ -358,6 +358,89 @@ interface SearchBarProps {
 - 고정된 props (`type="text"` 등): 제외 고려
 - 대체되는 props (`className` → `customClassName` 등): 제외
 
+### Tailwind 클래스 Props 네이밍 규칙
+
+Props에 **Tailwind CSS 클래스명**을 전달할 때는 `TwClass` suffix를 사용합니다.
+단, Props명이 CSS 속성명과 혼동될 가능성이 **없으면** 일반 `className`을 사용해도 됩니다:
+
+#### Suffix 사용 기준
+
+**🔴 `TwClass` suffix 필수** — Props명이 CSS 속성명과 혼동 가능한 경우:
+
+```typescript
+// ❌ Bad - CSS 속성명으로 혼동 가능
+interface Props {
+  height: string;        // CSS height 속성인가?
+  width: string;         // CSS width 속성인가?
+  className: string;     // className 속성인가?
+}
+
+// ✅ Good - TwClass suffix로 명확히
+interface LoadingFallbackProps {
+  heightTwClass: string;      // "h-96", "h-80" 등 (명확함)
+  widthTwClass?: string;      // "w-full", "w-96" 등 (명확함)
+  customTwClass?: string;     // 커스텀 Tailwind 클래스 (명확함)
+}
+
+export default function LoadingFallback({
+  heightTwClass = "h-96",
+  widthTwClass = "w-full",
+  customTwClass,
+}: LoadingFallbackProps) {
+  return (
+    <div className={`relative ${heightTwClass} ${widthTwClass} ${customTwClass ?? ''} flex items-center justify-center`}>
+      {/* ... */}
+    </div>
+  )
+}
+```
+
+**🟢 일반 `className` 사용 가능** — Props명이 명확한 경우:
+
+```typescript
+// ✅ Good - Props명이 명확하면 className으로 충분
+interface ArticleCardProps {
+  article: ArticleCardData;
+  className?: string;    // 컴포넌트 wrapper의 추가 스타일
+}
+
+export default function ArticleCard({
+  article,
+  className = "",
+}: ArticleCardProps) {
+  return (
+    <div className={`card-container ${className}`}>
+      {/* ... */}
+    </div>
+  )
+}
+
+// ✅ Good - React.ComponentProps 상속도 OK
+interface ButtonProps extends React.ComponentProps<"button"> {
+  variant?: "primary" | "secondary";
+  children: ReactNode;
+}
+
+export default function Button({
+  variant = "primary",
+  className = "",  // native button prop
+  children,
+  ...props
+}: ButtonProps) {
+  return (
+    <button className={`${variantStyles[variant]} ${className}`} {...props}>
+      {children}
+    </button>
+  )
+}
+```
+
+**이유:**
+- `TwClass` suffix로 "이건 Tailwind 클래스다"를 명시적으로 표현
+- CSS `style` prop의 속성명(`height`, `width` 등)과의 혼동 방지
+- Props명이 이미 명확하면 굳이 suffix를 붙일 필요 없음
+- 항상 유효한 Tailwind 클래스명만 전달되도록 강제
+
 ---
 
 ## 🚀 Claude Code Skills 사용법
