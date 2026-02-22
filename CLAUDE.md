@@ -451,6 +451,43 @@ const SOCIAL_LINKS: SocialLink[] = [
 - Props 값으로 직접 사용될 때 일관성 있는 API 제공
 - 상수 식별자는 대문자로 명확히 구분
 
+#### 📋 예외: Storybook 테스트 케이스
+
+**Storybook의 테스트 케이스나 목 데이터(Mock data)는 `camelCase` 또는 실제 사용되는 형식을 유지합니다:**
+
+```typescript
+// ✅ Good - Storybook 테스트 케이스
+export const Default = {
+  args: {
+    title: "Test Article",          // 실제 Props 값
+    date: "2025-02-22",             // 실제 데이터 형식
+    tags: ["react", "typescript"],  // 실제 배열 형식
+  }
+}
+
+export const WithLongDescription = {
+  args: {
+    description: "Long text...",
+    variant: "primary",             // Props 값이므로 camelCase 유지
+  }
+}
+
+// ✅ Good - Mock 데이터
+const mockArticles = [              // Mock 데이터는 camelCase
+  { id: 1, title: "Article 1", slug: "article-1" },
+  { id: 2, title: "Article 2", slug: "article-2" },
+]
+
+// ❌ Bad - 불필요한 상수명 대문자화
+const MOCK_ARTICLES = [...]         // Mock 데이터는 상수명 대문자화 불필요
+```
+
+**이유:**
+- Storybook 스토리는 컴포넌트의 실제 사용 시나리오를 보여주기 위함
+- Props 값은 실제 데이터와 동일한 형식을 유지해야 정확한 테스트 가능
+- Mock 데이터도 실제 데이터와 동일한 구조를 반영해야 함
+- 테스트 케이스는 문서이자 예제이므로, 실제 사용 방식을 따르는 것이 더 명확
+
 ---
 
 ### Tailwind 클래스 Props 네이밍 규칙
