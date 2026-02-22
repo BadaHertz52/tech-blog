@@ -10,11 +10,11 @@ import { ArticleSort } from "@/types/article";
 import type { DropdownOption } from "@/components/Dropdown";
 
 interface ArticlesControlsProps {
-  currentSearch: string;
+  currentKeyword: string;
   currentSort: ArticleSort;
 }
 
-type SearchParamsQueryKey = "search" | "sort";
+type SearchParamsQueryKey = "keyword" | "sort";
 
 const SORT_OPTIONS: (DropdownOption & { value: ArticleSort })[] = [
   { value: "newest", label: "최신순" },
@@ -43,19 +43,19 @@ const createQueryString = ({
 };
 
 export default function ArticlesControls({
-  currentSearch,
+  currentKeyword,
   currentSort,
 }: ArticlesControlsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [searchValue, setSearchValue] = useState(currentSearch);
+  const [keywordValue, setKeywordValue] = useState(currentKeyword);
 
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setSearchValue(value);
+    setKeywordValue(value);
   };
 
-  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeywordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       searchArticles();
     }
@@ -63,8 +63,8 @@ export default function ArticlesControls({
 
   const searchArticles = () => {
     const queryString = createQueryString({
-      key: "search",
-      value: searchValue,
+      key: "keyword",
+      value: keywordValue,
       searchParams,
     });
     router.push(`${ROUTES.articles}${queryString ? `?${queryString}` : ""}`);
@@ -83,9 +83,9 @@ export default function ArticlesControls({
     <div className="mb-8 flex h-[46px] w-full items-center justify-end gap-4">
       <SearchBar
         searchBarClassName="w-[calc(100% - 175px)] xs:w-[200px] sm:w-[250px] lg:w-[300px]"
-        value={searchValue}
-        onChange={handleSearchChange}
-        onKeyDown={handleSearchKeyDown}
+        value={keywordValue}
+        onChange={handleKeywordChange}
+        onKeyDown={handleKeywordKeyDown}
         onSearchClick={searchArticles}
         placeholder="Search articles..."
       />

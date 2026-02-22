@@ -8,18 +8,18 @@ import ArticlesContent from "./_components/ArticlesContent";
 import ArticlesControls from "./_components/ArticlesControls";
 
 interface ArticlesPageProps {
-  searchParams: Promise<{ search?: string; sort?: string }>;
+  searchParams: Promise<{ keyword?: string; sort?: string }>;
 }
 
 export default async function ArticlesPage({
   searchParams,
 }: ArticlesPageProps) {
   const params = await searchParams;
-  const currentSearch = params.search || "";
+  const currentKeyword = params.keyword || "";
   const currentSort = parseArticleSort(params.sort);
 
   const allArticles = await getAllArticles();
-  const filteredArticles = filterArticlesBySearch(allArticles, currentSearch);
+  const filteredArticles = filterArticlesBySearch(allArticles, currentKeyword);
   const sortedArticles = sortArticles(filteredArticles, currentSort);
 
   return (
@@ -27,7 +27,7 @@ export default async function ArticlesPage({
       <h1 className="sr-only">블로그 아티클 리스트</h1>
 
       <ArticlesControls
-        currentSearch={currentSearch}
+        currentKeyword={currentKeyword}
         currentSort={currentSort}
       />
       <ArticlesContent articleCards={sortedArticles} />
