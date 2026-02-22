@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 
 import Dropdown from "@/components/Dropdown";
 import SearchBar from "@/components/SearchBar";
@@ -58,7 +58,7 @@ export default function ArticlesControls({
     setKeywordValue(e.target.value);
   };
 
-  const handleKeywordKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeywordKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       searchArticles();
     }

@@ -226,6 +226,38 @@ export const BlogCard = ({ ... }) => { ... }
 - **미사용 변수 금지** (단, `_`로 시작하는 변수는 허용)
 - **`interface`를 `type`보다 우선 사용** (유니온/교차 타입 등 `interface`로 표현 불가한 경우에만 `type` 사용)
 
+#### React 타입 Import 규칙
+
+React 타입을 사용할 때는 **직접 import**하여 번들 크기를 최적화합니다:
+
+```typescript
+// ✅ Good - 필요한 타입만 직접 import (tree-shaking 최적화)
+import { KeyboardEvent, ChangeEvent, useEffect, useState } from "react"
+
+const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === "Enter") searchArticles()
+}
+
+// ❌ Bad - 불필요한 React 네임스페이스 import (번들 크기 증가)
+import React, { ChangeEvent, useEffect, useState } from "react"
+
+const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === "Enter") searchArticles()
+}
+
+// ✅ Good - 타입만 필요한 경우 (layout.tsx 등)
+import type React from "react"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // ...
+}
+```
+
+**이유:**
+- `React` 객체를 직접 import할 필요가 없음 (타입만 사용)
+- 직접 import하면 tree-shaking이 더 효율적
+- 코드도 더 간결해짐 (`React.KeyboardEvent` → `KeyboardEvent`)
+
 ```typescript
 // ✅ Good
 interface User {
