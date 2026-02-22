@@ -76,7 +76,7 @@ const readArticleFile = (slug: string): string => {
 /**
  * 전체 포스트 목록 반환 (리스트 페이지용)
  */
-export const getAllArticles = async (): Promise<ArticleCardData[]> => {
+export const getAllArticles = (): ArticleCardData[] => {
   const slugs = getAllArticlesSlugs();
 
   return slugs.map((slug) => {
@@ -102,7 +102,7 @@ export const getAllArticles = async (): Promise<ArticleCardData[]> => {
 /**
  * 단일 포스트 반환 (상세 페이지용)
  */
-export const getArticleBySlug = async (slug: string): Promise<Article> => {
+export const getArticleBySlug = (slug: string): Article => {
   const fileContent = readArticleFile(slug);
   const { data, content } = matter(fileContent);
 
@@ -124,10 +124,8 @@ export const getArticleBySlug = async (slug: string): Promise<Article> => {
 /**
  * 이전/다음 포스트 반환 (상세 페이지 네비게이션용)
  */
-export const getAdjacentArticles = async (
-  slug: string
-): Promise<AdjacentPosts> => {
-  const articles = await getAllArticles();
+export const getAdjacentArticles = (slug: string): AdjacentPosts => {
+  const articles = getAllArticles();
   const currentIndex = articles.findIndex((article) => article.slug === slug);
 
   if (currentIndex === -1) {
