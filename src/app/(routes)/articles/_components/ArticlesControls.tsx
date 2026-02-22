@@ -82,19 +82,19 @@ export default function ArticlesControls({
   return (
     <div className="mb-8 flex h-[46px] w-full items-center justify-end gap-4">
       <SearchBar
-        searchBarClassName="flex-1 min-w-[180px] xs:max-w-[250px] lg:max-w-[300px]"
+        searchBarClassName="flex-1 min-w-[140px] text-sm xs:text-base xs:max-w-[250px] lg:max-w-[300px]"
         value={keywordValue}
         onChange={handleKeywordChange}
         onKeyDown={handleKeywordKeyDown}
         onSearchClick={searchArticles}
-        placeholder="아티클을 검색해보세요"
+        placeholder="검색어를 입력하세요"
       />
       <Dropdown
         options={SORT_OPTIONS}
         selectedValue={currentSort}
         onSelect={handleSortSelect}
         placeholder="Sort by"
-        dropdownClassName="h-full "
+        dropdownClassName="h-full text-sm xs:text-base"
       />
     </div>
   );
