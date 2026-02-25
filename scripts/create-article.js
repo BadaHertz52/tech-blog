@@ -29,6 +29,7 @@ async function main() {
 
   let slug = "";
   let category = "";
+  let useCustomThumbnail = "";
 
   // Slug 입력받기
   while (!slug) {
@@ -57,24 +58,45 @@ async function main() {
     }
   }
 
+  // 기본 썸네일 사용 여부
+  console.log("\n🖼️  기본 썸네일(basic-thumbnail.webp) 사용 여부");
+  while (!useCustomThumbnail) {
+    const input = await prompt('기본 썸네일을 사용하시겠습니까? (y/n): ');
+    const normalized = input.toLowerCase();
+    if (normalized === "y" || normalized === "n" || normalized === "yes" || normalized === "no") {
+      useCustomThumbnail = normalized;
+    } else {
+      console.log("❌ 'y' 또는 'n'을 입력해주세요.");
+    }
+  }
+
   rl.close();
-  createArticle(slug, category);
+  const isDefaultThumbnail = useCustomThumbnail === "y" || useCustomThumbnail === "yes";
+  createArticle(slug, category, isDefaultThumbnail);
 }
 
-function createArticle(slug, category) {
+function createArticle(slug, category, useDefaultThumbnail) {
   const date = new Date().toISOString().split("T")[0];
   const title = slug
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 
+  // 폴더명 및 slug: YYYY-MM-DD-{입력slug}
+  const folderName = `${date}-${slug}`;
+
+  // 썸네일 경로 결정
+  const thumbnailPath = useDefaultThumbnail
+    ? "/articles/assets/basic-thumbnail.webp"
+    : "./images/custom-thumbnail.webp";
+
   const template = `---
 title: "${title}"
 description: "간단한 설명 (20자 이내)"
 date: "${date}"
 category: "${category}"
-thumbnail: "/images/hero.webp"
-slug: "${slug}"
+thumbnail: "${thumbnailPath}"
+slug: "${folderName}"
 views: 0
 ---
 
@@ -96,13 +118,21 @@ const example = () => {
 마무리 문단.
 `;
 
-  const articlesDir = path.join(__dirname, "../data/articles");
-  const fileName = `mock-${slug}.mdx`;
-  const filePath = path.join(articlesDir, fileName);
+  const articlesDir = path.join(__dirname, "../public/articles");
+  const articleDir = path.join(articlesDir, folderName);
+  const imagesDir = path.join(articleDir, "images");
+  const filePath = path.join(articleDir, "index.mdx");
 
-  // articles 폴더 존재 확인
-  if (!fs.existsSync(articlesDir)) {
-    fs.mkdirSync(articlesDir, { recursive: true });
+  // 아티클 폴더 생성
+  if (!fs.existsSync(articleDir)) {
+    fs.mkdirSync(articleDir, { recursive: true });
+  }
+
+  // images 폴더는 커스텀 썸네일을 사용할 때만 생성
+  if (!useDefaultThumbnail) {
+    if (!fs.existsSync(imagesDir)) {
+      fs.mkdirSync(imagesDir, { recursive: true });
+    }
   }
 
   // 파일 중복 확인
@@ -115,7 +145,16 @@ const example = () => {
   console.log(`\n✅ 생성 완료: ${filePath}`);
   console.log(`📅 날짜: ${date}`);
   console.log(`🏷️  카테고리: ${category}`);
-  console.log(`📝 slug: ${slug}\n`);
+  console.log(`📝 slug: ${slug}`);
+  console.log(`📁 폴더명: ${folderName}`);
+
+  if (useDefaultThumbnail) {
+    console.log(`🖼️  썸네일: 기본 이미지 사용 (/articles/assets/basic-thumbnail.webp)\n`);
+  } else {
+    console.log(`📂 이미지 폴더: ${imagesDir}`);
+    console.log(`🖼️  썸네일: 커스텀 이미지 사용\n`);
+    console.log(`💡 팁: ${imagesDir}/custom-thumbnail.webp 파일을 추가하세요.\n`);
+  }
 }
 
 main();

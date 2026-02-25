@@ -1,27 +1,40 @@
-import Link from "next/link";
+import { Suspense } from "react";
 
-import { getAllArticles } from "@/utils/mdx";
+import LoadingFallback from "@/components/LoadingFallback";
+import { parseArticleSort } from "@/utils/article";
+import {
+  filterArticlesBySearch,
+  getAllArticles,
+  sortArticles,
+} from "@/utils/mdx";
+import ArticlesContent from "./_components/ArticlesContent";
+import ArticlesControls from "./_components/ArticlesControls";
 
-export default function ArticlesPage() {
-  const articles = getAllArticles();
+interface ArticlesPageProps {
+  searchParams: Promise<{ keyword?: string; sort?: string }>;
+}
+
+export default async function ArticlesPage({
+  searchParams,
+}: ArticlesPageProps) {
+  const params = await searchParams;
+  const currentKeyword = params.keyword || "";
+  const currentSort = parseArticleSort(params.sort);
+
+  const allArticles = getAllArticles();
+  const filteredArticles = filterArticlesBySearch(allArticles, currentKeyword);
+  const sortedArticles = sortArticles(filteredArticles, currentSort);
 
   return (
-    <main>
-      <h1>블로그 포스트</h1>
-
-      <section>
-        <ul>
-          {articles.map((article) => (
-            <li key={article.slug}>
-              <Link href={`/articles/${article.slug.replace("mock-", "")}`}>
-                <h2>{article.title}</h2>
-                <p>{article.description}</p>
-                <small>{article.date}</small>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </main>
+    <>
+      <h1 className="sr-only">블로그 아티클 리스트</h1>
+      <Suspense fallback={<LoadingFallback />}>
+        <ArticlesControls
+          currentKeyword={currentKeyword}
+          currentSort={currentSort}
+        />
+        <ArticlesContent articleCards={sortedArticles} />
+      </Suspense>
+    </>
   );
 }

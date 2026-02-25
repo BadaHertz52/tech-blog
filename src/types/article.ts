@@ -32,7 +32,7 @@ export interface Article extends ArticleMeta {
 /**
  * 블로그 리스트 아이템 (썸네일, 제목, 설명 등)
  */
-export interface ArticleCard extends Omit<Article, "content"> {
+export interface ArticleCardData extends Omit<Article, "content"> {
   readingTime: number;
 }
 
@@ -40,6 +40,8 @@ export interface ArticleCard extends Omit<Article, "content"> {
  * 인접한 포스트 (이전/다음)
  */
 export interface AdjacentPosts {
-  prev: ArticleCard | null;
-  next: ArticleCard | null;
+  prev: ArticleCardData | null;
+  next: ArticleCardData | null;
 }
+
+export type ArticleSort = "newest" | "oldest";

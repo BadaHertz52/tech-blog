@@ -27,7 +27,7 @@ export default function Header() {
         {/* PC/태블릿 네비게이션 (425px 이상) */}
         <nav className="hidden h-9 items-center gap-xs xs:flex xs:gap-md">
           <NavLinks variant="pc" />
-          <DarkModeButton variant="pc" />
+          {/* <DarkModeButton variant="pc" /> */}
         </nav>
 
         {/* 모바일 햄버거 버튼 (425px 미만) */}
@@ -39,10 +39,9 @@ export default function Header() {
           className="flex h-6 w-6 items-center justify-center xs:hidden"
         >
           <Icon
-            name="chevron-right"
+            name={isMobileMenuOpen ? "chevron-up" : "chevron-down"}
             width={24}
             height={24}
-            className={clsx(isMobileMenuOpen ? "-rotate-90" : "rotate-90")}
           />
         </button>
       </div>
@@ -53,12 +52,12 @@ export default function Header() {
           "absolute left-0 right-0 top-full w-full xs:hidden",
           "overflow-hidden bg-primary-blue",
           "transition-all duration-300 ease-in-out",
-          isMobileMenuOpen ? "h-[52px]" : "h-0"
+          isMobileMenuOpen ? "h-[36px]" : "h-0"
         )}
       >
         <nav className="flex items-center justify-between px-md py-xs">
           <NavLinks variant="mobile" onClickLink={closeMobileMenu} />
-          <DarkModeButton variant="mobile" />
+          {/* <DarkModeButton variant="mobile" /> */}
         </nav>
       </div>
     </header>

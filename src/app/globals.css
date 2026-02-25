@@ -8,6 +8,10 @@
     --color-white: theme(colors.white);
   }
 
+  html {
+    overscroll-behavior: none;
+  }
+
   /* 기본 폰트 설정 */
   body {
     @apply font-pretendard text-base text-text-primary;
@@ -23,6 +27,23 @@
 }
 
 @layer components {
+  /* Button 기본 스타일 */
+  .btn-base {
+    @apply rounded-button px-5 py-2 text-center font-semibold transition-colors duration-200 disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn-base bg-primary-blue text-white hover:bg-blue-600;
+  }
+
+  .btn-secondary {
+    @apply btn-base bg-bg-pale-blue text-gray-charcoal hover:bg-blue-100;
+  }
+
+  .btn-black {
+    @apply btn-base bg-black text-white hover:bg-gray-900;
+  }
+
   /* Heading 스타일 - 반응형 */
   .heading-h1 {
     @apply text-h1-mobile font-extrabold md:text-h1-desktop;
@@ -34,5 +55,10 @@
 
   .heading-h3 {
     @apply text-h3-mobile font-extrabold md:text-h3-desktop;
+  }
+
+  /* 스크린 리더기용 텍스트 (화면에서 비노출) */
+  .sr-only {
+    @apply absolute -inset-1 -m-px h-px w-px;
   }
 }

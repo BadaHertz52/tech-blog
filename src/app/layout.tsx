@@ -29,7 +29,7 @@ export default function RootLayout({
       <body
         className={clsx(
           pretendard.className,
-          "mx-auto flex min-h-screen w-full max-w-[1440px] flex-col text-text-primary"
+          "mx-auto flex min-h-screen w-full min-w-[320px] max-w-[1440px] flex-col text-text-primary"
         )}
       >
         <Header />

@@ -2,280 +2,93 @@
 language: ko-KR
 reviews:
   high_level_summary_instructions: |
-    당신의 PR 리뷰를 별도의 코멘트로 제공합니다.
-    다음 항목을 체계적으로 검토하여 종합 리뷰 코멘트를 작성해주세요:
+    ## 종합 리뷰
 
-    1. **개요**: PR 목표와 영향도
-    2. **설계 및 아키텍처**: 폴더 구조, 컴포넌트 분리, 확장성
-    3. **코드 품질**: TypeScript, 네이밍, Export 규칙, 타입 안전성
-    4. **스타일 및 포매팅**: Tailwind, Import 정렬, Prettier 준수
-    5. **기능 및 로직**: 동작성, 엣지 케이스, 에러 핸들링
-    6. **접근성 및 UX**: WCAG, 모바일 반응형
-    7. **성능**: 리렌더링, 번들 크기, 이미지 최적화
-    8. **보안**: XSS, CSRF, API 보안
-    9. **테스트 및 문서**: Storybook, 주석 필요성
-    10. **종합 평가**: 칭찬 + 개선 권장 + 머지 판단
+    ### 검토 항목
+    - **개요**: PR 목표와 영향도
+    - **설계**: 컴포넌트 분리, 확장성
+    - **코드**: TypeScript, 네이밍, Export 규칙, 타입 안전성
+    - **스타일**: Tailwind, Import 정렬, Prettier
+    - **기능**: 동작성, 엣지 케이스, 에러 처리
+    - **UX**: 접근성(WCAG)
+    - **성능**: 리렌더링, 번들 크기, 이미지 최적화
+    - **보안**: XSS, CSRF, API 보안
 
-    각 피드백은 다음 포맷으로:
-    **상태**: ✅ 좋음 / ⚠️ 개선권장 / ❌ 필수수정
-    **이유**: 왜 이렇게 하면 좋은가
-    **제안**: (있을 경우) 구체적 코드 예시
-  collapse_walkthrough: false
+    ### 피드백 포맷
+    **문제 사항만** 상태 ⚠️ / ❌와 함께 보고
+    - 통과한 항목(✅)은 제외
+    **내용** + **제안**
+    - 내용과 제안은 핵심 내용만 담아서 간결하게 작성
+    - 내용과 제안에는 why와 how 포함
+  collapse_walkthrough: true
   poem: false
   path_instructions:
+    - path: "**/*.config.{ts,js}"
+      instructions: |
+        **설정 파일 규칙:**
+        - Docstring 검사 무시
+        - 설정 파일은 코드 리뷰 대상 제외
     - path: src/app/**/page.tsx
       instructions: |
-        **Next.js 페이지 컴포넌트 규칙:**
-        - 반드시 `export default function` 사용 (Next.js App Router 필수)
-        - 함수명은 PascalCase (예: HomePage, BlogDetailPage)
-        - Props 타입은 interface로 정의
-        - 서버 컴포넌트 vs 클라이언트 컴포넌트 구분 확인
-
-        **체크리스트:**
-        ✅ export default function 사용
-        ✅ 함수명이 페이지 역할을 명확히 표현
-        ✅ async/await 사용 시 서버 컴포넌트 확인
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Export 규칙", "React 규칙" 참고
     - path: src/app/**/layout.tsx
       instructions: |
-        **레이아웃 컴포넌트 규칙:**
-        - 반드시 `export default function` 사용
-        - children prop 필수
-        - metadata export 권장
-
-        **체크리스트:**
-        ✅ export default function 사용
-        ✅ children prop 존재 확인
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Export 규칙", "React 규칙" 참고
     - path: src/app/**/_components/**/*.tsx
       instructions: |
-        **페이지 전용 컴포넌트 규칙:**
-        - 특정 페이지에서만 사용되는 컴포넌트
-        - `_components/` 디렉토리에 위치 (Next.js 라우터에서 제외됨)
-        - `export default function` 사용
-        - Props는 interface로 타입 정의
-
-        **체크리스트:**
-        ✅ export default function 사용
-        ✅ 컴포넌트명 PascalCase
-        ✅ Props 타입 interface로 정의
-        ✅ 다른 페이지에서도 재사용 가능하다면 src/components/로 이동 제안
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Export 규칙", "React 규칙" 참고
+        (페이지 전용 컴포넌트는 _components/ 디렉토리에만 위치, 재사용 가능하면 src/components/ 이동)
     - path: src/app/**/_hooks/**/*.ts
       instructions: |
-        **페이지 전용 훅 규칙:**
-        - 특정 페이지에서만 사용되는 커스텀 훅
-        - `_hooks/` 디렉토리에 위치
-        - 훅 이름은 'use'로 시작 (camelCase)
-        - named export 사용
-
-        **체크리스트:**
-        ✅ 함수명이 'use'로 시작
-        ✅ React 훅 규칙 준수
-        ✅ 다른 페이지에서도 재사용 가능하다면 src/services/hooks/로 이동 제안
+        CLAUDE.md → "🎨 코딩 컨벤션" → "함수 선언 방식" 참고
+        (_hooks/ 디렉토리에 위치, 재사용 가능하면 src/services/hooks/ 이동)
     - path: src/app/**/_utils/**/*.ts
       instructions: |
-        **페이지 전용 유틸 규칙:**
-        - 특정 페이지에서만 사용되는 유틸 함수
-        - `_utils/` 디렉토리에 위치
-        - `const fn = () => {}` 형태의 화살표 함수 + named export 사용
-        - named export 사용
-
-        **체크리스트:**
-        ✅ `export const fn = () => {}` 형태 사용
-        ✅ camelCase 네이밍
-        ✅ 재사용 가능하다면 src/utils/로 이동 제안
+        CLAUDE.md → "🎨 코딩 컨벤션" → "함수 선언 방식" 참고
+        (_utils/ 디렉토리에 위치, 재사용 가능하면 src/utils/ 이동)
     - path: src/components/**/*.tsx
       instructions: |
-        **공통 컴포넌트 규칙:**
-        - 여러 페이지에서 재사용되는 컴포넌트
-        - `export default function` 사용 (named export 사용 금지)
-        - Props는 [ComponentName]Props 형태의 interface로 타입 정의
-        - 복잡한 컴포넌트는 폴더 구조 (index.tsx + stories.tsx)
-        - 간단한 컴포넌트는 단일 파일 ([ComponentName].tsx)
-        - Tailwind CSS 사용 (레이아웃 → 스타일 → 상태 순서)
-        - className prop으로 외부 스타일 주입 가능하게 설계
-
-        **체크리스트:**
-        ✅ export default function 사용
-        ✅ Props interface 이름이 [ComponentName]Props 형태
-        ✅ Storybook stories.tsx 파일 존재 확인
-        ✅ Tailwind 클래스 정렬 순서 확인
-        ✅ 접근성(a11y) 고려
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Export 규칙", "React 규칙", "Tailwind CSS 규칙" 참고
     - path: src/assets/**/*
       instructions: |
-        **정적 자산 규칙:**
-        - 이미지: `src/assets/images/`에 위치
-        - 폰트: `src/assets/fonts/`에 위치
-        - Next.js Image 컴포넌트 사용 권장 (일반 img 태그 지양)
-        - 이미지 파일명은 kebab-case
-
-        **체크리스트:**
-        ✅ 올바른 assets 하위 디렉토리 사용
-        ✅ 파일명 kebab-case
+        CLAUDE.md → "📁 폴더 구조" 참고
     - path: src/components/**/*.stories.tsx
       instructions: |
-        **Storybook 스토리 규칙:**
-        - 컴포넌트와 같은 디렉토리에 위치
-        - 다양한 상태와 props 조합 테스트
-        - args, argTypes 활용
-
-        **체크리스트:**
-        ✅ 기본 스토리 존재
-        ✅ 다양한 변형(variant) 스토리
-        ✅ 인터랙티브 컨트롤 설정
+        CLAUDE.md → "### 상수 컨벤션" → "#### 📋 예외: 공식 문서 및 일반적 관례 따르는 경우" 참고
     - path: src/stores/**/*.ts
       instructions: |
-        **Zustand 스토어 규칙:**
-        - 파일명: use[StoreName]Store.ts (예: useAuthStore.ts)
-        - 스토어 타입은 interface로 정의
-        - 필요시 미들웨어 사용 (persist, devtools 등)
-        - 액션 함수는 동사로 시작 (set, get, reset 등)
-
-        **체크리스트:**
-        ✅ 파일명 컨벤션 준수
-        ✅ 타입 interface로 정의
-        ✅ 초기값 undefined 명시
-        ✅ 액션 함수 네이밍
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Naming Conventions", "TypeScript 규칙" 참고
     - path: src/services/api/**/*.ts
       instructions: |
-        **API 메서드 규칙:**
-        - `const fn = () => {}` 형태의 화살표 함수 + named export 사용
-        - named export 사용
-        - 에러 핸들링 필수
-        - 타입 안전성 확보
-
-        **체크리스트:**
-        ✅ `export const fn = () => {}` 형태 사용
-        ✅ try-catch 에러 핸들링
-        ✅ 반환 타입 명시
-        ✅ API 엔드포인트는 endpoints.ts에서 import
+        CLAUDE.md → "🎨 코딩 컨벤션" → "함수 선언 방식", "TypeScript 규칙" 참고
     - path: src/services/endpoints.ts
       instructions: |
-        **API 엔드포인트 규칙:**
-        - 모든 엔드포인트는 UPPER_SNAKE_CASE 상수로 정의
-        - 객체로 그룹화
-        - 상수 객체의 속성도 대문자 사용
-
-        **체크리스트:**
-        ✅ UPPER_SNAKE_CASE 사용
-        ✅ 논리적 그룹화
-        ✅ 문서화 주석 포함
+        CLAUDE.md → "### 상수 컨벤션" 참고
     - path: src/services/hooks/**/*.ts
       instructions: |
-        **React Query 커스텀 훅 규칙:**
-        - TanStack Query(React Query) 사용
-        - 훅 이름은 'use'로 시작
-        - queryKey는 상수로 분리하고 UPPER_SNAKE_CASE 사용
-        - 에러 핸들링 필수
-        - 타입 안전성 확보
-
-        **체크리스트:**
-        ✅ queryKey 상수 분리
-        ✅ 에러 핸들링
-        ✅ 반환 타입 명시
-        ✅ enabled 옵션 적절히 사용
+        CLAUDE.md → "### 상수 컨벤션" → "#### 📋 예외: 공식 문서 및 일반적 관례 따르는 경우" 참고
+        (React Query queryKey는 공식 관례에 따라 배열 형식)
     - path: src/types/**/*.ts
       instructions: |
-        **타입 정의 규칙:**
-        - interface를 type보다 우선 사용
-        - 객체 타입, 확장 가능한 타입은 interface
-        - 유니온/교차 타입만 type 사용
-        - 타입명은 PascalCase
-        - export 키워드 사용
-
-        **체크리스트:**
-        ✅ interface 우선 사용
-        ✅ type은 복잡한 타입에만 사용
-        ✅ 명확한 타입명
+        CLAUDE.md → "🎨 코딩 컨벤션" → "TypeScript 규칙" 참고
     - path: src/utils/**/*.ts
       instructions: |
-        **공통 유틸리티 규칙:**
-        - `const fn = () => {}` 형태의 화살표 함수 + named export 사용
-        - named export 사용
-        - 순수 함수 지향
-        - 단위 테스트 권장
-
-        **체크리스트:**
-        ✅ `export const fn = () => {}` 형태 사용
-        ✅ camelCase 네이밍
-        ✅ 타입 명시
-        ✅ 사이드 이펙트 없음
+        CLAUDE.md → "🎨 코딩 컨벤션" → "함수 선언 방식", "Naming Conventions" 참고
     - path: src/constants/**/*.ts
       instructions: |
-        **상수 정의 규칙:**
-        - UPPER_SNAKE_CASE 사용
-        - 상수 객체의 속성도 대문자로 작성
-        - as const 사용하여 리터럴 타입 유지
-        - 논리적 그룹화
-
-        **예시:**
-        ```typescript
-        export const API_CONFIG = {
-          BASE_URL: 'https://api.example.com',
-          TIMEOUT: 5000,
-        } as const;
-        ```
-
-        **체크리스트:**
-        ✅ UPPER_SNAKE_CASE 네이밍
-        ✅ 객체 속성도 대문자
-        ✅ as const 사용
-        ✅ export 키워드 사용
+        CLAUDE.md → "### 상수 컨벤션" 참고
     - path: src/app/api/**/*.ts
       instructions: |
-        **API 라우트 규칙:**
-        - Next.js API Route 핸들러 컨벤션 준수
-        - HTTP 메서드 함수로 export (GET, POST 등)
-        - NextRequest, NextResponse 타입 사용
-        - 에러 핸들링 필수
-        - 적절한 HTTP 상태 코드 반환
-
-        **체크리스트:**
-        ✅ export async function GET/POST 형태
-        ✅ try-catch 에러 핸들링
-        ✅ NextResponse.json() 사용
-        ✅ 적절한 상태 코드 (200, 400, 500 등)
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Export 규칙", "TypeScript 규칙" 참고
     - path: src/services/api/notion/**/*.ts
       instructions: |
-        **Notion API 규칙:**
-        - @notionhq/client 타입 활용
-        - 에러 핸들링 필수
-        - 캐싱 전략 고려 (React Query 사용)
-        - 페이지네이션 처리
-
-        **체크리스트:**
-        ✅ Notion SDK 타입 사용
-        ✅ 에러 핸들링
-        ✅ 데이터 변환 함수 분리
-        ✅ 캐싱 전략 고려
+        CLAUDE.md → "🎨 코딩 컨벤션" → "TypeScript 규칙" 참고
     - path: "**/*.tsx"
       instructions: |
-        **Tailwind CSS 규칙:**
-        - 클래스 순서: 레이아웃 → 스타일 → 상태
-        - 반복되는 스타일은 컴포넌트로 추출
-        - 커스텀 색상은 tailwind.config.js 사용
-        - 반응형은 모바일 퍼스트
-
-        **Import 정렬 순서:**
-        1. 외부 라이브러리 (react, next 등) + 외부 타입 (import type)
-        2. 내부 모듈 (@/, ./) + CSS + 내부 타입 (import type)
-
-        **체크리스트:**
-        ✅ Import 문 정렬 순서
-        ✅ Tailwind 클래스 정렬
-        ✅ 인라인 스타일 지양
-        ✅ className 일관성
+        CLAUDE.md → "🎨 코딩 컨벤션" → "Tailwind CSS 규칙" 참고
     - path: "**/*.ts"
       instructions: |
-        **TypeScript 전역 규칙:**
-        - any 사용 금지 (unknown 권장)
-        - interface를 type보다 우선 사용
-        - 초기값 없으면 undefined 명시
-        - 유틸리티 타입 적극 활용
-
-        **체크리스트:**
-        ✅ any 대신 unknown 또는 구체적 타입
-        ✅ interface vs type 적절히 사용
-        ✅ undefined 명시적 사용
-        ✅ 타입 추론 활용하되 명시성 우선
+        CLAUDE.md → "🎨 코딩 컨벤션" → "TypeScript 규칙" 참고
   auto_review:
     base_branches:
       - main

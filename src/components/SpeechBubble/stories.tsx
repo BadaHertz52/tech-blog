@@ -5,9 +5,6 @@ import SpeechBubble from "./index";
 const meta: Meta<typeof SpeechBubble> = {
   title: "Components/SpeechBubble",
   component: SpeechBubble,
-  parameters: {
-    layout: "centered",
-  },
   argTypes: {
     tailPosition: {
       control: "select",

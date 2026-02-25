@@ -16,8 +16,8 @@ interface NavLinksProps {
 }
 
 const variantStyles = {
-  pc: "text-text-primary",
-  mobile: "text-white",
+  pc: "text-text-primary hover:text-primary-blue",
+  mobile: "text-white hover:text-gray-300",
 };
 
 export default function NavLinks({ variant, onClickLink }: NavLinksProps) {
@@ -27,7 +27,7 @@ export default function NavLinks({ variant, onClickLink }: NavLinksProps) {
         <Link
           key={label}
           href={href}
-          className={`text-sm font-medium ${variantStyles[variant]}`}
+          className={`text-sm font-medium ${variantStyles[variant]} transition-colors duration-200`}
           onClick={onClickLink}
         >
           {label}
