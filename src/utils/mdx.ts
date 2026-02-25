@@ -8,8 +8,8 @@ import {
   ArticleCardData,
   ArticleMeta,
   ArticleSort,
+  TocHeading,
 } from "@/types/article";
-import type { TocHeading } from "@/components/TableOfContents/types";
 
 const ARTICLE_DATA_DIRECTORY = path.join(process.cwd(), "public/articles");
 

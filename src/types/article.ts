@@ -45,3 +45,12 @@ export interface AdjacentPosts {
 }
 
 export type ArticleSort = "newest" | "oldest";
+
+/**
+ * 목차 아이템 (헤딩 정보)
+ */
+export interface TocHeading {
+  id: string;
+  text: string;
+  level: number;
+}
