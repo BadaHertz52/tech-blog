@@ -7,6 +7,7 @@ import {
   Clock,
   ExternalLink,
   Home,
+  Link2,
   Menu,
   MessageSquare,
   Moon,
@@ -33,6 +34,7 @@ export const LUCIDE_ICON_MAP: Record<LucideIconName, React.FC<LucideProps>> = {
   "play-circle": PlayCircle,
   search: Search,
   sun: Sun,
+  link2: Link2,
 };
 
 interface LucideIconProps extends LucideProps {

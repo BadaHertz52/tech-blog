@@ -12,7 +12,8 @@ export type LucideIconName =
   | "home"
   | "arrow-up"
   | "play-circle"
-  | "external-link";
+  | "external-link"
+  | "link2";
 
 export type CustomIconName = "github" | "linkedin" | "bada";
 
