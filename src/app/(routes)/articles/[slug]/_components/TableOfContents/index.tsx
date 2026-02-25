@@ -1,7 +1,22 @@
 "use client";
 
-import { useTocActiveId } from "./hooks/useTocActiveId";
-import type { TocHeading } from "./types";
+import { TocHeading } from "@/types/article";
+import { useTocActiveId } from "./_hooks/useTocActiveId";
+
+const getPaddingClass = (level: number) => {
+  switch (level) {
+    case 1:
+      return "pl-0";
+    case 2:
+      return "pl-0";
+    case 3:
+      return "pl-4";
+    case 4:
+      return "pl-8";
+    default:
+      return "pl-0";
+  }
+};
 
 interface TableOfContentsProps {
   headings: TocHeading[];
@@ -18,21 +33,6 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const getPaddingClass = (level: number) => {
-    switch (level) {
-      case 1:
-        return "pl-0";
-      case 2:
-        return "pl-0";
-      case 3:
-        return "pl-4";
-      case 4:
-        return "pl-8";
-      default:
-        return "pl-0";
     }
   };
 
@@ -56,6 +56,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
             return (
               <li key={heading.id}>
                 <button
+                  type="button"
                   onClick={() => handleScrollToHeading(heading.id)}
                   className={`w-full truncate text-left text-sm transition-colors duration-200 ${getPaddingClass(heading.level)} ${
                     isActive
