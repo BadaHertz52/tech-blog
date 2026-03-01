@@ -24,6 +24,19 @@
   button:disabled {
     cursor: not-allowed;
   }
+
+  /* Heading 스타일 - 반응형 */
+  h1 {
+    @apply text-h1-mobile font-extrabold md:text-h1-desktop;
+  }
+
+  h2 {
+    @apply text-h2-mobile font-extrabold md:text-h2-desktop;
+  }
+
+  h3 {
+    @apply text-h3-mobile font-extrabold md:text-h3-desktop;
+  }
 }
 
 @layer components {
@@ -43,20 +56,6 @@
   .btn-black {
     @apply btn-base bg-black text-white hover:bg-gray-900;
   }
-
-  /* Heading 스타일 - 반응형 */
-  .heading-h1 {
-    @apply text-h1-mobile font-extrabold md:text-h1-desktop;
-  }
-
-  .heading-h2 {
-    @apply text-h2-mobile font-extrabold md:text-h2-desktop;
-  }
-
-  .heading-h3 {
-    @apply text-h3-mobile font-extrabold md:text-h3-desktop;
-  }
-
   /* 스크린 리더기용 텍스트 (화면에서 비노출) */
   .sr-only {
     @apply absolute -inset-1 -m-px h-px w-px;
