@@ -14,17 +14,6 @@ import {
 const ARTICLE_DATA_DIRECTORY = path.join(process.cwd(), "public/articles");
 
 /**
- * 읽기 시간 계산 (분 단위)
- * 일반적으로 분당 200 단어 기준
- */
-const calculateReadingTime = (content: string): number => {
-  const wordsPerMinute = 200;
-  const wordCount = content.split(/\s+/).length;
-
-  return Math.ceil(wordCount / wordsPerMinute);
-};
-
-/**
  * 날짜 문자열이 YYYY-MM-DD 형식이고 유효한지 검증
  * @param dateString - 검증할 날짜 문자열
  * @returns 유효한 날짜면 true, 아니면 false
@@ -95,7 +84,6 @@ export const getAllArticles = (): ArticleCardData[] => {
 
     return {
       ...meta,
-      readingTime: calculateReadingTime(content),
     };
   });
 };
