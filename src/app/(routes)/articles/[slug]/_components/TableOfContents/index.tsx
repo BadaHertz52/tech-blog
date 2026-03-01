@@ -38,7 +38,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
 
   return (
     <nav
-      className="hidden w-80 flex-shrink-0 md:block"
+      className="hidden w-[300px] flex-shrink-0 md:block"
       aria-label="Table of contents"
     >
       <div className="sticky top-32 flex flex-col gap-6 rounded-lg bg-white p-4">
@@ -47,7 +47,6 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
             On This Page
           </h2>
         </div>
-
         {/* 목차 목록 */}
         <ul className="flex flex-col gap-2">
           {headings.map((heading) => {
