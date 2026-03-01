@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import ButtonLink from "@/components/ButtonLink";
 import EmptyState from "@/components/EmptyState";
+import MDXContent from "@/components/MDXContent";
 import Tag from "@/components/Tag/Index";
 import { CATEGORY_LABELS, CATEGORY_LABELS_COLOR } from "@/constants/article";
 import { ROUTES } from "@/constants/paths";
@@ -9,7 +10,6 @@ import { resolveArticleImagePath } from "@/utils/article";
 import { getAllArticles, getArticleBySlug, parseHeadings } from "@/utils/mdx";
 import ArticleMeta from "./_components/ArticleMeta";
 import ArticleNavigation from "./_components/ArticleNavigation";
-import MDXContent from "./_components/MDXContent";
 import TableOfContents from "./_components/TableOfContents";
 
 interface ArticlePageProps {
