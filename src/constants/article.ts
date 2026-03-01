@@ -1,7 +1,7 @@
 import { ArticleCategory } from "@/types/article";
 
 export const CATEGORY_LABELS: Record<ArticleCategory, string> = {
-  troubleshooting: "TROUBLESHOOTING",
+  troubleshooting: "TROUBLE SHOOTING",
   retrospective: "RETROSPECTIVE",
   frontend: "FRONTEND",
   cs: "CS",
@@ -21,4 +21,4 @@ export const CATEGORY_LABELS_COLOR: Record<
   project: { bg: "bg-purple-100", text: "text-purple-500" },
   etc: { bg: "bg-gray-100", text: "text-gray-500" },
   ai: { bg: "bg-pink-100", text: "text-pink-500" },
-};
+} as const;
