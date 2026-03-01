@@ -7,6 +7,7 @@ export type ArticleCategory =
   | "frontend" // 프론트엔드 관련 공부, 소식 전달
   | "cs" // cs 관련 공부, 소식 전달
   | "project" // 개인 프로젝트, 팀 프로젝트 등 개발 경험 공유
+  | "ai" // AI 툴 사용 후기, AI 관련 공부, 소식 전달
   | "etc";
 
 /**
@@ -19,7 +20,6 @@ export interface ArticleMeta {
   category: ArticleCategory;
   thumbnail: string;
   slug: string;
-  views: number;
 }
 
 /**
@@ -32,9 +32,7 @@ export interface Article extends ArticleMeta {
 /**
  * 블로그 리스트 아이템 (썸네일, 제목, 설명 등)
  */
-export interface ArticleCardData extends Omit<Article, "content"> {
-  readingTime: number;
-}
+export interface ArticleCardData extends Omit<Article, "content"> {}
 
 /**
  * 인접한 포스트 (이전/다음)
@@ -48,6 +46,9 @@ export type ArticleSort = "newest" | "oldest";
 
 /**
  * 목차 아이템 (헤딩 정보)
+ * id: 헤딩 요소의 id (링크 대상)
+ * text: 헤딩 텍스트
+ * level: 헤딩 레벨 (h1=1, h2=2, h3=3, ...)
  */
 export interface TocHeading {
   id: string;
