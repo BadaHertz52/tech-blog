@@ -61,9 +61,14 @@ async function main() {
   // 기본 썸네일 사용 여부
   console.log("\n🖼️  기본 썸네일(basic-thumbnail.webp) 사용 여부");
   while (!useCustomThumbnail) {
-    const input = await prompt('기본 썸네일을 사용하시겠습니까? (y/n): ');
+    const input = await prompt("기본 썸네일을 사용하시겠습니까? (y/n): ");
     const normalized = input.toLowerCase();
-    if (normalized === "y" || normalized === "n" || normalized === "yes" || normalized === "no") {
+    if (
+      normalized === "y" ||
+      normalized === "n" ||
+      normalized === "yes" ||
+      normalized === "no"
+    ) {
       useCustomThumbnail = normalized;
     } else {
       console.log("❌ 'y' 또는 'n'을 입력해주세요.");
@@ -71,7 +76,8 @@ async function main() {
   }
 
   rl.close();
-  const isDefaultThumbnail = useCustomThumbnail === "y" || useCustomThumbnail === "yes";
+  const isDefaultThumbnail =
+    useCustomThumbnail === "y" || useCustomThumbnail === "yes";
   createArticle(slug, category, isDefaultThumbnail);
 }
 
@@ -97,7 +103,6 @@ date: "${date}"
 category: "${category}"
 thumbnail: "${thumbnailPath}"
 slug: "${folderName}"
-views: 0
 ---
 
 ## 섹션 제목
@@ -149,11 +154,15 @@ const example = () => {
   console.log(`📁 폴더명: ${folderName}`);
 
   if (useDefaultThumbnail) {
-    console.log(`🖼️  썸네일: 기본 이미지 사용 (/articles/assets/basic-thumbnail.webp)\n`);
+    console.log(
+      `🖼️  썸네일: 기본 이미지 사용 (/articles/assets/basic-thumbnail.webp)\n`
+    );
   } else {
     console.log(`📂 이미지 폴더: ${imagesDir}`);
     console.log(`🖼️  썸네일: 커스텀 이미지 사용\n`);
-    console.log(`💡 팁: ${imagesDir}/custom-thumbnail.webp 파일을 추가하세요.\n`);
+    console.log(
+      `💡 팁: ${imagesDir}/custom-thumbnail.webp 파일을 추가하세요.\n`
+    );
   }
 }
 
