@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
+    "@storybook/nextjs": "^10.2.13",
     "@storybook/nextjs-vite": "^10.1.10",
     "@storybook/react": "^10.1.10",
     "@types/node": "^20",
