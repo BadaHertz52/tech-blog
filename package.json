@@ -24,7 +24,6 @@
     "overlay-kit": "^1.8.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "rehype-highlight": "^7.0.2",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
