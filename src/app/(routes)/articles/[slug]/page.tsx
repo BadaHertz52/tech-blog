@@ -2,12 +2,13 @@ import Image from "next/image";
 
 import ButtonLink from "@/components/ButtonLink";
 import EmptyState from "@/components/EmptyState";
-import Tag from "@/components/Tag";
+import Tag from "@/components/Tag/Index";
 import { CATEGORY_LABELS, CATEGORY_LABELS_COLOR } from "@/constants/article";
 import { ROUTES } from "@/constants/paths";
 import { resolveArticleImagePath } from "@/utils/article";
 import { getAllArticles, getArticleBySlug, parseHeadings } from "@/utils/mdx";
 import ArticleMeta from "./_components/ArticleMeta";
+import ArticleNavigation from "./_components/ArticleNavigation";
 import MDXContent from "./_components/MDXContent";
 import TableOfContents from "./_components/TableOfContents";
 
@@ -58,13 +59,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 </Tag>
               </li>
             </ul>
-            <h1 className="headding-h1">{article.title}</h1>
+            <h1>{article.title}</h1>
             <div className="flex gap-[22px]">
               <ArticleMeta variant="date" value={article.date} />
             </div>
           </div>
         </header>
         <MDXContent source={article.content} />
+        <ArticleNavigation />
       </div>
     </article>
   );
