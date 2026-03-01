@@ -19,7 +19,7 @@ import type { LucideProps } from "lucide-react";
 
 import type { LucideIconName } from "./types";
 
-export const LUCIDE_ICON_MAP: Record<LucideIconName, React.FC<LucideProps>> = {
+export const LUCIDE_ICON_MAP: Record<string, React.FC<LucideProps>> = {
   "arrow-up": ArrowUp,
   calendar: Calendar,
   "chevron-right": ChevronRight,
