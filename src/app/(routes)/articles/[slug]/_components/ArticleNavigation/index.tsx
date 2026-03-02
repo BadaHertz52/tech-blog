@@ -28,7 +28,12 @@ function NavigationLink({
         >
           {header}
         </div>
-        <h3 className="overflow-hidden text-ellipsis text-sm font-semibold text-text-primary">
+        <h3
+          className={clsx(
+            "overflow-hidden text-ellipsis text-sm font-semibold text-text-primary",
+            isNext && "text-right"
+          )}
+        >
           {title}
         </h3>
       </div>

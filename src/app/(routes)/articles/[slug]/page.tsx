@@ -7,7 +7,12 @@ import Tag from "@/components/Tag/Index";
 import { CATEGORY_LABELS, CATEGORY_LABELS_COLOR } from "@/constants/article";
 import { ROUTES } from "@/constants/paths";
 import { resolveArticleImagePath } from "@/utils/article";
-import { getAllArticles, getArticleBySlug, parseHeadings } from "@/utils/mdx";
+import {
+  getAdjacentArticles,
+  getAllArticles,
+  getArticleBySlug,
+  parseHeadings,
+} from "@/utils/mdx";
 import ArticleMeta from "./_components/ArticleMeta";
 import ArticleNavigation from "./_components/ArticleNavigation";
 import TableOfContents from "./_components/TableOfContents";
@@ -18,7 +23,8 @@ interface ArticlePageProps {
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = await getArticleBySlug(slug);
+  const article = getArticleBySlug(slug);
+  const { prev, next } = getAdjacentArticles(slug);
 
   if (!article) {
     return (
@@ -66,7 +72,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           </div>
         </header>
         <MDXContent source={article.content} />
-        <ArticleNavigation />
+        <ArticleNavigation prev={prev} next={next} />
       </div>
     </article>
   );

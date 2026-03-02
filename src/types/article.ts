@@ -38,8 +38,8 @@ export interface ArticleCardData extends Omit<Article, "content"> {}
  * 인접한 포스트 (이전/다음)
  */
 export interface AdjacentPosts {
-  prev: ArticleCardData | null;
-  next: ArticleCardData | null;
+  prev?: ArticleCardData;
+  next?: ArticleCardData;
 }
 
 export type ArticleSort = "newest" | "oldest";

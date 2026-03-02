@@ -112,19 +112,36 @@ export const getArticleBySlug = (slug: string): Article => {
 
 /**
  * 이전/다음 포스트 반환 (상세 페이지 네비게이션용)
+ *
+ * article-index.json의 indexMap을 통해 O(1)로 현재 slug 위치를 찾고,
+ * slugs 배열로 인접 slug를 바로 접근합니다.
  */
 export const getAdjacentArticles = (slug: string): AdjacentPosts => {
-  const articles = getAllArticles();
-  const currentIndex = articles.findIndex((article) => article.slug === slug);
+  const indexFilePath = path.join(ARTICLE_DATA_DIRECTORY, "article-index.json");
 
-  if (currentIndex === -1) {
+  if (!fs.existsSync(indexFilePath)) {
+    throw new Error(
+      "article-index.json not found. Run `node scripts/generate-article-index.js` first."
+    );
+  }
+
+  const { slugs, indexMap } = JSON.parse(
+    fs.readFileSync(indexFilePath, "utf-8")
+  ) as { slugs: string[]; indexMap: Record<string, number> };
+
+  const currentIndex = indexMap[slug];
+
+  if (currentIndex === undefined) {
     throw new Error(`Article not found: ${slug}`);
   }
 
+  const prevSlug =
+    currentIndex < slugs.length - 1 ? slugs[currentIndex + 1] : undefined;
+  const nextSlug = currentIndex > 0 ? slugs[currentIndex - 1] : undefined;
+
   return {
-    prev: currentIndex > 0 ? articles[currentIndex - 1] : null,
-    next:
-      currentIndex < articles.length - 1 ? articles[currentIndex + 1] : null,
+    prev: prevSlug ? getArticleBySlug(prevSlug) : undefined,
+    next: nextSlug ? getArticleBySlug(nextSlug) : undefined,
   };
 };
 
