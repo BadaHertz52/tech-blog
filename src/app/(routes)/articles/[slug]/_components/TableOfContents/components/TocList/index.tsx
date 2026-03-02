@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 import { TocHeading } from "@/types/article";
 import { useTocActiveId } from "../../_hooks/useTocActiveId";
 
@@ -34,24 +32,20 @@ export default function TocList({ headings }: TocListProps) {
     }
   };
 
-  useEffect(() => {
-    console.log("active id", activeId);
-  }, [activeId]);
-
   return (
-    <ul className="flex flex-col gap-2">
+    <ul className="flex flex-col gap-2 border-l-2 border-slate-100">
       {headings.map((heading) => {
         const isActive = activeId === heading.id;
 
         return (
-          <li key={heading.id}>
+          <li key={heading.id} className="-ml-[2px]">
             <button
               type="button"
               onClick={() => handleScrollToHeading(heading.id)}
-              className={`w-full truncate text-left text-sm transition-colors duration-200 ${getPaddingClass(heading.level)} ${
+              className={`transition-border w-full truncate border-l-2 pl-3 text-left text-sm transition-colors duration-200 ${getPaddingClass(heading.level)} ${
                 isActive
-                  ? "border-l-2 border-primary-blue font-semibold text-primary-blue"
-                  : "border-l-2 border-transparent text-gray-600 hover:text-text-primary"
+                  ? "border-primary-blue font-semibold text-primary-blue"
+                  : "border-transparent text-gray-600"
               }`}
               aria-current={isActive ? "page" : undefined}
             >
