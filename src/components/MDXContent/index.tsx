@@ -83,24 +83,20 @@ const MDXComponents = {
     </a>
   ),
   table: ({ children }: { children: ReactNode }) => (
-    <table className="w-full border-collapse border border-gray-light">
-      {children}
-    </table>
+    <table className="w-full border-collapse bg-white">{children}</table>
   ),
   thead: ({ children }: { children: ReactNode }) => (
     <thead className="bg-gray-light">{children}</thead>
   ),
   tbody: ({ children }: { children: ReactNode }) => <tbody>{children}</tbody>,
-  tr: ({ children }: { children: ReactNode }) => (
-    <tr className="border border-gray-light">{children}</tr>
-  ),
+  tr: ({ children }: { children: ReactNode }) => <tr>{children}</tr>,
   th: ({ children }: { children: ReactNode }) => (
-    <th className="border border-gray-light p-3 text-center font-semibold">
+    <th className="border border-gray-200 p-3 text-center font-semibold">
       {children}
     </th>
   ),
   td: ({ children }: { children: ReactNode }) => (
-    <td className="border border-gray-light p-3 text-center">{children}</td>
+    <td className="border border-gray-200 p-3 text-center">{children}</td>
   ),
 };
 
