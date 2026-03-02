@@ -40,7 +40,7 @@ function Loaded({ headings }: LoadedProps) {
         </p>
         <TocList headings={headings} />
       </div>
-      <div className="mt-8 flex flex-col gap-8 border-t-[2px] border-gray-light pt-8">
+      <div className="mt-8 flex flex-col gap-4 border-t-[2px] border-gray-light pt-8">
         <p className="text-sm text-gray-medium">Share this post</p>
         <ShareButton buttonClassName="rounded-full w-8 h-8 bg-bg-white-anti-gray" />
       </div>
