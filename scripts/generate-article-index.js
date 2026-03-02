@@ -15,7 +15,7 @@ const path = require("path");
 const ARTICLES_DIR = path.join(__dirname, "../public/articles");
 const OUTPUT_PATH = path.join(ARTICLES_DIR, "article-index.json");
 
-function getArticleSlugsWithDates() {
+const getArticleSlugsWithDates = () => {
   if (!fs.existsSync(ARTICLES_DIR)) {
     return [];
   }
@@ -39,9 +39,9 @@ function getArticleSlugsWithDates() {
 
       return { slug, date };
     });
-}
+};
 
-function generateArticleIndex() {
+const generateArticleIndex = () => {
   const articlesWithDates = getArticleSlugsWithDates();
 
   // 오래된순 정렬 (slugs[0] = 가장 오래된, slugs[n] = 가장 최신)
@@ -61,6 +61,6 @@ function generateArticleIndex() {
 
   fs.writeFileSync(OUTPUT_PATH, JSON.stringify(output, null, 2));
   console.log(`✅ article-index.json 생성 완료 (${slugs.length}개 아티클)`);
-}
+};
 
 generateArticleIndex();
