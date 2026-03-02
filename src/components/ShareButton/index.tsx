@@ -1,28 +1,29 @@
 "use client";
 
-import { Link2 } from "lucide-react";
+import clsx from "clsx";
 import { useState } from "react";
 
-import { useOpenToast } from "@/hooks/useOpenToast";
 import Icon from "../Icon";
+import { openToast } from "../Toast";
 
 interface ShareButtonProps {
   iconClassName?: string;
   url?: string;
+  buttonClassName?: string;
   linkIconName?: "external-link" | "link2";
 }
 
 export default function ShareButton({
   linkIconName = "link2",
-  url,
+  url = window.location.href,
+  buttonClassName,
   iconClassName = "h-auto w-[16px] text-gray-600",
 }: ShareButtonProps) {
   const [isCopied, setIsCopied] = useState(false);
-  const { openToast } = useOpenToast();
 
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(url);
       setIsCopied(true);
       openToast({
         variant: "success",
@@ -40,7 +41,10 @@ export default function ShareButton({
   return (
     <button
       onClick={handleCopyLink}
-      className="flex items-center justify-center p-3 transition-colors duration-200 hover:bg-gray-200"
+      className={clsx(
+        "flex items-center justify-center",
+        buttonClassName
+      )}
       aria-label={isCopied ? "Link copied" : "Copy link to clipboard"}
       title={isCopied ? "Copied!" : "Copy link"}
     >

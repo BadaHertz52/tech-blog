@@ -1,6 +1,16 @@
+import clsx from "clsx";
 import { AlertCircle, AlertTriangle, CheckCircle } from "lucide-react";
+import { overlay } from "overlay-kit";
+import { useEffect } from "react";
 
-import { ToastProps } from "./types";
+interface ToastProps {
+  isOpen: boolean;
+  variant: "success" | "warning" | "error";
+  title?: string;
+  description: string;
+  duration?: number;
+  onClose?: () => void;
+}
 
 const variantConfig = {
   success: {
@@ -21,13 +31,39 @@ const variantConfig = {
   },
 } as const;
 
-export default function Toast({ variant, title, description }: ToastProps) {
+const DEFAULT_DURATION = 1_500;
+
+export const openToast = (props: Omit<ToastProps, "onClose" | "isOpen">) => {
+  overlay.open(({ isOpen, close }) => {
+    return <Toast {...props} isOpen={isOpen} onClose={close} />;
+  });
+};
+
+export function Toast({
+  isOpen,
+  variant,
+  title,
+  description,
+  duration = DEFAULT_DURATION,
+  onClose,
+}: ToastProps) {
   const config = variantConfig[variant];
   const Icon = config.icon;
 
+  useEffect(() => {
+    console.log("isopen");
+    const timer = setTimeout(() => {
+      onClose?.();
+    }, duration);
+    return () => clearTimeout(timer);
+  }, [duration, onClose, isOpen]);
+
   return (
     <div
-      className={`z-50 flex flex-row items-center gap-4 rounded-2xl border-2 p-4 shadow-lg ${config.bgColor} border-white backdrop-blur-sm`}
+      className={clsx(
+        `z-50 flex flex-row items-center gap-4 rounded-2xl p-4 shadow-lg ${config.bgColor} transition-top fixed right-8 backdrop-blur-sm duration-300`,
+        isOpen ? "visible top-[85px]" : "invisible top-[80px]"
+      )}
       role="alert"
       aria-live="polite"
     >

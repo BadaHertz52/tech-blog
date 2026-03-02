@@ -1,3 +1,4 @@
+import { OverlayProvider } from "overlay-kit";
 import type { Preview } from "@storybook/nextjs-vite";
 
 import "../src/app/globals.css";
@@ -19,6 +20,13 @@ const preview: Preview = {
       test: "todo",
     },
   },
+  decorators: [
+    (Story) => (
+      <OverlayProvider>
+        <Story />
+      </OverlayProvider>
+    ),
+  ],
 };
 
 export default preview;

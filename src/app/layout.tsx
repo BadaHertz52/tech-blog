@@ -5,6 +5,7 @@ import type React from "react";
 
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { Providers } from "./providers";
 import "./globals.css";
 
 const pretendard = localFont({
@@ -32,11 +33,13 @@ export default function RootLayout({
           "mx-auto flex min-h-screen w-full min-w-[320px] max-w-[1440px] flex-col text-text-primary"
         )}
       >
-        <Header />
-        <main className="relative flex-1 bg-bg-white-anti-gray p-lg md:p-xl">
-          {children}
-        </main>
-        <Footer />
+        <Providers>
+          <Header />
+          <main className="relative flex-1 bg-bg-white-anti-gray p-lg md:p-xl">
+            {children}
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
