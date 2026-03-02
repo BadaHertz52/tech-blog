@@ -3,7 +3,9 @@
 /**
  * 빌드 시 아티클 slug 인덱스 파일 생성
  *
- * 최신순으로 정렬된 slug 배열과 O(1) 탐색을 위한 indexMap을 생성합니다.
+ * 오래된순으로 정렬된 slug 배열과 O(1) 탐색을 위한 indexMap을 생성합니다.
+ * slugs[0] = 가장 오래된 글, slugs[n] = 가장 최신 글
+ * → prev(이전글) = index - 1 (더 오래된), next(다음글) = index + 1 (더 최신)
  * 출력: public/articles/article-index.json
  */
 
@@ -42,9 +44,9 @@ function getArticleSlugsWithDates() {
 function generateArticleIndex() {
   const articlesWithDates = getArticleSlugsWithDates();
 
-  // 최신순 정렬
+  // 오래된순 정렬 (slugs[0] = 가장 오래된, slugs[n] = 가장 최신)
   const sorted = articlesWithDates.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
 
   const slugs = sorted.map((a) => a.slug);

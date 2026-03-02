@@ -135,9 +135,10 @@ export const getAdjacentArticles = (slug: string): AdjacentPosts => {
     throw new Error(`Article not found: ${slug}`);
   }
 
-  const prevSlug =
+  // slugs는 오래된순 정렬: index-1 = 더 오래된(이전글), index+1 = 더 최신(다음글)
+  const prevSlug = currentIndex > 0 ? slugs[currentIndex - 1] : undefined;
+  const nextSlug =
     currentIndex < slugs.length - 1 ? slugs[currentIndex + 1] : undefined;
-  const nextSlug = currentIndex > 0 ? slugs[currentIndex - 1] : undefined;
 
   return {
     prev: prevSlug ? getArticleBySlug(prevSlug) : undefined,
