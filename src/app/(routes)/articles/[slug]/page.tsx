@@ -1,16 +1,15 @@
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
-import ButtonLink from "@/components/ButtonLink";
-import EmptyState from "@/components/EmptyState";
 import MDXContent from "@/components/MDXContent";
 import Tag from "@/components/Tag/Index";
 import { CATEGORY_LABELS, CATEGORY_LABELS_COLOR } from "@/constants/article";
-import { ROUTES } from "@/constants/paths";
 import { resolveArticleImagePath } from "@/utils/article";
 import {
   getAdjacentArticles,
   getAllArticles,
   getArticleBySlug,
+  isValidArticleSlug,
   parseHeadings,
 } from "@/utils/mdx";
 import ArticleMeta from "./_components/ArticleMeta";
@@ -23,27 +22,13 @@ interface ArticlePageProps {
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
-  const { prev, next } = getAdjacentArticles(slug);
 
-  if (!article) {
-    return (
-      <article>
-        <EmptyState>
-          <EmptyState.Icon />
-          <EmptyState.Content>
-            <p>요청하신 글을 찾을 수 없어요.</p>
-          </EmptyState.Content>
-          <EmptyState.Actions>
-            <ButtonLink href={ROUTES.articles} variant="primary">
-              목록 페이지로 이동
-            </ButtonLink>
-          </EmptyState.Actions>
-        </EmptyState>
-      </article>
-    );
+  if (!isValidArticleSlug(slug)) {
+    notFound();
   }
 
+  const article = getArticleBySlug(slug);
+  const { prev, next } = getAdjacentArticles(slug);
   const thumbnailUrl = resolveArticleImagePath(slug, article.thumbnail);
 
   return (
@@ -78,8 +63,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   );
 }
 
-export async function generateStaticParams() {
-  const articles = await getAllArticles();
+export function generateStaticParams() {
+  const articles = getAllArticles();
 
   return articles.map((article) => ({
     slug: article.slug,

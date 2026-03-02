@@ -111,6 +111,26 @@ export const getArticleBySlug = (slug: string): Article => {
 };
 
 /**
+ * article-index.json에서 slug 존재 여부 확인 (O(1))
+ */
+export const isValidArticleSlug = (slug: string): boolean => {
+  const indexFilePath = path.join(
+    ARTICLE_DATA_DIRECTORY,
+    "article-index.json"
+  );
+
+  if (!fs.existsSync(indexFilePath)) {
+    return false;
+  }
+
+  const { indexMap } = JSON.parse(
+    fs.readFileSync(indexFilePath, "utf-8")
+  ) as { indexMap: Record<string, number> };
+
+  return slug in indexMap;
+};
+
+/**
  * 이전/다음 포스트 반환 (상세 페이지 네비게이션용)
  *
  * article-index.json의 indexMap을 통해 O(1)로 현재 slug 위치를 찾고,
