@@ -111,19 +111,19 @@ export const parseHeadings = (content: string): TocHeading[] => {
 ⏳ 미완료 작업
 1. 상세 페이지 레이아웃 완성 (src/app/(routes)/articles/[slug]/page.tsx)
 
-썸네일 이미지 렌더링
-제목 + 메타정보 (날짜, 카테고리, 읽기시간, 조회수) 레이아웃
-TOC + 공유 버튼 좌측 배치
-MDX 본문 렌더링 (prose 클래스 적용)
-ArticleNavigation 하단 배치
-generateStaticParams() 구현
-notFound() 에러 처리
+- [x] 썸네일 이미지 렌더링
+- [x] 제목 + 메타정보 (날짜, 카테고리, 읽기시간, 조회수) 레이아웃
+- [x] TOC + 공유 버튼 좌측 배치
+- [x] MDX 본문 렌더링 (prose 클래스 적용)
+- [] ArticleNavigation 하단 배치
+- [] generateStaticParams() 구현
+- [] notFound() 에러 처리
 2. MDX 렌더링 강화
 
-rehype-highlight 플러그인 MDXRemote에 연결
+
 MDX 콘텐츠의 헤딩에 id 속성 추가 (TOC 링크용)
 코드 블록 스타일링
-3. 글로벌 스타일 추가 (src/app/globals.css)
+1. 글로벌 스타일 추가 (src/app/globals.css)
 
 highlight.js 테마 import
 code 블록 스타일 추가
