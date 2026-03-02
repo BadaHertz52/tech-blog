@@ -18,70 +18,13 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-function prompt(question) {
+const prompt = (question) => {
   return new Promise((resolve) => {
     rl.question(question, resolve);
   });
-}
+};
 
-async function main() {
-  console.log("\n📝 새 MDX 아티클 생성\n");
-
-  let slug = "";
-  let category = "";
-  let useCustomThumbnail = "";
-
-  // Slug 입력받기
-  while (!slug) {
-    slug = await prompt("📄 Article slug (예: my-article): ");
-    if (!slug.trim()) {
-      console.log("❌ slug를 입력해주세요.");
-      slug = "";
-    }
-  }
-  slug = slug.trim();
-
-  // 카테고리 선택
-  console.log("\n📂 카테고리를 선택하세요:");
-  validCategories.forEach((cat, index) => {
-    console.log(`  ${index + 1}. ${cat}`);
-  });
-
-  while (!category) {
-    const input = await prompt("\n선택 (1-6): ");
-    const index = parseInt(input) - 1;
-
-    if (index >= 0 && index < validCategories.length) {
-      category = validCategories[index];
-    } else {
-      console.log("❌ 1-6 사이의 숫자를 입력해주세요.");
-    }
-  }
-
-  // 기본 썸네일 사용 여부
-  console.log("\n🖼️  기본 썸네일(basic-thumbnail.webp) 사용 여부");
-  while (!useCustomThumbnail) {
-    const input = await prompt("기본 썸네일을 사용하시겠습니까? (y/n): ");
-    const normalized = input.toLowerCase();
-    if (
-      normalized === "y" ||
-      normalized === "n" ||
-      normalized === "yes" ||
-      normalized === "no"
-    ) {
-      useCustomThumbnail = normalized;
-    } else {
-      console.log("❌ 'y' 또는 'n'을 입력해주세요.");
-    }
-  }
-
-  rl.close();
-  const isDefaultThumbnail =
-    useCustomThumbnail === "y" || useCustomThumbnail === "yes";
-  createArticle(slug, category, isDefaultThumbnail);
-}
-
-function createArticle(slug, category, useDefaultThumbnail) {
+const createArticle = (slug, category, useDefaultThumbnail) => {
   const date = new Date().toISOString().split("T")[0];
   const title = slug
     .split("-")
@@ -164,6 +107,63 @@ const example = () => {
       `💡 팁: ${imagesDir}/custom-thumbnail.webp 파일을 추가하세요.\n`
     );
   }
-}
+};
+
+const main = async () => {
+  console.log("\n📝 새 MDX 아티클 생성\n");
+
+  let slug = "";
+  let category = "";
+  let useCustomThumbnail = "";
+
+  // Slug 입력받기
+  while (!slug) {
+    slug = await prompt("📄 Article slug (예: my-article): ");
+    if (!slug.trim()) {
+      console.log("❌ slug를 입력해주세요.");
+      slug = "";
+    }
+  }
+  slug = slug.trim();
+
+  // 카테고리 선택
+  console.log("\n📂 카테고리를 선택하세요:");
+  validCategories.forEach((cat, index) => {
+    console.log(`  ${index + 1}. ${cat}`);
+  });
+
+  while (!category) {
+    const input = await prompt("\n선택 (1-6): ");
+    const index = parseInt(input) - 1;
+
+    if (index >= 0 && index < validCategories.length) {
+      category = validCategories[index];
+    } else {
+      console.log("❌ 1-6 사이의 숫자를 입력해주세요.");
+    }
+  }
+
+  // 기본 썸네일 사용 여부
+  console.log("\n🖼️  기본 썸네일(basic-thumbnail.webp) 사용 여부");
+  while (!useCustomThumbnail) {
+    const input = await prompt("기본 썸네일을 사용하시겠습니까? (y/n): ");
+    const normalized = input.toLowerCase();
+    if (
+      normalized === "y" ||
+      normalized === "n" ||
+      normalized === "yes" ||
+      normalized === "no"
+    ) {
+      useCustomThumbnail = normalized;
+    } else {
+      console.log("❌ 'y' 또는 'n'을 입력해주세요.");
+    }
+  }
+
+  rl.close();
+  const isDefaultThumbnail =
+    useCustomThumbnail === "y" || useCustomThumbnail === "yes";
+  createArticle(slug, category, isDefaultThumbnail);
+};
 
 main();
