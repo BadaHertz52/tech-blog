@@ -8,7 +8,7 @@ export default function NotFound() {
       <EmptyState>
         <EmptyState.Icon />
         <EmptyState.Content>
-          <p>페이지를 찾을 수 없어요.</p>
+          <p className="text-lg">페이지를 찾을 수 없어요.</p>
         </EmptyState.Content>
         <EmptyState.Actions>
           <ButtonLink href={ROUTES.home} variant="primary">
