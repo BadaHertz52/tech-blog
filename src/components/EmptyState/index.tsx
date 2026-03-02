@@ -36,7 +36,7 @@ function EmptyStateIcon({
         <Icon
           name={name}
           width={width}
-          className="text-text-secondary opacity-100"
+          className="text-text-secondary opacity-80"
         />
       )}
     </div>
@@ -49,7 +49,7 @@ interface EmptyStateContentProps {
 
 function EmptyStateContent({ children }: EmptyStateContentProps) {
   return (
-    <div className="mt-2 flex flex-col items-center gap-1 text-text-primary">
+    <div className="mt-2 flex flex-col items-center gap-1 text-text-secondary">
       {children}
     </div>
   );
