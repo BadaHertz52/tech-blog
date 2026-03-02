@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { TocHeading } from "@/types/article";
 import { useTocActiveId } from "../../_hooks/useTocActiveId";
 
@@ -23,7 +25,7 @@ interface TocListProps {
 }
 
 export default function TocList({ headings }: TocListProps) {
-  const activeId = useTocActiveId();
+  const activeId = useTocActiveId({ headings });
 
   const handleScrollToHeading = (id: string) => {
     const element = document.getElementById(id);
@@ -31,6 +33,10 @@ export default function TocList({ headings }: TocListProps) {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  useEffect(() => {
+    console.log("active id", activeId);
+  }, [activeId]);
 
   return (
     <ul className="flex flex-col gap-2">

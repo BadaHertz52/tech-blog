@@ -33,9 +33,9 @@ function Loaded({ headings }: LoadedProps) {
 
   return (
     <Panel>
-      <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">
+      <p className="text-sm font-bold uppercase tracking-wider text-gray-500">
         On This Page
-      </h2>
+      </p>
       <TocList headings={headings} />
     </Panel>
   );
