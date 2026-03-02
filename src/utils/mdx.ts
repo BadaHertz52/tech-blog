@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
+import { generateHeadingId } from "@/utils/article";
 import {
   AdjacentPosts,
   Article,
@@ -225,11 +226,7 @@ export const parseHeadings = (content: string): TocHeading[] => {
     const text = match[1]; // "제목"
     const level = fullMatch.match(/^#+/)?.[0].length as 1 | 2 | 3 | 4;
 
-    // 텍스트를 slug화해서 id 생성 (예: "제목1" → "제목1")
-    const id = text
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w\-가-힣]/g, "");
+    const id = generateHeadingId(text);
 
     headings.push({ id, text, level });
   }

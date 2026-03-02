@@ -6,23 +6,50 @@ import { ReactNode, useEffect, useState } from "react";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
+import { generateHeadingId } from "@/utils/article";
 import EmptyState from "../EmptyState";
 import "highlight.js/styles/felipec.css";
 
+const extractTextFromChildren = (children: ReactNode): string => {
+  if (typeof children === "string") {
+    return children;
+  }
+  if (Array.isArray(children)) {
+    return children
+      .map((child) => (typeof child === "string" ? child : child?.props?.children || ""))
+      .join("");
+  }
+  return "";
+};
+
 const MDXComponents = {
-  h2: ({ children }: { children: ReactNode }) => (
-    <h2 className="text-h2-mobile font-extrabold md:text-h2-desktop">
-      {children}
-    </h2>
-  ),
-  h3: ({ children }: { children: ReactNode }) => (
-    <h3 className="text-h3-mobile font-extrabold md:text-h3-desktop">
-      {children}
-    </h3>
-  ),
-  h4: ({ children }: { children: ReactNode }) => (
-    <h4 className="text-lg font-extrabold md:text-xl">{children}</h4>
-  ),
+  h2: ({ children }: { children: ReactNode }) => {
+    const text = extractTextFromChildren(children);
+    const id = generateHeadingId(text);
+    return (
+      <h2 id={id} className="text-h2-mobile font-extrabold md:text-h2-desktop">
+        {children}
+      </h2>
+    );
+  },
+  h3: ({ children }: { children: ReactNode }) => {
+    const text = extractTextFromChildren(children);
+    const id = generateHeadingId(text);
+    return (
+      <h3 id={id} className="text-h3-mobile font-extrabold md:text-h3-desktop">
+        {children}
+      </h3>
+    );
+  },
+  h4: ({ children }: { children: ReactNode }) => {
+    const text = extractTextFromChildren(children);
+    const id = generateHeadingId(text);
+    return (
+      <h4 id={id} className="text-lg font-extrabold md:text-xl">
+        {children}
+      </h4>
+    );
+  },
   p: ({ children }: { children: ReactNode }) => (
     <p className="text-base leading-relaxed text-text-primary">{children}</p>
   ),
