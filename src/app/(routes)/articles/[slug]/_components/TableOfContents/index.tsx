@@ -1,76 +1,63 @@
-"use client";
+import { ReactNode } from "react";
 
+import Skeleton from "@/components/Skeleton";
 import { TocHeading } from "@/types/article";
-import { useTocActiveId } from "./_hooks/useTocActiveId";
+import TocItems from "./components/TocItems";
 
-const getPaddingClass = (level: number) => {
-  switch (level) {
-    case 1:
-      return "pl-0";
-    case 2:
-      return "pl-0";
-    case 3:
-      return "pl-4";
-    case 4:
-      return "pl-8";
-    default:
-      return "pl-0";
-  }
-};
+function Panel({ children }: { children: ReactNode }) {
+  return (
+    <div className="hidden w-[300px] flex-shrink-0 md:block">
+      <div className="sticky top-32 flex flex-col gap-6 rounded-lg bg-white p-4">
+        {children}
+      </div>
+    </div>
+  );
+}
 
-interface TableOfContentsProps {
+function List({ children }: { children: ReactNode }) {
+  return <ul className="flex flex-col gap-2">{children}</ul>;
+}
+
+function Loading() {
+  return (
+    <Panel>
+      <Skeleton widthTwClass="w-24" heightTwClass="h-3" />
+      <List>
+        <li>
+          <Skeleton widthTwClass="w-3/4" heightTwClass="h-3" />
+        </li>
+        <li>
+          <Skeleton widthTwClass="w-2/3" heightTwClass="h-3" className="pl-4" />
+        </li>
+        <li>
+          <Skeleton widthTwClass="w-1/2" heightTwClass="h-3" className="pl-4" />
+        </li>
+      </List>
+    </Panel>
+  );
+}
+
+interface LoadedProps {
   headings: TocHeading[];
 }
 
-export default function TableOfContents({ headings }: TableOfContentsProps) {
-  const activeId = useTocActiveId();
-
+function Loaded({ headings }: LoadedProps) {
   if (headings.length === 0) {
     return null;
   }
 
-  const handleScrollToHeading = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
-    <nav
-      className="hidden w-[300px] flex-shrink-0 md:block"
-      aria-label="Table of contents"
-    >
-      <div className="sticky top-32 flex flex-col gap-6 rounded-lg bg-white p-4">
-        <div>
-          <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">
-            On This Page
-          </h2>
-        </div>
-        {/* 목차 목록 */}
-        <ul className="flex flex-col gap-2">
-          {headings.map((heading) => {
-            const isActive = activeId === heading.id;
-
-            return (
-              <li key={heading.id}>
-                <button
-                  type="button"
-                  onClick={() => handleScrollToHeading(heading.id)}
-                  className={`w-full truncate text-left text-sm transition-colors duration-200 ${getPaddingClass(heading.level)} ${
-                    isActive
-                      ? "border-l-2 border-primary-blue font-semibold text-primary-blue"
-                      : "border-l-2 border-transparent text-gray-600 hover:text-text-primary"
-                  }`}
-                  aria-current={isActive ? "page" : undefined}
-                >
-                  {heading.text}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </nav>
+    <Panel>
+      <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">
+        On This Page
+      </h2>
+      <List>
+        <TocItems headings={headings} />
+      </List>
+    </Panel>
   );
 }
+
+const TableOfContents = { Loading, Loaded };
+
+export default TableOfContents;
