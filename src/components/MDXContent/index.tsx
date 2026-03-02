@@ -1,9 +1,9 @@
 "use client";
 
-import hljs from "highlight.js";
 import { MDXRemote } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import { ReactNode, useEffect, useState } from "react";
+import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
 import "highlight.js/styles/felipec.css";
@@ -56,28 +56,9 @@ const MDXComponents = {
       );
     }
 
-    // 코드 블록: highlight.js로 하이라이팅
-    const language = className?.replace("language-", "") || "plaintext";
-    const codeString = String(children).trim();
-
-    try {
-      const highlighted = hljs.highlight(codeString, {
-        language,
-        ignoreIllegals: true,
-      }).value;
-
-      return (
-        <code
-          className="font-mono text-sm"
-          dangerouslySetInnerHTML={{ __html: highlighted }}
-        />
-      );
-    } catch (error) {
-      // 하이라이팅 실패 시 원본 코드 반환
-      return (
-        <code className="font-mono text-sm text-gray-light">{children}</code>
-      );
-    }
+    return (
+      <code className="font-mono text-sm text-gray-light">{children}</code>
+    );
   },
   blockquote: ({ children }: { children: ReactNode }) => (
     <blockquote className="border-l-4 border-primary-blue pl-4 italic text-gray-600">
@@ -129,7 +110,6 @@ interface MDXContentProps {
 
 export default function MDXContent({ source }: MDXContentProps) {
   const [mdxSource, setMdxSource] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const compileMdx = async () => {
@@ -137,26 +117,17 @@ export default function MDXContent({ source }: MDXContentProps) {
         const compiled = await serialize(source, {
           mdxOptions: {
             remarkPlugins: [remarkGfm],
+            rehypePlugins: [rehypeHighlight],
           },
         });
         setMdxSource(compiled);
       } catch (error) {
         console.error("Failed to serialize MDX:", error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
     compileMdx();
   }, [source]);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-8">
-        <div className="text-text-primary">로딩 중...</div>
-      </div>
-    );
-  }
 
   if (!mdxSource) {
     return (
