@@ -1,12 +1,13 @@
 "use client";
 
+import clsx from "clsx";
+
 import { TocHeading } from "@/types/article";
 import { useTocActiveId } from "../../_hooks/useTocActiveId";
 
 const getPaddingClass = (level: number) => {
   switch (level) {
     case 1:
-      return "pl-0";
     case 2:
       return "pl-0";
     case 3:
@@ -42,14 +43,15 @@ export default function TocList({ headings }: TocListProps) {
             <button
               type="button"
               onClick={() => handleScrollToHeading(heading.id)}
-              className={`transition-border w-full truncate border-l-2 pl-3 text-left text-sm transition-colors duration-200 ${
+              className={clsx(
+                "w-full truncate border-l-2 pl-3 text-left text-sm transition-colors duration-200",
                 isActive
                   ? "border-primary-blue font-semibold text-primary-blue"
                   : "border-transparent"
-              }`}
+              )}
               aria-current={isActive ? "page" : undefined}
             >
-              <span className={`${getPaddingClass(heading.level)} `}>
+              <span className={getPaddingClass(heading.level)}>
                 {heading.text}
               </span>
             </button>
