@@ -42,14 +42,16 @@ export default function TocList({ headings }: TocListProps) {
             <button
               type="button"
               onClick={() => handleScrollToHeading(heading.id)}
-              className={`transition-border w-full truncate border-l-2 pl-3 text-left text-sm transition-colors duration-200 ${getPaddingClass(heading.level)} ${
+              className={`transition-border w-full truncate border-l-2 pl-3 text-left text-sm transition-colors duration-200 ${
                 isActive
                   ? "border-primary-blue font-semibold text-primary-blue"
-                  : "border-transparent text-gray-600"
+                  : "border-transparent"
               }`}
               aria-current={isActive ? "page" : undefined}
             >
-              {heading.text}
+              <span className={`${getPaddingClass(heading.level)} `}>
+                {heading.text}
+              </span>
             </button>
           </li>
         );
