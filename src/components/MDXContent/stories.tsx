@@ -439,3 +439,29 @@ export const MixedContent: Story = {
     source: mixedContentSource,
   },
 };
+
+// ============================================
+// 11. Error State (serialize 실패 시 에러 UI)
+// ============================================
+// MDX serialize가 실패하면 mdxSource가 null이 되어,
+// "콘텐츠를 로드할 수 없습니다." 에러 메세지를 표시합니다.
+
+const invalideSource = `
+   export const BadComponent = () => {
+  return (
+    <div>
+`;
+
+export const ErrorState: Story = {
+  args: {
+    source: invalideSource,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "MDX serialize 실패 시 에러 UI를 표시합니다. 빨간 텍스트로 '콘텐츠를 로드할 수 없습니다.'가 나타납니다.",
+      },
+    },
+  },
+};

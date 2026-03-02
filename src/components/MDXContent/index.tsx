@@ -6,6 +6,7 @@ import { ReactNode, useEffect, useState } from "react";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
+import EmptyState from "../EmptyState";
 import "highlight.js/styles/felipec.css";
 
 const MDXComponents = {
@@ -128,7 +129,12 @@ export default function MDXContent({ source }: MDXContentProps) {
   if (!mdxSource) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-red-500">콘텐츠를 로드할 수 없습니다.</div>
+        <EmptyState>
+          <EmptyState.Icon />
+          <EmptyState.Content>
+            <p>죄송해요. 이 글을 표시할 수 없어요.</p>
+          </EmptyState.Content>
+        </EmptyState>
       </div>
     );
   }
