@@ -1,12 +1,13 @@
 import { ReactNode } from "react";
 
+import ShareButton from "@/components/ShareButton";
 import Skeleton from "@/components/Skeleton";
 import { TocHeading } from "@/types/article";
 import TocList from "./components/TocList";
 
 function Panel({ children }: { children: ReactNode }) {
   return (
-    <div className="hidden w-[300px] flex-shrink-0 md:block">
+    <div className="hidden w-[300px] flex-shrink-0 text-gray-medium md:block">
       <div className="sticky top-32 flex flex-col gap-6 rounded-lg bg-white p-4">
         {children}
       </div>
@@ -33,10 +34,16 @@ function Loaded({ headings }: LoadedProps) {
 
   return (
     <Panel>
-      <p className="text-sm font-bold uppercase tracking-wider text-gray-500">
-        On This Page
-      </p>
-      <TocList headings={headings} />
+      <div className="flex flex-col gap-8">
+        <p className="text-sm font-bold uppercase tracking-wider">
+          On This Page
+        </p>
+        <TocList headings={headings} />
+      </div>
+      <div className="mt-8 flex flex-col gap-8 border-t-[2px] border-gray-light pt-8">
+        <p className="text-sm text-gray-medium">Share this post</p>
+        <ShareButton buttonClassName="rounded-full w-8 h-8 bg-bg-white-anti-gray" />
+      </div>
     </Panel>
   );
 }
