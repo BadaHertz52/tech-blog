@@ -18,11 +18,11 @@ const getPaddingClass = (level: number) => {
   }
 };
 
-interface TocItemsProps {
+interface TocListProps {
   headings: TocHeading[];
 }
 
-export default function TocItems({ headings }: TocItemsProps) {
+export default function TocList({ headings }: TocListProps) {
   const activeId = useTocActiveId();
 
   const handleScrollToHeading = (id: string) => {
@@ -33,7 +33,7 @@ export default function TocItems({ headings }: TocItemsProps) {
   };
 
   return (
-    <>
+    <ul className="flex flex-col gap-2">
       {headings.map((heading) => {
         const isActive = activeId === heading.id;
 
@@ -54,6 +54,6 @@ export default function TocItems({ headings }: TocItemsProps) {
           </li>
         );
       })}
-    </>
+    </ul>
   );
 }

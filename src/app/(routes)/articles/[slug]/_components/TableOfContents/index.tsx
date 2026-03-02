@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import Skeleton from "@/components/Skeleton";
 import { TocHeading } from "@/types/article";
-import TocItems from "./components/TocItems";
+import TocList from "./components/TocList";
 
 function Panel({ children }: { children: ReactNode }) {
   return (
@@ -14,25 +14,10 @@ function Panel({ children }: { children: ReactNode }) {
   );
 }
 
-function List({ children }: { children: ReactNode }) {
-  return <ul className="flex flex-col gap-2">{children}</ul>;
-}
-
 function Loading() {
   return (
     <Panel>
-      <Skeleton widthTwClass="w-24" heightTwClass="h-3" />
-      <List>
-        <li>
-          <Skeleton widthTwClass="w-3/4" heightTwClass="h-3" />
-        </li>
-        <li>
-          <Skeleton widthTwClass="w-2/3" heightTwClass="h-3" className="pl-4" />
-        </li>
-        <li>
-          <Skeleton widthTwClass="w-1/2" heightTwClass="h-3" className="pl-4" />
-        </li>
-      </List>
+      <Skeleton widthTwClass="w-full" heightTwClass="h-[300px]" />
     </Panel>
   );
 }
@@ -51,9 +36,7 @@ function Loaded({ headings }: LoadedProps) {
       <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">
         On This Page
       </h2>
-      <List>
-        <TocItems headings={headings} />
-      </List>
+      <TocList headings={headings} />
     </Panel>
   );
 }
