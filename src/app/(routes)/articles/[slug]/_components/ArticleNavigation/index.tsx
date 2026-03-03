@@ -57,26 +57,22 @@ export default function ArticleNavigation({
   return (
     <nav className="grid gap-4 md:grid-cols-2">
       {/* 이전 글 */}
-      {prev ? (
+      {prev && (
         <NavigationLink
           href={ROUTES.article(prev.slug)}
           header="← 이전 글"
           title={prev.title}
         />
-      ) : (
-        <div />
       )}
 
       {/* 다음 글 */}
-      {next ? (
+      {next && (
         <NavigationLink
           href={ROUTES.article(next.slug)}
           header="다음 글 →"
           title={next.title}
           isNext
         />
-      ) : (
-        <div />
       )}
     </nav>
   );
