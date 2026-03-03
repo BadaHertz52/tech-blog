@@ -1,6 +1,6 @@
 "use client";
 
-import { MDXRemote } from "next-mdx-remote";
+import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import Image from "next/image";
 import { ReactNode, useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import remarkGfm from "remark-gfm";
 
 import { generateHeadingId } from "@/utils/article";
 import EmptyState from "../EmptyState";
+import LoadingUI from "../LoadingUI";
 import "highlight.js/styles/felipec.css";
 
 interface MDXImageProps {
@@ -112,6 +113,7 @@ const MDXComponents = {
           src={src}
           alt={alt || ""}
           fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 80vw"
           className="h-auto max-w-full rounded-lg"
         />
       );
@@ -160,10 +162,17 @@ interface MDXContentProps {
 }
 
 export default function MDXContent({ source }: MDXContentProps) {
-  const [mdxSource, setMdxSource] = useState<any>(null);
+  const [mdxSource, setMdxSource] = useState<MDXRemoteSerializeResult | null>(
+    null
+  );
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const compileMdx = async () => {
+      setIsLoading(true);
+      setHasError(false);
+
       try {
         const compiled = await serialize(source, {
           mdxOptions: {
@@ -174,13 +183,27 @@ export default function MDXContent({ source }: MDXContentProps) {
         setMdxSource(compiled);
       } catch (error) {
         console.error("Failed to serialize MDX:", error);
+        setHasError(true);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     compileMdx();
   }, [source]);
 
-  if (!mdxSource) {
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-8">
+        <div className="flex flex-col items-center gap-3">
+          <LoadingUI />
+          <p className="text-sm text-gray-medium">글을 준비중이에요.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (hasError || !mdxSource) {
     return (
       <div className="flex items-center justify-center py-8">
         <EmptyState>
