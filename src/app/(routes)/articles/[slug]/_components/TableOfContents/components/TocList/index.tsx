@@ -5,18 +5,15 @@ import clsx from "clsx";
 import { TocHeading } from "@/types/article";
 import { useTocActiveId } from "../../_hooks/useTocActiveId";
 
+const PADDING_CLASSES = {
+  1: "pl-0",
+  2: "pl-0",
+  3: "pl-4",
+  4: "pl-8",
+} as const;
+
 const getPaddingClass = (level: number) => {
-  switch (level) {
-    case 1:
-    case 2:
-      return "pl-0";
-    case 3:
-      return "pl-4";
-    case 4:
-      return "pl-8";
-    default:
-      return "pl-0";
-  }
+  return PADDING_CLASSES[level as keyof typeof PADDING_CLASSES] ?? "pl-0";
 };
 
 interface TocListProps {
@@ -34,7 +31,7 @@ export default function TocList({ headings }: TocListProps) {
   };
 
   return (
-    <nav>
+    <nav aria-label="이 페이지의 목차">
       <ul className="flex flex-col gap-2 border-l-2 border-slate-100">
         {headings.map((heading) => {
           const isActive = activeId === heading.id;
