@@ -53,7 +53,7 @@
 ```sh
 tech-blog/
 ├── .claude/                    # Claude Code 환경
-│   ├── skills/                 # Skills 정의 (10개 스킬)
+│   ├── skills/                 # Skills 정의 
 │   └── memory/                 # Auto memory
 │
 ├── src/
@@ -619,7 +619,7 @@ export default function Button({
 
 ## 🚀 Claude Code Skills 사용법
 
-### 검토 Skills (3개)
+### 검토 Skills 
 
 #### 1. PM Review
 ```bash
@@ -654,7 +654,7 @@ BlogCard 컴포넌트의 UX와 접근성을 검토해줘.
 
 ---
 
-### 자동화 Skills (2개)
+### 자동화 Skills
 
 #### 4. Create PR (PR 본문 작성)
 ```bash
