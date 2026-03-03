@@ -425,6 +425,7 @@ export const Table: Story = {
 export const Links: Story = {
   args: {
     source: linksSource,
+    headings: [],
   },
 };
 
