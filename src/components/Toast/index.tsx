@@ -10,6 +10,7 @@ interface ToastProps {
   description: string;
   duration?: number;
   onClose?: () => void;
+  unmount?: () => void;
 }
 
 const variantConfig = {
@@ -33,11 +34,18 @@ const variantConfig = {
 
 const DEFAULT_DURATION = 1_500;
 
-export const openToast = (props: Omit<ToastProps, "onClose" | "isOpen">) => {
-  overlay.open(({ isOpen, close }) => {
-    return <Toast {...props} isOpen={isOpen} onClose={close} />;
+export const openToast = (
+  props: Omit<ToastProps, "isOpen" | "onClose" | "unmount">
+) => {
+  overlay.open(({ isOpen, close, unmount }) => {
+    return (
+      <Toast {...props} isOpen={isOpen} onClose={close} unmount={unmount} />
+    );
   });
 };
+
+// CSS transition 시간 (duration-300)
+const ANIMATION_DURATION = 300;
 
 export function Toast({
   isOpen,
@@ -46,22 +54,34 @@ export function Toast({
   description,
   duration = DEFAULT_DURATION,
   onClose,
+  unmount,
 }: ToastProps) {
   const config = variantConfig[variant];
   const Icon = config.icon;
 
   useEffect(() => {
-    console.log("isopen");
-    const timer = setTimeout(() => {
+    if (!isOpen) return;
+
+    // 1단계: duration 후 onClose 호출 (숨김 시작)
+    const closeTimer = setTimeout(() => {
       onClose?.();
     }, duration);
-    return () => clearTimeout(timer);
-  }, [duration, onClose, isOpen]);
+
+    // 2단계: animation 완료 후 unmount (메모리 정리)
+    const unmountTimer = setTimeout(() => {
+      unmount?.();
+    }, duration + ANIMATION_DURATION);
+
+    return () => {
+      clearTimeout(closeTimer);
+      clearTimeout(unmountTimer);
+    };
+  }, [duration, isOpen, onClose, unmount]);
 
   return (
     <div
       className={clsx(
-        `z-50 flex flex-row items-center gap-4 rounded-2xl p-4 shadow-lg ${config.bgColor} transition-top fixed right-8 backdrop-blur-sm duration-300`,
+        `z-50 flex flex-row items-center gap-4 rounded-2xl p-4 shadow-lg ${config.bgColor} transition-top fixed left-1/2 -translate-x-1/2 backdrop-blur-sm duration-${ANIMATION_DURATION}`,
         isOpen ? "visible top-[85px]" : "invisible top-[80px]"
       )}
       role="alert"
