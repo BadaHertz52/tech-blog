@@ -383,36 +383,42 @@ export default function Counter() {
 export const Typography: Story = {
   args: {
     source: typographySource,
+    headings: [],
   },
 };
 
 export const InlineCode: Story = {
   args: {
     source: inlineCodeSource,
+    headings: [],
   },
 };
 
 export const CodeBlocks: Story = {
   args: {
     source: codeBlocksSource,
+    headings: [],
   },
 };
 
 export const Lists: Story = {
   args: {
     source: listsSource,
+    headings: [],
   },
 };
 
 export const Blockquote: Story = {
   args: {
     source: blockquoteSource,
+    headings: [],
   },
 };
 
 export const Table: Story = {
   args: {
     source: tableSource,
+    headings: [],
   },
 };
 
@@ -425,17 +431,20 @@ export const Links: Story = {
 export const LongCodeBlock: Story = {
   args: {
     source: longCodeSource,
+    headings: [],
   },
 };
 
 export const InvalidLanguage: Story = {
   args: {
     source: invalidLanguageSource,
+    headings: [],
   },
 };
 
 export const MixedContent: Story = {
   args: {
     source: mixedContentSource,
+    headings: [],
   },
 };
