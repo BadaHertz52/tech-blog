@@ -29,9 +29,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const { prev, next } = getAdjacentArticles(slug);
   const thumbnailUrl = resolveArticleImagePath(slug, article.thumbnail);
 
+  const headings = parseHeadings(article.content);
+
   return (
     <>
-      <TableOfContents.Loaded headings={parseHeadings(article.content)} />
+      <TableOfContents.Loaded headings={headings} />
       <div className="flex w-full flex-col gap-14 md:flex-1">
         <ArticleThumbnail.Loaded src={thumbnailUrl} alt={article.title} />
         <ArticleHeader.Loaded
@@ -39,7 +41,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           title={article.title}
           date={article.date}
         />
-        <MDXContent source={article.content} />
+        <MDXContent source={article.content} headings={headings} />
         <ArticleNavigation prev={prev} next={next} />
       </div>
     </>

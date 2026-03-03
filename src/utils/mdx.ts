@@ -10,7 +10,6 @@ import {
   ArticleSort,
   TocHeading,
 } from "@/types/article";
-import { generateHeadingId } from "@/utils/article";
 
 const ARTICLE_DATA_DIRECTORY = path.join(process.cwd(), "public/articles");
 
@@ -221,6 +220,27 @@ export const sortArticles = (
 };
 
 /**
+ * 헤더 텍스트 기반 deterministic ID 생성
+ * 같은 텍스트는 항상 같은 ID를 생성하므로 TableOfContents와 MDXContent에서 일관성 있음
+ * @param text - 헤더 텍스트
+ * @returns 생성된 heading id (예: "heading-hello-world")
+ */
+const generateDeterministicHeadingId = (text: string): string => {
+  // 텍스트를 소문자로 변환하고 특수문자를 하이픈으로 대체
+  const normalized = text
+    .toLowerCase()
+    .trim()
+    // 한글, 영문, 숫자, 하이픈, 언더스코어만 허용
+    .replace(/[^\w\s\-가-힣]/g, "")
+    // 공백과 연속된 하이픈을 단일 하이픈으로
+    .replace(/[\s\-]+/g, "-")
+    // 앞뒤 하이픈 제거
+    .replace(/^-+|-+$/g, "");
+
+  return `heading-${normalized}`;
+};
+
+/**
  * MDX 콘텐츠에서 헤딩(h1~h4) 추출
  * @param content - MDX 마크다운 문자열
  * @returns 목차 헤딩 배열
@@ -235,7 +255,7 @@ export const parseHeadings = (content: string): TocHeading[] => {
     const text = match[1]; // "제목"
     const level = fullMatch.match(/^#+/)?.[0].length as 1 | 2 | 3 | 4;
 
-    const id = generateHeadingId(text);
+    const id = generateDeterministicHeadingId(text);
 
     headings.push({ id, text, level });
   }

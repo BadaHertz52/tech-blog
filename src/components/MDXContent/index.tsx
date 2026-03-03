@@ -7,10 +7,11 @@ import { ReactNode, useEffect, useState } from "react";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
-import { generateHeadingId } from "@/utils/article";
+import { generateUUID } from "@/utils/id";
 import EmptyState from "../EmptyState";
 import LoadingUI from "../LoadingUI";
 import "highlight.js/styles/felipec.css";
+import type { TocHeading } from "@/types/article";
 
 interface MDXImageProps {
   src?: string;
@@ -33,10 +34,23 @@ const extractTextFromChildren = (children: ReactNode): string => {
   return "";
 };
 
-const MDXComponents = {
+const getHeadingId = ({
+  text,
+  level,
+  headings,
+}: {
+  text: string;
+  level: 2 | 3 | 4;
+  headings: TocHeading[];
+}): string => {
+  const heading = headings.find((h) => h.text === text && h.level === level);
+  return heading?.id ?? `heading-h${level}-${generateUUID()}`;
+};
+
+const createMDXComponents = (headings: TocHeading[]) => ({
   h2: ({ children }: { children: ReactNode }) => {
     const text = extractTextFromChildren(children);
-    const id = generateHeadingId(text);
+    const id = getHeadingId({ text, level: 2, headings });
     return (
       <h2 id={id} className="text-h2-mobile font-extrabold md:text-h2-desktop">
         {children}
@@ -45,7 +59,7 @@ const MDXComponents = {
   },
   h3: ({ children }: { children: ReactNode }) => {
     const text = extractTextFromChildren(children);
-    const id = generateHeadingId(text);
+    const id = getHeadingId({ text, level: 3, headings });
     return (
       <h3 id={id} className="text-h3-mobile font-extrabold md:text-h3-desktop">
         {children}
@@ -54,7 +68,7 @@ const MDXComponents = {
   },
   h4: ({ children }: { children: ReactNode }) => {
     const text = extractTextFromChildren(children);
-    const id = generateHeadingId(text);
+    const id = getHeadingId({ text, level: 4, headings });
     return (
       <h4 id={id} className="text-lg font-extrabold md:text-xl">
         {children}
@@ -155,13 +169,14 @@ const MDXComponents = {
   td: ({ children }: { children: ReactNode }) => (
     <td className="border border-gray-200 p-3 text-center">{children}</td>
   ),
-};
+});
 
 interface MDXContentProps {
   source: string;
+  headings: TocHeading[];
 }
 
-export default function MDXContent({ source }: MDXContentProps) {
+export default function MDXContent({ source, headings }: MDXContentProps) {
   const [mdxSource, setMdxSource] = useState<MDXRemoteSerializeResult | null>(
     null
   );
@@ -216,9 +231,11 @@ export default function MDXContent({ source }: MDXContentProps) {
     );
   }
 
+  const mdxComponents = createMDXComponents(headings);
+
   return (
     <div className="flex w-full flex-col gap-[33px] px-[14px]">
-      <MDXRemote {...mdxSource} components={MDXComponents} />
+      <MDXRemote {...mdxSource} components={mdxComponents} />
     </div>
   );
 }

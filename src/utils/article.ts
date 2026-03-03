@@ -1,18 +1,6 @@
 import type { ArticleSort } from "@/types/article";
 
 /**
- * 텍스트에서 heading id 생성
- * @param text - heading 텍스트
- * @returns 생성된 id (예: "제목 1" → "제목-1")
- */
-export const generateHeadingId = (text: string): string => {
-  return text
-    .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w\-가-힣]/g, "");
-};
-
-/**
  * 아티클의 상대 경로 이미지를 절대 경로로 변환합니다.
  * @param slug - 아티클 slug (예: "2025-retrospective")
  * @param imagePath - 상대 경로 (예: "./images/hero.webp")
