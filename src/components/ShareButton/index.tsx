@@ -1,7 +1,6 @@
 "use client";
 
 import clsx from "clsx";
-import { useState } from "react";
 
 import Icon from "../Icon";
 import { openToast } from "../Toast";
@@ -15,13 +14,13 @@ interface ShareButtonProps {
 
 export default function ShareButton({
   linkIconName = "link2",
-  url = window.location.href,
+  url,
   buttonClassName,
   iconClassName = "h-auto w-[16px] text-gray-600",
 }: ShareButtonProps) {
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(url ?? window.location.href);
 
       openToast({
         variant: "success",
