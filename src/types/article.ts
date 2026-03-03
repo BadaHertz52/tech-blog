@@ -48,10 +48,10 @@ export type ArticleSort = "newest" | "oldest";
  * 목차 아이템 (헤딩 정보)
  * id: 헤딩 요소의 id (링크 대상)
  * text: 헤딩 텍스트
- * level: 헤딩 레벨 (h1=1, h2=2, h3=3, ...)
+ * level: 헤딩 레벨 (h1=1, h2=2, h3=3, h4=4)
  */
 export interface TocHeading {
   id: string;
   text: string;
-  level: number;
+  level: 1 | 2 | 3 | 4;
 }

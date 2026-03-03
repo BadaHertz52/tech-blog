@@ -15,6 +15,34 @@ import { generateHeadingId } from "@/utils/article";
 const ARTICLE_DATA_DIRECTORY = path.join(process.cwd(), "public/articles");
 
 /**
+ * article-index.json 캐시
+ * 모듈 로드 시 한 번만 파일을 읽고 이후에는 캐시된 값 사용
+ */
+let indexCache: { slugs: string[]; indexMap: Record<string, number> } | null =
+  null;
+
+const getIndexCache = (): { slugs: string[]; indexMap: Record<string, number> } => {
+  if (indexCache) {
+    return indexCache;
+  }
+
+  const indexFilePath = path.join(ARTICLE_DATA_DIRECTORY, "article-index.json");
+
+  if (!fs.existsSync(indexFilePath)) {
+    throw new Error(
+      "article-index.json not found. Run `node scripts/generate-article-index.js` first."
+    );
+  }
+
+  indexCache = JSON.parse(fs.readFileSync(indexFilePath, "utf-8")) as {
+    slugs: string[];
+    indexMap: Record<string, number>;
+  };
+
+  return indexCache;
+};
+
+/**
  * 날짜 문자열이 YYYY-MM-DD 형식이고 유효한지 검증
  * @param dateString - 검증할 날짜 문자열
  * @returns 유효한 날짜면 true, 아니면 false
@@ -115,17 +143,12 @@ export const getArticleBySlug = (slug: string): Article => {
  * article-index.json에서 slug 존재 여부 확인 (O(1))
  */
 export const isValidArticleSlug = (slug: string): boolean => {
-  const indexFilePath = path.join(ARTICLE_DATA_DIRECTORY, "article-index.json");
-
-  if (!fs.existsSync(indexFilePath)) {
+  try {
+    const { indexMap } = getIndexCache();
+    return slug in indexMap;
+  } catch {
     return false;
   }
-
-  const { indexMap } = JSON.parse(fs.readFileSync(indexFilePath, "utf-8")) as {
-    indexMap: Record<string, number>;
-  };
-
-  return slug in indexMap;
 };
 
 /**
@@ -135,18 +158,7 @@ export const isValidArticleSlug = (slug: string): boolean => {
  * slugs 배열로 인접 slug를 바로 접근합니다.
  */
 export const getAdjacentArticles = (slug: string): AdjacentPosts => {
-  const indexFilePath = path.join(ARTICLE_DATA_DIRECTORY, "article-index.json");
-
-  if (!fs.existsSync(indexFilePath)) {
-    throw new Error(
-      "article-index.json not found. Run `node scripts/generate-article-index.js` first."
-    );
-  }
-
-  const { slugs, indexMap } = JSON.parse(
-    fs.readFileSync(indexFilePath, "utf-8")
-  ) as { slugs: string[]; indexMap: Record<string, number> };
-
+  const { slugs, indexMap } = getIndexCache();
   const currentIndex = indexMap[slug];
 
   if (currentIndex === undefined) {
