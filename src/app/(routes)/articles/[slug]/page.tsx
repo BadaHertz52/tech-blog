@@ -32,7 +32,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   return (
     <>
       <TableOfContents.Loaded headings={parseHeadings(article.content)} />
-      <div className="flex flex-1 flex-col gap-14">
+      <div className="flex w-full flex-col gap-14 md:flex-1">
         <ArticleThumbnail.Loaded src={thumbnailUrl} alt={article.title} />
         <ArticleHeader.Loaded
           category={article.category}

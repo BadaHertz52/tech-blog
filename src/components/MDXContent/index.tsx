@@ -2,6 +2,7 @@
 
 import { MDXRemote } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
+import Image from "next/image";
 import { ReactNode, useEffect, useState } from "react";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
@@ -9,6 +10,13 @@ import remarkGfm from "remark-gfm";
 import { generateHeadingId } from "@/utils/article";
 import EmptyState from "../EmptyState";
 import "highlight.js/styles/felipec.css";
+
+interface MDXImageProps {
+  src?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+}
 
 const extractTextFromChildren = (children: ReactNode): string => {
   if (typeof children === "string") {
@@ -95,13 +103,30 @@ const MDXComponents = {
       {children}
     </blockquote>
   ),
-  img: (props: any) => (
-    <img
-      {...props}
-      className="h-auto max-w-full rounded-lg"
-      alt={props.alt || ""}
-    />
-  ),
+  img: ({ src, alt, width, height }: MDXImageProps) => {
+    if (!src) return null;
+
+    if (!width || !height) {
+      return (
+        <Image
+          src={src}
+          alt={alt || ""}
+          fill
+          className="h-auto max-w-full rounded-lg"
+        />
+      );
+    }
+
+    return (
+      <Image
+        src={src}
+        alt={alt || ""}
+        width={width}
+        height={height}
+        className="h-auto max-w-full rounded-lg"
+      />
+    );
+  },
   a: ({ children, href }: { children: ReactNode; href?: string }) => (
     <a
       href={href}
@@ -169,7 +194,7 @@ export default function MDXContent({ source }: MDXContentProps) {
   }
 
   return (
-    <div className="flex flex-col gap-[33px] px-[14px]">
+    <div className="flex w-full flex-col gap-[33px] px-[14px]">
       <MDXRemote {...mdxSource} components={MDXComponents} />
     </div>
   );
