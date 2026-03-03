@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta } from "@storybook/react";
 
 import { CATEGORY_LABELS, CATEGORY_LABELS_COLOR } from "@/constants/article";
 import { ArticleCategory } from "@/types/article";
-import Tag from "./Index";
+import Tag from "./index";
 
 const meta = {
   title: "Components/Tag",

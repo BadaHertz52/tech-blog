@@ -1,5 +1,5 @@
 import Skeleton from "@/components/Skeleton";
-import Tag from "@/components/Tag/Index";
+import Tag from "@/components/Tag";
 import { CATEGORY_LABELS, CATEGORY_LABELS_COLOR } from "@/constants/article";
 import { ArticleCategory } from "@/types/article";
 import ArticleMeta from "./_components/ArticleMeta";
