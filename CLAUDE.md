@@ -821,16 +821,6 @@ yarn build           # 프로덕션 빌드 (타입 체크 포함)
 4. **Figma 구현**: `/design-to-code`로 컴포넌트 자동 생성
 5. **PR 작성**: `/create-pr`로 커밋 기반 PR 자동 생성
 
-### 개발 효율화
-1. **개발 시작**: `/pm-review`로 오늘의 작업 우선순위 정하기
-2. **개발 중**: 필요시 각 검토 Skill 호출
-3. **작업 종료 전**:
-   ```bash
-   yarn format              # 코드 포맷팅
-   /code-review            # CodeRabbit 규칙 기반 코드 품질 검토
-   ```
-4. **Storybook**: 컴포넌트는 항상 스토리와 함께 개발
-5. **Import 정렬**: Prettier가 자동으로 import 순서 정렬
 
 ### 주의사항
 - Skills는 **도구**일 뿐, 최종 판단은 개발자 몫
