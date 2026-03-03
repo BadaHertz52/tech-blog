@@ -1,7 +1,8 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
-import Dropdown, { type DropdownOption } from "./index";
+import Dropdown from "./index";
+import type { DropdownOption } from "./index";
 
 interface DropdownStoryProps {
   options: DropdownOption[];

@@ -2,7 +2,6 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-import { generateHeadingId } from "@/utils/article";
 import {
   AdjacentPosts,
   Article,
@@ -11,6 +10,7 @@ import {
   ArticleSort,
   TocHeading,
 } from "@/types/article";
+import { generateHeadingId } from "@/utils/article";
 
 const ARTICLE_DATA_DIRECTORY = path.join(process.cwd(), "public/articles");
 
@@ -115,18 +115,15 @@ export const getArticleBySlug = (slug: string): Article => {
  * article-index.json에서 slug 존재 여부 확인 (O(1))
  */
 export const isValidArticleSlug = (slug: string): boolean => {
-  const indexFilePath = path.join(
-    ARTICLE_DATA_DIRECTORY,
-    "article-index.json"
-  );
+  const indexFilePath = path.join(ARTICLE_DATA_DIRECTORY, "article-index.json");
 
   if (!fs.existsSync(indexFilePath)) {
     return false;
   }
 
-  const { indexMap } = JSON.parse(
-    fs.readFileSync(indexFilePath, "utf-8")
-  ) as { indexMap: Record<string, number> };
+  const { indexMap } = JSON.parse(fs.readFileSync(indexFilePath, "utf-8")) as {
+    indexMap: Record<string, number>;
+  };
 
   return slug in indexMap;
 };

@@ -13,7 +13,11 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 function Loading() {
   return (
     <Wrapper>
-      <Skeleton widthTwClass="w-full" heightTwClass="h-full" roundedTwClass="rounded-none" />
+      <Skeleton
+        widthTwClass="w-full"
+        heightTwClass="h-full"
+        roundedTwClass="rounded-none"
+      />
     </Wrapper>
   );
 }

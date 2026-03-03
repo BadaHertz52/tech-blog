@@ -41,10 +41,7 @@ export default function ShareButton({
   return (
     <button
       onClick={handleCopyLink}
-      className={clsx(
-        "flex items-center justify-center",
-        buttonClassName
-      )}
+      className={clsx("flex items-center justify-center", buttonClassName)}
       aria-label={isCopied ? "Link copied" : "Copy link to clipboard"}
       title={isCopied ? "Copied!" : "Copy link"}
     >

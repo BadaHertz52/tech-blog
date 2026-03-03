@@ -34,7 +34,9 @@ const getArticleSlugsWithDates = () => {
       const content = fs.readFileSync(mdxPath, "utf-8");
 
       // frontmatter에서 date 추출
-      const dateMatch = content.match(/^date:\s*["']?(\d{4}-\d{2}-\d{2})["']?/m);
+      const dateMatch = content.match(
+        /^date:\s*["']?(\d{4}-\d{2}-\d{2})["']?/m
+      );
       const date = dateMatch ? dateMatch[1] : "1970-01-01";
 
       return { slug, date };

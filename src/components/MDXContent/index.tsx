@@ -16,7 +16,9 @@ const extractTextFromChildren = (children: ReactNode): string => {
   }
   if (Array.isArray(children)) {
     return children
-      .map((child) => (typeof child === "string" ? child : child?.props?.children || ""))
+      .map((child) =>
+        typeof child === "string" ? child : child?.props?.children || ""
+      )
       .join("");
   }
   return "";

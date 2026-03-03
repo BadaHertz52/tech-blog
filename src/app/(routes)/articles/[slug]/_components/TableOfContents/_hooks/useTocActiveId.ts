@@ -34,10 +34,12 @@ const findTopmostHeading = (
   if (visibleEntries.length === 0) return null;
 
   return visibleEntries.reduce((prev, curr) => {
-    const prevTop = ((prev as IntersectionObserverEntry & { __top?: number }).__top ??=
-      prev.target.getBoundingClientRect().top);
-    const currTop = ((curr as IntersectionObserverEntry & { __top?: number }).__top ??=
-      curr.target.getBoundingClientRect().top);
+    const prevTop = ((
+      prev as IntersectionObserverEntry & { __top?: number }
+    ).__top ??= prev.target.getBoundingClientRect().top);
+    const currTop = ((
+      curr as IntersectionObserverEntry & { __top?: number }
+    ).__top ??= curr.target.getBoundingClientRect().top);
     return currTop < prevTop ? curr : prev;
   });
 };

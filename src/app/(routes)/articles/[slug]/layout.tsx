@@ -7,7 +7,5 @@ interface ArticleDetailLayoutProps {
 export default function ArticleDetailLayout({
   children,
 }: ArticleDetailLayoutProps) {
-  return (
-    <article className="flex h-full w-full gap-8">{children}</article>
-  );
+  return <article className="flex h-full w-full gap-8">{children}</article>;
 }
