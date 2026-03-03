@@ -53,7 +53,7 @@
 ```sh
 tech-blog/
 ├── .claude/                    # Claude Code 환경
-│   ├── skills/                 # Skills 정의 (10개 스킬)
+│   ├── skills/                 # Skills 정의 
 │   └── memory/                 # Auto memory
 │
 ├── src/
@@ -619,7 +619,7 @@ export default function Button({
 
 ## 🚀 Claude Code Skills 사용법
 
-### 전문가 검토 Skills (5개)
+### 검토 Skills 
 
 #### 1. PM Review
 ```bash
@@ -633,7 +633,17 @@ export default function Button({
 
 **용도**: 기능 우선순위, 비즈니스 가치 분석, 로드맵 수립
 
-#### 2. UX Review
+#### 2. Code Review
+```bash
+/code-review
+
+src/components/Button/index.tsx 코드를 리뷰해줘
+```
+
+**용도**: CodeRabbit 기반 코드 품질(타입, 네이밍, export 규칙), 구조(컴포넌트 분리), 스타일(Tailwind), 기능(엣지 케이스), 성능, 보안(XSS/CSRF) 검토
+**⚠️ 접근성(WCAG)은 제외** → `/ux-review` 참고
+
+#### 3. UX Review
 ```bash
 /ux-review
 
@@ -642,59 +652,18 @@ BlogCard 컴포넌트의 UX와 접근성을 검토해줘.
 
 **용도**: 사용자 경험, WCAG 2.1 접근성, 모바일 UX
 
-#### 3. Design Review
-```bash
-/design-review
-
-Figma 디자인을 분석해줘:
-[Figma URL]
-
-현재 코드와 일치하는지 확인해줘.
-```
-
-**용도**: Figma ↔ 코드 일관성, 디자인 시스템, 색상/타이포그래피
-
-#### 4. Security Review
-```bash
-/security-review
-
-댓글 API의 보안을 검토해줘:
-POST /api/comments
-```
-
-**용도**: OWASP Top 10, API 보안, 취약점 분석
-
-#### 5. Refactor Review
-```bash
-/refactor-review
-
-전체 프로젝트의 코드 구조를 평가해줘.
-앞으로 기능이 많이 추가될 예정이야.
-```
-
-**용도**: 코드 구조, 성능 최적화, 확장성, 기술 부채
-
 ---
 
-### 자동화 Skills (5개)
+### 자동화 Skills
 
-#### 6. Create PR (PR 본문 작성)
+#### 4. Create PR (PR 본문 작성)
 ```bash
 /create-pr
 ```
 
 **용도**: 브랜치명에서 이슈 번호 추출 + 커밋 내역 기반 PR 제목·본문 작성 후 출력
 
-#### 7. Team Review (통합 검토)
-```bash
-/team-review
-
-새로 만든 댓글 기능을 전체적으로 검토해줘.
-```
-
-**용도**: 5명의 전문가가 동시에 종합 검토
-
-#### 8. Design to Code
+#### 5. Design to Code
 ```bash
 /design-to-code
 
@@ -703,25 +672,6 @@ Figma URL: [링크]
 ```
 
 **용도**: Figma → React 컴포넌트 자동 생성
-
-#### 9. Validate
-```bash
-/validate
-
-전체 코드를 검증하고 자동으로 수정해줘.
-```
-
-**용도**: TypeScript, ESLint, Prettier 검증 및 자동 수정
-
-#### 10. Generate Component
-```bash
-/generate-component
-
-컴포넌트명: BlogCard
-Props: title, description, date, imageUrl, href
-```
-
-**용도**: React 컴포넌트 템플릿 자동 생성
 
 ---
 
@@ -769,64 +719,6 @@ feat: MDX 인프라 구축
 feat: 블로그 리스트 페이지 구현
 fix: BlogCard 썸네일 이미지 오류 수정
 ```
-
----
-
-## 🔄 개발 워크플로우
-
-### 새 기능 개발 프로세스
-
-```mermaid
-1. PM Review       → 기능 기획 및 우선순위
-2. UX Review       → UX/접근성 설계
-3. Design Review   → 디자인 일관성 확인
-4. 개발 진행       → 코드 작성
-5. Security Review → 보안 검토
-6. Refactor Review → 코드 구조 검토
-7. Team Review     → 최종 종합 검토
-```
-
-### Figma → 코드 구현 프로세스
-
-```mermaid
-1. Design Review     → Figma 분석
-2. Design to Code    → 컴포넌트 자동 생성
-3. UX Review         → UX/접근성 검증
-4. Validate          → 코드 품질 검증
-```
-
-### 일일 개발 루틴
-
-**개발 시작 전, 데일리 스크럼**
-```bash
-/pm-review
-오늘 뭘 할까?
-```
-
-**개발 중**
-- 필요시 각 전문가 Skill 호출
-- `/generate-component`로 빠른 템플릿 생성
-- `/design-to-code`로 Figma 구현
-
-**작업 종료 전**
-```bash
-/validate
-전체 코드를 검증하고 수정해줘.
-
-yarn format
-코드 포맷팅 적용
-
-/refactor-review
-오늘 작성한 코드 리뷰해줘.
-```
-
-**주간 리뷰**
-```bash
-/team-review
-이번 주 작업 전체를 검토해줘.
-```
-
----
 
 ## 🎯 개발 원칙
 
@@ -923,23 +815,17 @@ yarn build           # 프로덕션 빌드 (타입 체크 포함)
 ## 💡 Tips
 
 ### Skill 사용 팁
-1. **간단한 검토**: 개별 Skill (`/pm-review`, `/ux-review` 등)
-2. **종합 검토**: `/team-review` (중요한 시점에만)
-3. **자동화**: `/validate`, `/generate-component` 적극 활용
-4. **Figma 구현**: `/design-review` → `/design-to-code` 순서
+1. **기능 기획**: `/pm-review`로 우선순위와 비즈니스 가치 분석
+2. **코드 리뷰**: `/code-review`로 CodeRabbit 규칙 기반 코드 품질 + 구조 + 성능 + 보안 검토
+3. **UX/접근성**: `/ux-review`로 WCAG 준수 여부 검증
+4. **Figma 구현**: `/design-to-code`로 컴포넌트 자동 생성
+5. **PR 작성**: `/create-pr`로 커밋 기반 PR 자동 생성
 
-### 개발 효율화
-1. **컴포넌트 생성**: `/generate-component` 먼저 사용
-2. **코드 검증**: 작업 종료 시 `/validate` 후 `yarn format`
-3. **정기 리뷰**: 주간 `/team-review`로 기술 부채 관리
-4. **Storybook**: 컴포넌트는 항상 스토리와 함께 개발
-5. **Import 정렬**: Prettier가 자동으로 import 순서 정렬
 
 ### 주의사항
 - Skills는 **도구**일 뿐, 최종 판단은 개발자 몫
-- `/team-review`는 리소스가 많이 들므로 신중히 사용
 - 자동 생성 코드는 **반드시 검토** 후 사용
-- 보안 검토는 **정기적으로** 수행
+- 보안 검토는 **정기적으로** 수행 (최소 월 1회)
 
 ---
 

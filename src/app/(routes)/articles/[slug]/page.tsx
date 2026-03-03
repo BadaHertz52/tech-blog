@@ -1,8 +1,18 @@
-import { MDXRemote } from "next-mdx-remote/rsc";
-import Image from "next/image";
+import { notFound } from "next/navigation";
 
+import MDXContent from "@/components/MDXContent";
 import { resolveArticleImagePath } from "@/utils/article";
-import { getAllArticles, getArticleBySlug } from "@/utils/mdx";
+import {
+  getAdjacentArticles,
+  getAllArticles,
+  getArticleBySlug,
+  isValidArticleSlug,
+  parseHeadings,
+} from "@/utils/mdx";
+import ArticleHeader from "./_components/ArticleHeader";
+import ArticleNavigation from "./_components/ArticleNavigation";
+import ArticleThumbnail from "./_components/ArticleThumbnail";
+import TableOfContents from "./_components/TableOfContents";
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -10,57 +20,36 @@ interface ArticlePageProps {
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = await getArticleBySlug(slug);
 
-  if (!article) {
-    return (
-      <article>
-        <p>Article not found</p>
-      </article>
-    );
+  if (!isValidArticleSlug(slug)) {
+    notFound();
   }
 
-  const thumbnailUrl = article.thumbnail
-    ? resolveArticleImagePath(slug, article.thumbnail)
-    : null;
+  const article = getArticleBySlug(slug);
+  const { prev, next } = getAdjacentArticles(slug);
+  const thumbnailUrl = resolveArticleImagePath(slug, article.thumbnail);
+
+  const headings = parseHeadings(article.content);
 
   return (
-    <article className="h-full w-full">
-      <header>
-        {/* 썸네일 */}
-        {thumbnailUrl && (
-          <figure>
-            <Image
-              src={thumbnailUrl}
-              alt={article.title}
-              width={1200}
-              height={600}
-              priority
-            />
-          </figure>
-        )}
-
-        {/* 제목 */}
-        <h1>{article.title}</h1>
-
-        {/* 메타 정보 */}
-        <div>
-          <span>{article.date}</span>
-          <span>{article.category}</span>
-          <span>{article.views} views</span>
-        </div>
-      </header>
-
-      {/* 본문 - MDX 렌더링 */}
-      <section>
-        <MDXRemote source={article.content} />
-      </section>
-    </article>
+    <>
+      <TableOfContents.Loaded headings={headings} />
+      <div className="flex w-full flex-col gap-14 md:flex-1">
+        <ArticleThumbnail.Loaded src={thumbnailUrl} alt={article.title} />
+        <ArticleHeader.Loaded
+          category={article.category}
+          title={article.title}
+          date={article.date}
+        />
+        <MDXContent source={article.content} headings={headings} />
+        <ArticleNavigation prev={prev} next={next} />
+      </div>
+    </>
   );
 }
 
-export async function generateStaticParams() {
-  const articles = await getAllArticles();
+export function generateStaticParams() {
+  const articles = getAllArticles();
 
   return articles.map((article) => ({
     slug: article.slug,

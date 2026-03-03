@@ -8,19 +8,41 @@ import {
   ArticleCardData,
   ArticleMeta,
   ArticleSort,
+  TocHeading,
 } from "@/types/article";
+import { generateUUID } from "./id";
 
 const ARTICLE_DATA_DIRECTORY = path.join(process.cwd(), "public/articles");
 
 /**
- * 읽기 시간 계산 (분 단위)
- * 일반적으로 분당 200 단어 기준
+ * article-index.json 캐시
+ * 모듈 로드 시 한 번만 파일을 읽고 이후에는 캐시된 값 사용
  */
-const calculateReadingTime = (content: string): number => {
-  const wordsPerMinute = 200;
-  const wordCount = content.split(/\s+/).length;
+let indexCache: { slugs: string[]; indexMap: Record<string, number> } | null =
+  null;
 
-  return Math.ceil(wordCount / wordsPerMinute);
+const getIndexCache = (): {
+  slugs: string[];
+  indexMap: Record<string, number>;
+} => {
+  if (indexCache) {
+    return indexCache;
+  }
+
+  const indexFilePath = path.join(ARTICLE_DATA_DIRECTORY, "article-index.json");
+
+  if (!fs.existsSync(indexFilePath)) {
+    throw new Error(
+      "article-index.json not found. Run `node scripts/generate-article-index.js` first."
+    );
+  }
+
+  indexCache = JSON.parse(fs.readFileSync(indexFilePath, "utf-8")) as {
+    slugs: string[];
+    indexMap: Record<string, number>;
+  };
+
+  return indexCache;
 };
 
 /**
@@ -94,7 +116,6 @@ export const getAllArticles = (): ArticleCardData[] => {
 
     return {
       ...meta,
-      readingTime: calculateReadingTime(content),
     };
   });
 };
@@ -122,20 +143,39 @@ export const getArticleBySlug = (slug: string): Article => {
 };
 
 /**
+ * article-index.json에서 slug 존재 여부 확인 (O(1))
+ */
+export const isValidArticleSlug = (slug: string): boolean => {
+  try {
+    const { indexMap } = getIndexCache();
+    return slug in indexMap;
+  } catch {
+    return false;
+  }
+};
+
+/**
  * 이전/다음 포스트 반환 (상세 페이지 네비게이션용)
+ *
+ * article-index.json의 indexMap을 통해 O(1)로 현재 slug 위치를 찾고,
+ * slugs 배열로 인접 slug를 바로 접근합니다.
  */
 export const getAdjacentArticles = (slug: string): AdjacentPosts => {
-  const articles = getAllArticles();
-  const currentIndex = articles.findIndex((article) => article.slug === slug);
+  const { slugs, indexMap } = getIndexCache();
+  const currentIndex = indexMap[slug];
 
-  if (currentIndex === -1) {
+  if (currentIndex === undefined) {
     throw new Error(`Article not found: ${slug}`);
   }
 
+  // slugs는 오래된순 정렬: index-1 = 더 오래된(이전글), index+1 = 더 최신(다음글)
+  const prevSlug = currentIndex > 0 ? slugs[currentIndex - 1] : undefined;
+  const nextSlug =
+    currentIndex < slugs.length - 1 ? slugs[currentIndex + 1] : undefined;
+
   return {
-    prev: currentIndex > 0 ? articles[currentIndex - 1] : null,
-    next:
-      currentIndex < articles.length - 1 ? articles[currentIndex + 1] : null,
+    prev: prevSlug ? getArticleBySlug(prevSlug) : undefined,
+    next: nextSlug ? getArticleBySlug(nextSlug) : undefined,
   };
 };
 
@@ -181,4 +221,27 @@ export const sortArticles = (
   return [...articles].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
+};
+
+/**
+ * MDX 콘텐츠에서 헤딩(h1~h4) 추출
+ * @param content - MDX 마크다운 문자열
+ * @returns 목차 헤딩 배열
+ */
+export const parseHeadings = (content: string): TocHeading[] => {
+  const headingRegex = /^#{1,4} (.+)$/gm;
+  const headings: TocHeading[] = [];
+  let match;
+
+  while ((match = headingRegex.exec(content)) !== null) {
+    const fullMatch = match[0]; // "## 제목" 형태
+    const text = match[1]; // "제목"
+    const level = fullMatch.match(/^#+/)?.[0].length as 1 | 2 | 3 | 4;
+
+    const id = generateUUID();
+
+    headings.push({ id, text, level });
+  }
+
+  return headings;
 };

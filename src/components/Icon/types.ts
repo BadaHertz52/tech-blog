@@ -1,18 +1,6 @@
-export type LucideIconName =
-  | "search"
-  | "menu"
-  | "sun"
-  | "moon"
-  | "calendar"
-  | "clock"
-  | "chevron-right"
-  | "chevron-down"
-  | "chevron-up"
-  | "message-square"
-  | "home"
-  | "arrow-up"
-  | "play-circle"
-  | "external-link";
+import { LUCIDE_ICON_MAP } from "./LucideIcon";
+
+export type LucideIconName = keyof typeof LUCIDE_ICON_MAP;
 
 export type CustomIconName = "github" | "linkedin" | "bada";
 
