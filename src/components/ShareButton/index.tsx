@@ -19,12 +19,10 @@ export default function ShareButton({
   buttonClassName,
   iconClassName = "h-auto w-[16px] text-gray-600",
 }: ShareButtonProps) {
-  const [isCopied, setIsCopied] = useState(false);
-
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(url);
-      setIsCopied(true);
+
       openToast({
         variant: "success",
         description: "클립보드에 링크가 복사되었습니다!",
@@ -42,8 +40,8 @@ export default function ShareButton({
     <button
       onClick={handleCopyLink}
       className={clsx("flex items-center justify-center", buttonClassName)}
-      aria-label={isCopied ? "Link copied" : "Copy link to clipboard"}
-      title={isCopied ? "Copied!" : "Copy link"}
+      aria-label="Copy link to clipboard"
+      title="Copy link"
     >
       <Icon name={linkIconName} className={iconClassName} />
     </button>
