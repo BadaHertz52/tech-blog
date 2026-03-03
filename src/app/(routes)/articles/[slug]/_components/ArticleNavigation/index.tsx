@@ -67,12 +67,14 @@ export default function ArticleNavigation({
 
       {/* 다음 글 */}
       {next && (
-        <NavigationLink
-          href={ROUTES.article(next.slug)}
-          header="다음 글 →"
-          title={next.title}
-          isNext
-        />
+        <div className={clsx(!prev && "md:col-start-2")}>
+          <NavigationLink
+            href={ROUTES.article(next.slug)}
+            header="다음 글 →"
+            title={next.title}
+            isNext
+          />
+        </div>
       )}
     </nav>
   );
