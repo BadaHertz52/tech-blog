@@ -342,43 +342,43 @@ const extractImagePathsFromContent = (content: string): string[] => {
   return paths;
 };
 
-const validateContentImagePath = (
+const validateAbsoluteContentImagePath = (
+  imagePath: string
+): ValidationError[] => {
+  // fullPath: 정규화된 절대 경로 (.. 포함해서 실제 위치 파악)
+  const fullPath = path.resolve(PUBLIC_DIRECTORY, imagePath);
+  // allowedRoot: 허용된 범위 (/public 디렉토리 내만 접근 가능)
+  const allowedRoot = path.resolve(PUBLIC_DIRECTORY);
+
+  // 경로 범위 검증: fullPath가 allowedRoot 내에 있는가?
+  if (
+    !fullPath.startsWith(allowedRoot + path.sep) &&
+    fullPath !== allowedRoot
+  ) {
+    return [
+      {
+        field: "content",
+        message: "Image path escapes public directory",
+      },
+    ];
+  }
+
+  if (!fs.existsSync(fullPath)) {
+    return [
+      {
+        field: "content",
+        message: `Image file not found: ${imagePath}`,
+      },
+    ];
+  }
+
+  return [];
+};
+
+const validateRelativeContentImagePath = (
   slug: string,
   imagePath: string
 ): ValidationError[] => {
-  // 절대 경로 처리 (public 디렉토리 기준)
-  if (imagePath.startsWith("/")) {
-    // fullPath: 정규화된 절대 경로 (.. 포함해서 실제 위치 파악)
-    const fullPath = path.resolve(PUBLIC_DIRECTORY, imagePath);
-    // allowedRoot: 허용된 범위 (/public 디렉토리 내만 접근 가능)
-    const allowedRoot = path.resolve(PUBLIC_DIRECTORY);
-
-    // 경로 범위 검증: fullPath가 allowedRoot 내에 있는가?
-    if (
-      !fullPath.startsWith(allowedRoot + path.sep) &&
-      fullPath !== allowedRoot
-    ) {
-      return [
-        {
-          field: "content",
-          message: "Image path escapes public directory",
-        },
-      ];
-    }
-
-    if (!fs.existsSync(fullPath)) {
-      return [
-        {
-          field: "content",
-          message: `Image file not found: ${imagePath}`,
-        },
-      ];
-    }
-
-    return [];
-  }
-
-  // 상대 경로 처리 (아티클 디렉토리 내)
   // cleanPath: 정제된 상대경로 (./ 제거)
   const cleanPath = imagePath.startsWith("./")
     ? imagePath.slice(2)
@@ -411,6 +411,17 @@ const validateContentImagePath = (
   }
 
   return [];
+};
+
+const validateContentImagePath = (
+  slug: string,
+  imagePath: string
+): ValidationError[] => {
+  if (imagePath.startsWith("/")) {
+    return validateAbsoluteContentImagePath(imagePath);
+  }
+
+  return validateRelativeContentImagePath(slug, imagePath);
 };
 
 const validateContentImagePaths = (
