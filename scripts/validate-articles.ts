@@ -10,10 +10,17 @@ interface ValidationResult {
 }
 
 const getChangedArticleSlugs = (): string[] => {
+  // GITHUB_BASE_REF: GitHub Actions에서 제공하는 기본 브랜치 (main, release 등)
+  // 로컬 환경: undefined → origin/main을 기본값으로 사용
+  const baseRef = process.env.GITHUB_BASE_REF || "origin/main";
+
   try {
-    const output = execSync("git diff --name-only origin/main...HEAD", {
-      encoding: "utf-8",
-    });
+    const output = execSync(
+      `git diff --name-only ${baseRef}...HEAD`,
+      {
+        encoding: "utf-8",
+      }
+    );
 
     const changedFiles = output.split("\n").filter((line) => line.trim());
     const articleSlugs = new Set<string>();
@@ -26,9 +33,13 @@ const getChangedArticleSlugs = (): string[] => {
     }
 
     return Array.from(articleSlugs).sort();
-  } catch {
-    console.log("ℹ️  git diff failed. No articles to validate.");
-    return [];
+  } catch (error) {
+    // git diff 실패 시 즉시 CI 실패 처리
+    // (에러를 무시하고 통과시키면 검증이 건너뜀)
+    console.error(
+      `❌ Failed to detect changed articles: ${error instanceof Error ? error.message : String(error)}`
+    );
+    process.exit(1);
   }
 };
 
