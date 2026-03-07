@@ -5,7 +5,11 @@ import matter from "gray-matter";
 import type { ArticleCategory, ArticleMeta } from "@/types/article";
 import type { ValidationError } from "@/types/error";
 
-const ARTICLE_DATA_DIRECTORY = path.join(process.cwd(), "public/articles");
+const ARTICLE_DATA_DIRECTORY = path.join(
+  path.dirname(new URL(import.meta.url).pathname),
+  "../../..",
+  "public/articles"
+);
 
 const VALID_CATEGORIES: ArticleCategory[] = [
   "troubleshooting",
@@ -230,7 +234,12 @@ const validateArticleStructure = (slug: string): ValidationError[] => {
 const validateAbsoluteThumbnailPath = (
   thumbnailPath: string
 ): ValidationError[] => {
-  const fullPath = path.join(process.cwd(), "public", thumbnailPath);
+  const publicDir = path.join(
+    path.dirname(new URL(import.meta.url).pathname),
+    "../../..",
+    "public"
+  );
+  const fullPath = path.join(publicDir, thumbnailPath);
   if (!fs.existsSync(fullPath)) {
     return [
       {
