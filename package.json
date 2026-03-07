@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "generate:index": "node scripts/generate-article-index.js",
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "yarn generate:index && next dev",
+    "build": "yarn generate:index && next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",

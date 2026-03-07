@@ -35,15 +35,6 @@ jobs:
       - name: Run tests
         run: yarn test
 
-      - name: Print validation success
-        run: echo "✅ Article validation passed"
-
-      - name: Print test success
-        run: echo "✅ Tests passed"
-
-      - name: Generate article index
-        run: yarn generate:index
-
       - name: Print completion message
         run: |
           echo ""
@@ -54,7 +45,6 @@ jobs:
           echo "📋 Results:"
           echo "  • Article validation: PASSED"
           echo "  • Tests: PASSED"
-          echo "  • Article index generation: COMPLETED"
           echo ""
           echo "🎉 All checks passed. Ready for merge!"
           echo "=========================================="
