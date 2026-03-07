@@ -10,8 +10,9 @@ interface ValidationResult {
 }
 
 const getChangedArticleSlugs = (): string[] => {
-  // GITHUB_BASE_REF: GitHub Actions에서 제공하는 기본 브랜치 (main, release 등)
-  // 로컬 환경: undefined → origin/main을 기본값으로 사용
+  // GITHUB_BASE_REF: GitHub Actions PR 이벤트에서 제공하는 기본 브랜치
+  // GITHUB_REF_NAME: GitHub Actions에서 제공하는 현재 브랜치명
+  // 로컬 환경: 모두 undefined → origin/main을 기본값으로 사용
   const baseRef = process.env.GITHUB_BASE_REF || "origin/main";
 
   try {
