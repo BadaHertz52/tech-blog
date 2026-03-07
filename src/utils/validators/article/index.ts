@@ -2,20 +2,9 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
+import { ARTICLE_DATA_DIRECTORY, PUBLIC_DIRECTORY } from "@/constants/paths";
 import type { ArticleCategory, ArticleMeta } from "@/types/article";
 import type { ValidationError } from "@/types/error";
-
-/**
- * 프로젝트 루트의 public 디렉토리 절대 경로
- * import.meta.url 기반으로 현재 파일의 위치를 기준으로 계산
- */
-const PUBLIC_DIRECTORY = path.join(
-  path.dirname(new URL(import.meta.url).pathname),
-  "../../..",
-  "public"
-);
-
-const ARTICLE_DATA_DIRECTORY = path.join(PUBLIC_DIRECTORY, "articles");
 
 const VALID_CATEGORIES: ArticleCategory[] = [
   "troubleshooting",

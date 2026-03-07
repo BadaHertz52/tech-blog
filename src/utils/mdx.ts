@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
+import { ARTICLE_DATA_DIRECTORY } from "@/constants/paths";
 import {
   AdjacentPosts,
   Article,
@@ -11,8 +12,6 @@ import {
   TocHeading,
 } from "@/types/article";
 import { generateUUID } from "./id";
-
-const ARTICLE_DATA_DIRECTORY = path.join(process.cwd(), "public/articles");
 
 /**
  * article-index.json 캐시
