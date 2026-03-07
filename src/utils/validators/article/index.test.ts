@@ -158,9 +158,16 @@ describe("아티클 마크다운", () => {
 
   describe("본문 이미지 경로 검증", () => {
     it("마크다운 이미지 경로를 추출해야 한다", () => {
-      const result = validateArticle("nextjs-optimization");
+      const result = validateArticle("2026-02-21-nextjs-optimization");
       // 유효한 아티클이면 에러가 없어야 함
       expect(Array.isArray(result)).toBe(true);
+    });
+  });
+
+  describe("slug 일치 검증", () => {
+    it("폴더명과 frontmatter slug가 일치하면 통과해야 한다", () => {
+      const result = validateArticle("2026-02-17-2025-retrospective");
+      expect(result).toHaveLength(0);
     });
   });
 });

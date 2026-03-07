@@ -175,6 +175,22 @@ const buildArticleMeta = (meta: Record<string, unknown>): ArticleMeta => {
   };
 };
 
+const validateSlugMatchesFolderName = (
+  slug: string,
+  frontmatterSlug: string
+): ValidationError[] => {
+  if (slug !== frontmatterSlug) {
+    return [
+      {
+        field: "slug",
+        message: `Slug mismatch: folder is "${slug}" but frontmatter is "${frontmatterSlug}"`,
+      },
+    ];
+  }
+
+  return [];
+};
+
 const validateFrontmatter = (
   metadata: unknown
 ):
@@ -523,13 +539,19 @@ export const validateArticle = (slug: string): ValidationError[] => {
     return fileValidation.errors;
   }
 
-  // 3. 썸네일 존재 검증
+  // 3. slug 일치 검증 (폴더명 vs frontmatter slug)
+  const frontmatterSlug = fileValidation.meta.slug;
+  if (typeof frontmatterSlug === "string") {
+    errors.push(...validateSlugMatchesFolderName(slug, frontmatterSlug));
+  }
+
+  // 4. 썸네일 존재 검증
   const thumbnailPath = fileValidation.meta.thumbnail;
   if (typeof thumbnailPath === "string") {
     errors.push(...validateThumbnailFile(slug, thumbnailPath));
   }
 
-  // 4. 본문 이미지 경로 검증
+  // 5. 본문 이미지 경로 검증
   errors.push(...validateContentImagePaths(slug, fileValidation.content));
 
   return errors;
