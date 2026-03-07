@@ -1,6 +1,7 @@
 /**
- * 간단한 UUID 생성
+ * UUID 생성 (crypto.randomUUID() 기반)
+ * @returns UUIDv4 형식의 고유 ID
  */
 export const generateUUID = (): string => {
-  return Math.random().toString(36).substring(2, 9);
+  return crypto.randomUUID();
 };

@@ -53,7 +53,7 @@
 ```sh
 tech-blog/
 ├── .claude/                    # Claude Code 환경
-│   ├── skills/                 # Skills 정의 
+│   ├── skills/                 # Skills 정의 (10개 스킬)
 │   └── memory/                 # Auto memory
 │
 ├── src/
@@ -620,6 +620,7 @@ export default function Button({
 ## 🚀 Claude Code Skills 사용법
 
 ### 검토 Skills 
+### 검토 Skills 
 
 #### 1. PM Review
 ```bash
@@ -634,28 +635,39 @@ export default function Button({
 **용도**: 기능 우선순위, 비즈니스 가치 분석, 로드맵 수립
 
 #### 2. Code Review
+#### 2. Code Review
 ```bash
 /code-review
+/code-review
 
+src/components/Button/index.tsx 코드를 리뷰해줘
 src/components/Button/index.tsx 코드를 리뷰해줘
 ```
 
 **용도**: CodeRabbit 기반 코드 품질(타입, 네이밍, export 규칙), 구조(컴포넌트 분리), 스타일(Tailwind), 기능(엣지 케이스), 성능, 보안(XSS/CSRF) 검토
 **⚠️ 접근성(WCAG)은 제외** → `/ux-review` 참고
+**용도**: CodeRabbit 기반 코드 품질(타입, 네이밍, export 규칙), 구조(컴포넌트 분리), 스타일(Tailwind), 기능(엣지 케이스), 성능, 보안(XSS/CSRF) 검토
+**⚠️ 접근성(WCAG)은 제외** → `/ux-review` 참고
 
+#### 3. UX Review
 #### 3. UX Review
 ```bash
 /ux-review
+/ux-review
 
+BlogCard 컴포넌트의 UX와 접근성을 검토해줘.
 BlogCard 컴포넌트의 UX와 접근성을 검토해줘.
 ```
 
+**용도**: 사용자 경험, WCAG 2.1 접근성, 모바일 UX
 **용도**: 사용자 경험, WCAG 2.1 접근성, 모바일 UX
 
 ---
 
 ### 자동화 Skills
+### 자동화 Skills
 
+#### 4. Create PR (PR 본문 작성)
 #### 4. Create PR (PR 본문 작성)
 ```bash
 /create-pr
@@ -663,6 +675,7 @@ BlogCard 컴포넌트의 UX와 접근성을 검토해줘.
 
 **용도**: 브랜치명에서 이슈 번호 추출 + 커밋 내역 기반 PR 제목·본문 작성 후 출력
 
+#### 5. Design to Code
 #### 5. Design to Code
 ```bash
 /design-to-code
@@ -718,6 +731,54 @@ docs/3-claude-code-design-setting
 feat: MDX 인프라 구축
 feat: 블로그 리스트 페이지 구현
 fix: BlogCard 썸네일 이미지 오류 수정
+```
+
+### 브랜치 전략
+
+#### 브랜치 구조
+
+```
+main (기준점, 코드 변경 관리)
+  ├── feature/* → main PR → release 머지 (코드/기능 변경)
+  └── article/* → release PR 직접 (마크다운 아티클 추가)
+
+release (배포 브랜치, Vercel production)
+```
+
+#### 브랜치 역할
+
+| 브랜치 | 역할 | PR 방향 | 설명 |
+|--------|------|--------|------|
+| `main` | 기준점 | feature/* → main | 코드 변경 관리, 배포 전 최종 검증 |
+| `release` | 배포 브랜치 | main → release / article/* → release | Vercel production 배포 |
+| `feature/*` | 기능 개발 | → main | 기능 추가, 버그 수정, 리팩토링 |
+| `article/*` | 콘텐츠 추가 | → release 직접 | 마크다운 아티클만 추가 (코드 변경 금지) |
+
+#### article 브랜치 전략
+
+- **브랜치 생성**: `main`에서 브랜치 생성 → 최신 코드 상태 기준 보장
+- **PR 대상**: `release`로 직접 PR (코드 변경 없이 콘텐츠만 반영)
+- **허용 파일**: 마크다운 파일만 추가 (코드 변경 시 `feature/*` 사용)
+- **브랜치 관리**: 짧게 유지하여 충돌 방지
+
+#### 워크플로우 예시
+
+**코드 변경 (feature 브랜치):**
+```bash
+git checkout -b feature/8-article-detail-page
+# 기능 구현...
+git push origin feature/8-article-detail-page
+# → main으로 PR
+# → main 머지 후 release로 자동 배포
+```
+
+**아티클 추가 (article 브랜치):**
+```bash
+git checkout -b article/nextjs-optimization
+# 마크다운 파일만 추가
+git push origin article/nextjs-optimization
+# → release로 직접 PR (코드 리뷰 불필요)
+# → release 머지 후 즉시 배포
 ```
 
 ## 🎯 개발 원칙
@@ -815,6 +876,12 @@ yarn build           # 프로덕션 빌드 (타입 체크 포함)
 ## 💡 Tips
 
 ### Skill 사용 팁
+1. **기능 기획**: `/pm-review`로 우선순위와 비즈니스 가치 분석
+2. **코드 리뷰**: `/code-review`로 CodeRabbit 규칙 기반 코드 품질 + 구조 + 성능 + 보안 검토
+3. **UX/접근성**: `/ux-review`로 WCAG 준수 여부 검증
+4. **Figma 구현**: `/design-to-code`로 컴포넌트 자동 생성
+5. **PR 작성**: `/create-pr`로 커밋 기반 PR 자동 생성
+
 1. **기능 기획**: `/pm-review`로 우선순위와 비즈니스 가치 분석
 2. **코드 리뷰**: `/code-review`로 CodeRabbit 규칙 기반 코드 품질 + 구조 + 성능 + 보안 검토
 3. **UX/접근성**: `/ux-review`로 WCAG 준수 여부 검증

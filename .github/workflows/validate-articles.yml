@@ -1,0 +1,50 @@
+name: Validate Articles
+
+on:
+  pull_request:
+    branches:
+      - main
+      - release
+    paths:
+      - "public/articles/**"
+      - "src/utils/validators/**"
+      - ".github/workflows/validate-articles.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Validate changed articles
+        run: yarn validate:articles
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Print completion message
+        run: |
+          echo ""
+          echo "=========================================="
+          echo "✅ Article Validation CI Completed"
+          echo "=========================================="
+          echo ""
+          echo "📋 Results:"
+          echo "  • Article validation: PASSED"
+          echo "  • Tests: PASSED"
+          echo ""
+          echo "🎉 All checks passed. Ready for merge!"
+          echo "=========================================="

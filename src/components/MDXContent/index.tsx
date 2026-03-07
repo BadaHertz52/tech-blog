@@ -34,6 +34,22 @@ const extractTextFromChildren = (children: ReactNode): string => {
   return "";
 };
 
+/**
+ * 마크다운 포맷팅 제거
+ * **굵게**, *기울임*, `코드` 등을 제거하여 순수 텍스트만 추출
+ */
+const stripMarkdown = (text: string): string => {
+  return text
+    .replace(/\*\*\*(.+?)\*\*\*/g, "$1") // ***굵은기울임*** → 굵은기울임
+    .replace(/\*\*(.+?)\*\*/g, "$1") // **굵게** → 굵게
+    .replace(/\*(.+?)\*/g, "$1") // *기울임* → 기울임
+    .replace(/__(.+?)__/g, "$1") // __굵게__ → 굵게
+    .replace(/_(.+?)_/g, "$1") // _기울임_ → 기울임
+    .replace(/`(.+?)`/g, "$1") // `코드` → 코드
+    .replace(/\[(.+?)\]\(.+?\)/g, "$1") // [링크](url) → 링크
+    .trim();
+};
+
 const getHeadingId = ({
   text,
   level,
@@ -43,7 +59,8 @@ const getHeadingId = ({
   level: 2 | 3 | 4;
   headings: TocHeading[];
 }): string => {
-  const heading = headings.find((h) => h.text === text && h.level === level);
+  const cleanText = stripMarkdown(text);
+  const heading = headings.find((h) => h.text === cleanText && h.level === level);
   return heading?.id ?? `heading-h${level}-${generateUUID()}`;
 };
 
