@@ -229,7 +229,24 @@ const validateArticleStructure = (slug: string): ValidationError[] => {
 const validateAbsoluteThumbnailPath = (
   thumbnailPath: string
 ): ValidationError[] => {
-  const fullPath = path.join(PUBLIC_DIRECTORY, thumbnailPath);
+  // fullPath: 정규화된 절대 경로 (.. 포함해서 실제 위치 파악)
+  const fullPath = path.resolve(PUBLIC_DIRECTORY, thumbnailPath);
+  // allowedRoot: 허용된 범위 (/public 디렉토리 내만 접근 가능)
+  const allowedRoot = path.resolve(PUBLIC_DIRECTORY);
+
+  // 경로 범위 검증: fullPath가 allowedRoot 내에 있는가?
+  if (
+    !fullPath.startsWith(allowedRoot + path.sep) &&
+    fullPath !== allowedRoot
+  ) {
+    return [
+      {
+        field: "thumbnail",
+        message: "Thumbnail path escapes public directory",
+      },
+    ];
+  }
+
   if (!fs.existsSync(fullPath)) {
     return [
       {
@@ -246,10 +263,27 @@ const validateRelativeThumbnailPath = (
   slug: string,
   thumbnailPath: string
 ): ValidationError[] => {
+  // cleanPath: 정제된 상대경로 (./ 제거)
   const cleanPath = thumbnailPath.startsWith("./")
     ? thumbnailPath.slice(2)
     : thumbnailPath;
-  const fullPath = path.join(ARTICLE_DATA_DIRECTORY, slug, cleanPath);
+  // fullPath: 정규화된 절대 경로 (.. 포함해서 실제 위치 파악)
+  const fullPath = path.resolve(ARTICLE_DATA_DIRECTORY, slug, cleanPath);
+  // allowedRoot: 허용된 범위 (특정 아티클 디렉토리 내만 접근 가능)
+  const allowedRoot = path.resolve(ARTICLE_DATA_DIRECTORY, slug);
+
+  // 경로 범위 검증: fullPath가 allowedRoot 내에 있는가?
+  if (
+    !fullPath.startsWith(allowedRoot + path.sep) &&
+    fullPath !== allowedRoot
+  ) {
+    return [
+      {
+        field: "thumbnail",
+        message: `Thumbnail path escapes article directory: ${cleanPath}`,
+      },
+    ];
+  }
 
   if (!fs.existsSync(fullPath)) {
     return [
