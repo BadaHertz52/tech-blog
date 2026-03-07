@@ -53,7 +53,7 @@
 ```sh
 tech-blog/
 ├── .claude/                    # Claude Code 환경
-│   ├── skills/                 # Skills 정의 
+│   ├── skills/                 # Skills 정의 (10개 스킬)
 │   └── memory/                 # Auto memory
 │
 ├── src/
@@ -620,6 +620,7 @@ export default function Button({
 ## 🚀 Claude Code Skills 사용법
 
 ### 검토 Skills 
+### 검토 Skills 
 
 #### 1. PM Review
 ```bash
@@ -634,28 +635,39 @@ export default function Button({
 **용도**: 기능 우선순위, 비즈니스 가치 분석, 로드맵 수립
 
 #### 2. Code Review
+#### 2. Code Review
 ```bash
 /code-review
+/code-review
 
+src/components/Button/index.tsx 코드를 리뷰해줘
 src/components/Button/index.tsx 코드를 리뷰해줘
 ```
 
 **용도**: CodeRabbit 기반 코드 품질(타입, 네이밍, export 규칙), 구조(컴포넌트 분리), 스타일(Tailwind), 기능(엣지 케이스), 성능, 보안(XSS/CSRF) 검토
 **⚠️ 접근성(WCAG)은 제외** → `/ux-review` 참고
+**용도**: CodeRabbit 기반 코드 품질(타입, 네이밍, export 규칙), 구조(컴포넌트 분리), 스타일(Tailwind), 기능(엣지 케이스), 성능, 보안(XSS/CSRF) 검토
+**⚠️ 접근성(WCAG)은 제외** → `/ux-review` 참고
 
+#### 3. UX Review
 #### 3. UX Review
 ```bash
 /ux-review
+/ux-review
 
+BlogCard 컴포넌트의 UX와 접근성을 검토해줘.
 BlogCard 컴포넌트의 UX와 접근성을 검토해줘.
 ```
 
+**용도**: 사용자 경험, WCAG 2.1 접근성, 모바일 UX
 **용도**: 사용자 경험, WCAG 2.1 접근성, 모바일 UX
 
 ---
 
 ### 자동화 Skills
+### 자동화 Skills
 
+#### 4. Create PR (PR 본문 작성)
 #### 4. Create PR (PR 본문 작성)
 ```bash
 /create-pr
@@ -663,6 +675,7 @@ BlogCard 컴포넌트의 UX와 접근성을 검토해줘.
 
 **용도**: 브랜치명에서 이슈 번호 추출 + 커밋 내역 기반 PR 제목·본문 작성 후 출력
 
+#### 5. Design to Code
 #### 5. Design to Code
 ```bash
 /design-to-code
@@ -869,10 +882,17 @@ yarn build           # 프로덕션 빌드 (타입 체크 포함)
 4. **Figma 구현**: `/design-to-code`로 컴포넌트 자동 생성
 5. **PR 작성**: `/create-pr`로 커밋 기반 PR 자동 생성
 
+1. **기능 기획**: `/pm-review`로 우선순위와 비즈니스 가치 분석
+2. **코드 리뷰**: `/code-review`로 CodeRabbit 규칙 기반 코드 품질 + 구조 + 성능 + 보안 검토
+3. **UX/접근성**: `/ux-review`로 WCAG 준수 여부 검증
+4. **Figma 구현**: `/design-to-code`로 컴포넌트 자동 생성
+5. **PR 작성**: `/create-pr`로 커밋 기반 PR 자동 생성
+
 
 ### 주의사항
 - Skills는 **도구**일 뿐, 최종 판단은 개발자 몫
 - 자동 생성 코드는 **반드시 검토** 후 사용
+- 보안 검토는 **정기적으로** 수행 (최소 월 1회)
 - 보안 검토는 **정기적으로** 수행 (최소 월 1회)
 
 ---
