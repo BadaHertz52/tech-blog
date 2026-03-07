@@ -26,8 +26,8 @@ const REQUIRED_FIELDS = [
   "slug",
 ];
 
-const MAX_TITLE_LENGTH = 100;
-const MAX_DESCRIPTION_LENGTH = 100;
+export const MAX_TITLE_LENGTH = 100;
+export const MAX_DESCRIPTION_LENGTH = 100;
 const DATE_FORMAT_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
 const isValidDate = (dateString: unknown): boolean => {
@@ -39,8 +39,15 @@ const isValidDate = (dateString: unknown): boolean => {
     return false;
   }
 
-  const date = new Date(dateString);
-  return !isNaN(date.getTime());
+  const [year, month, day] = dateString.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
+
+  // JavaScript Date는 유효하지 않은 날짜를 보정하므로, 입력과 실제 값을 비교
+  return (
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day
+  );
 };
 
 const validateRequiredFields = (
@@ -63,7 +70,10 @@ const validateTitle = (title: unknown): ValidationError[] => {
 
   if (title.length > MAX_TITLE_LENGTH) {
     return [
-      { field: "title", message: `title must be ${MAX_TITLE_LENGTH} characters or less` },
+      {
+        field: "title",
+        message: `title must be ${MAX_TITLE_LENGTH} characters or less`,
+      },
     ];
   }
 
