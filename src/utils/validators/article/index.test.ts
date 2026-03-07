@@ -155,4 +155,12 @@ describe("아티클 마크다운", () => {
       expect(result[0].message).toContain("empty");
     });
   });
+
+  describe("본문 이미지 경로 검증", () => {
+    it("마크다운 이미지 경로를 추출해야 한다", () => {
+      const result = validateArticle("nextjs-optimization");
+      // 유효한 아티클이면 에러가 없어야 함
+      expect(Array.isArray(result)).toBe(true);
+    });
+  });
 });

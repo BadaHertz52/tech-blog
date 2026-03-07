@@ -308,6 +308,125 @@ const validateThumbnailFile = (
   return validateRelativeThumbnailPath(slug, thumbnailPath);
 };
 
+const extractImagePathsFromContent = (content: string): string[] => {
+  const paths: string[] = [];
+
+  // 코드 블록을 제거한 콘텐츠에서만 경로 추출
+  // (코드 블록 내의 경로는 예시이므로 검증 대상에서 제외)
+  const withoutCodeBlocks = content.replace(
+    /```[\s\S]*?```/g,
+    ""
+  );
+
+  // 마크다운 이미지 문법: ![alt](path)
+  const markdownImageRegex = /!\[(?:[^\]]*)\]\(([^)]+)\)/g;
+  let match;
+  while ((match = markdownImageRegex.exec(withoutCodeBlocks)) !== null) {
+    const imagePath = match[1];
+    // URL(http/https) 제외, 로컬 경로만 수집
+    if (!imagePath.startsWith("http://") && !imagePath.startsWith("https://")) {
+      paths.push(imagePath);
+    }
+  }
+
+  // JSX Image 컴포넌트: <Image src="..." /> 또는 <Image src='...' />
+  const jsxImageRegex = /<Image\s+[^>]*src=["']([^"']+)["'][^>]*\/?>/g;
+  while ((match = jsxImageRegex.exec(withoutCodeBlocks)) !== null) {
+    const imagePath = match[1];
+    // URL 제외, 로컬 경로만 수집
+    if (!imagePath.startsWith("http://") && !imagePath.startsWith("https://")) {
+      paths.push(imagePath);
+    }
+  }
+
+  return paths;
+};
+
+const validateContentImagePath = (
+  slug: string,
+  imagePath: string
+): ValidationError[] => {
+  // 절대 경로 처리 (public 디렉토리 기준)
+  if (imagePath.startsWith("/")) {
+    // fullPath: 정규화된 절대 경로 (.. 포함해서 실제 위치 파악)
+    const fullPath = path.resolve(PUBLIC_DIRECTORY, imagePath);
+    // allowedRoot: 허용된 범위 (/public 디렉토리 내만 접근 가능)
+    const allowedRoot = path.resolve(PUBLIC_DIRECTORY);
+
+    // 경로 범위 검증: fullPath가 allowedRoot 내에 있는가?
+    if (
+      !fullPath.startsWith(allowedRoot + path.sep) &&
+      fullPath !== allowedRoot
+    ) {
+      return [
+        {
+          field: "content",
+          message: "Image path escapes public directory",
+        },
+      ];
+    }
+
+    if (!fs.existsSync(fullPath)) {
+      return [
+        {
+          field: "content",
+          message: `Image file not found: ${imagePath}`,
+        },
+      ];
+    }
+
+    return [];
+  }
+
+  // 상대 경로 처리 (아티클 디렉토리 내)
+  // cleanPath: 정제된 상대경로 (./ 제거)
+  const cleanPath = imagePath.startsWith("./")
+    ? imagePath.slice(2)
+    : imagePath;
+  // fullPath: 정규화된 절대 경로 (.. 포함해서 실제 위치 파악)
+  const fullPath = path.resolve(ARTICLE_DATA_DIRECTORY, slug, cleanPath);
+  // allowedRoot: 허용된 범위 (특정 아티클 디렉토리 내만 접근 가능)
+  const allowedRoot = path.resolve(ARTICLE_DATA_DIRECTORY, slug);
+
+  // 경로 범위 검증: fullPath가 allowedRoot 내에 있는가?
+  if (
+    !fullPath.startsWith(allowedRoot + path.sep) &&
+    fullPath !== allowedRoot
+  ) {
+    return [
+      {
+        field: "content",
+        message: `Image path escapes article directory: ${cleanPath}`,
+      },
+    ];
+  }
+
+  if (!fs.existsSync(fullPath)) {
+    return [
+      {
+        field: "content",
+        message: `Image file not found: ${slug}/${cleanPath}`,
+      },
+    ];
+  }
+
+  return [];
+};
+
+const validateContentImagePaths = (
+  slug: string,
+  content: string
+): ValidationError[] => {
+  const imagePaths = extractImagePathsFromContent(content);
+  const errors: ValidationError[] = [];
+
+  for (const imagePath of imagePaths) {
+    errors.push(...validateContentImagePath(slug, imagePath));
+  }
+
+  return errors;
+};
+
 const parseMDXFile = (
   slug: string
 ):
@@ -398,6 +517,9 @@ export const validateArticle = (slug: string): ValidationError[] => {
   if (typeof thumbnailPath === "string") {
     errors.push(...validateThumbnailFile(slug, thumbnailPath));
   }
+
+  // 4. 본문 이미지 경로 검증
+  errors.push(...validateContentImagePaths(slug, fileValidation.content));
 
   return errors;
 };
