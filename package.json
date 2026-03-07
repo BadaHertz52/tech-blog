@@ -3,15 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/generate-article-index.js && next dev",
-    "build": "node scripts/generate-article-index.js && next build",
+    "generate:index": "node scripts/generate-article-index.js",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "create:article": "node scripts/create-article.js"
+    "create:article": "node scripts/create-article.js",
+    "validate:articles": "tsx scripts/validate-articles.ts"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.12",
@@ -45,6 +47,7 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "storybook": "^10.2.13",
     "tailwindcss": "^3",
+    "tsx": "^4.21.0",
     "typescript": "^5",
     "vite": "^7.3.0"
   }
