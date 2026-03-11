@@ -708,6 +708,8 @@ Figma URL: [링크]
 
 
 ### 브랜치명 컨벤션
+
+#### Feature 브랜치
 ```sh
 타입/이슈번호-작업-설명
 ```
@@ -718,6 +720,18 @@ feat/6-mdx-infra
 feat/7-blog-list-page
 fix/12-card-thumbnail-error
 docs/3-claude-code-design-setting
+```
+
+#### Article 브랜치
+```sh
+article/yy-mm-title
+```
+
+```bash
+# 예시
+article/26-03-ai-techblog-responsibility-over-speed
+article/26-02-nextjs-optimization-guide
+article/26-01-react-performance-tips
 ```
 
 ### 이슈 제목 컨벤션
