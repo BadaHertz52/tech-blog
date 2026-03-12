@@ -672,6 +672,17 @@ Figma URL: [링크]
 
 **용도**: 아티클 맞춤법, 문법, 글 구조, 어투 검수 (국립국어원 표준 기준)
 
+#### 6. Create PR
+```bash
+/create-pr
+
+# 현재 브랜치의 커밋 기반으로 PR 초안 자동 작성
+```
+
+**용도**: 커밋 내역 분석 → PR 제목/본문 자동 생성 (article/feature 브랜치 모두 지원)
+- `article/*` 브랜치: `release` 를 target으로 PR 생성
+- `feat/*`, `fix/*` 등: `main` 을 target으로 PR 생성
+
 ---
 
 ## 🌿 브랜치 & 이슈 컨벤션
