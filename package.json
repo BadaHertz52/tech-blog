@@ -10,11 +10,11 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "vitest",
+    "test": "yarn generate:index && vitest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "create:article": "node scripts/create-article.js",
-    "validate:articles": "tsx scripts/validate-articles.ts"
+    "validate:articles": "yarn generate:index && tsx scripts/validate-articles.ts"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.12",

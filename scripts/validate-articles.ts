@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { execSync } from "child_process";
+import fs from "fs";
+import path from "path";
 
 import { validateArticle } from "../src/utils/validators/article";
 
@@ -15,6 +17,13 @@ const getChangedArticleSlugs = (): string[] => {
   const baseRef = process.env.GITHUB_BASE_REF || "origin/main";
 
   try {
+    // article-index.json에서 등록된 아티클 목록 읽기
+    const indexPath = path.join(process.cwd(), "public/articles/article-index.json");
+    const indexContent = fs.readFileSync(indexPath, "utf-8");
+    const indexData = JSON.parse(indexContent) as { slugs: string[] };
+    const registeredSlugs = new Set(indexData.slugs);
+
+    // git diff로 변경된 파일 감지
     const output = execSync(
       `git diff --name-only ${baseRef}...HEAD`,
       {
@@ -28,7 +37,11 @@ const getChangedArticleSlugs = (): string[] => {
     for (const file of changedFiles) {
       const match = file.match(/^public\/articles\/([^/]+)\/index\.mdx$/);
       if (match) {
-        articleSlugs.add(match[1]);
+        const slug = match[1];
+        // article-index.json에 등록된 아티클만 검증
+        if (registeredSlugs.has(slug)) {
+          articleSlugs.add(slug);
+        }
       }
     }
 
