@@ -1,18 +1,8 @@
 {
   "slugs": [
-    "2026-02-15-understanding-async-await",
-    "2026-02-16-personal-project-journey",
-    "2026-02-17-2025-retrospective",
-    "2026-02-18-troubleshooting-cors-error",
-    "2026-02-20-react-hooks-deep-dive",
-    "2026-02-21-nextjs-optimization"
+    "2026-03-11-ai-techblog-responsiblity-over-speed"
   ],
   "indexMap": {
-    "2026-02-15-understanding-async-await": 0,
-    "2026-02-16-personal-project-journey": 1,
-    "2026-02-17-2025-retrospective": 2,
-    "2026-02-18-troubleshooting-cors-error": 3,
-    "2026-02-20-react-hooks-deep-dive": 4,
-    "2026-02-21-nextjs-optimization": 5
+    "2026-03-11-ai-techblog-responsiblity-over-speed": 0
   }
 }
