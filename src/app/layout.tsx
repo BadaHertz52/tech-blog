@@ -18,10 +18,6 @@ const pretendard = localFont({
 export const metadata: Metadata = {
   title: "BADA - Tech Blog",
   description: "개발자 기술 블로그",
-  icons: {
-    icon: "/icon.png",
-    apple: "/apple-touch-icon.png",
-  },
 };
 
 export default function RootLayout({
