@@ -10,11 +10,12 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "yarn generate:index && vitest",
+    "test": "vitest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "create:article": "node scripts/create-article.js",
-    "validate:articles": "yarn generate:index && tsx scripts/validate-articles.ts"
+    "validate:articles": "tsx scripts/validate-articles.ts",
+    "sync:stats": "tsx scripts/sync-article-stats.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.99.2",
