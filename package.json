@@ -17,6 +17,7 @@
     "validate:articles": "yarn generate:index && tsx scripts/validate-articles.ts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.99.2",
     "@tanstack/react-query": "^5.90.12",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
