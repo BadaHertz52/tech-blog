@@ -2,6 +2,8 @@ import fs from "fs";
 import path from "path";
 import { createClient } from "@supabase/supabase-js";
 
+import { TABLES } from "../constants/supabase";
+
 const ARTICLE_INDEX_PATH = path.join(
   process.cwd(),
   "public/articles/article-index.json"
@@ -10,13 +12,6 @@ const ARTICLE_INDEX_PATH = path.join(
 interface ArticleIndex {
   slugs: string[];
   indexMap: Record<string, number>;
-}
-
-interface ArticleStats {
-  slug: string;
-  view_count: number;
-  share_count: number;
-  like_count: number;
 }
 
 async function syncArticleStats() {
@@ -49,7 +44,7 @@ async function syncArticleStats() {
 
     // 4. Supabase에서 기존 article_stats 조회
     const { data: existingStats, error: fetchError } = await supabase
-      .from("article_stats")
+      .from(TABLES.ARTICLE_STATS)
       .select("slug");
 
     if (fetchError) {
@@ -88,7 +83,7 @@ async function syncArticleStats() {
       }));
 
       const { error: insertError } = await supabase
-        .from("article_stats")
+        .from(TABLES.ARTICLE_STATS)
         .insert(newStats);
 
       if (insertError) {
@@ -103,7 +98,7 @@ async function syncArticleStats() {
     // 8. 삭제 작업
     if (toDelete.length > 0) {
       const { error: deleteError } = await supabase
-        .from("article_stats")
+        .from(TABLES.ARTICLE_STATS)
         .delete()
         .in("slug", toDelete);
 
