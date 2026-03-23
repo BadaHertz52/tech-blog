@@ -4,7 +4,7 @@ import ShareButton from "@/components/ShareButton";
 import Skeleton from "@/components/Skeleton";
 import { incrementShareCount } from "@/services/supabase/actions";
 import { TocHeading } from "@/types/article";
-import TocList from "./components/TocList";
+import TocList from "./_components/TocList";
 
 function Panel({ children }: { children: ReactNode }) {
   return (
