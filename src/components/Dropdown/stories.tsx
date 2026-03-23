@@ -17,7 +17,6 @@ const meta = {
 } satisfies Meta<typeof Dropdown>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
 const DropdownWithState = ({ options, placeholder }: DropdownStoryProps) => {
   const [selectedValue, setSelectedValue] = useState("newest");
@@ -33,6 +32,8 @@ const DropdownWithState = ({ options, placeholder }: DropdownStoryProps) => {
     </div>
   );
 };
+
+type Story = StoryObj<typeof DropdownWithState>;
 
 export const Default: Story = {
   render: (args) => <DropdownWithState {...args} />,

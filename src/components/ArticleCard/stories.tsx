@@ -13,8 +13,6 @@ const mockArticles: Record<string, ArticleCardData> = {
     category: "troubleshooting",
     thumbnail: BASIC_THUMBNAIL,
     slug: "troubleshooting-cors-error",
-    views: 142,
-    readingTime: 5,
   },
   frontend: {
     title: "Next.js에서 이미지 최적화하기",
@@ -23,8 +21,6 @@ const mockArticles: Record<string, ArticleCardData> = {
     category: "frontend",
     thumbnail: BASIC_THUMBNAIL,
     slug: "nextjs-optimization",
-    views: 87,
-    readingTime: 8,
   },
   retrospective: {
     title: "제목 말줄임 테스트 케이스 123 3456789012",
@@ -34,8 +30,6 @@ const mockArticles: Record<string, ArticleCardData> = {
     category: "retrospective",
     thumbnail: BASIC_THUMBNAIL,
     slug: "2025-retrospective",
-    views: 203,
-    readingTime: 12,
   },
   cs: {
     title: "Async/Await 깊이 있게 이해하기",
@@ -44,8 +38,6 @@ const mockArticles: Record<string, ArticleCardData> = {
     category: "cs",
     thumbnail: BASIC_THUMBNAIL,
     slug: "understanding-async-await",
-    views: 156,
-    readingTime: 10,
   },
   project: {
     title: "개인 프로젝트로 배운 것들",
@@ -54,8 +46,6 @@ const mockArticles: Record<string, ArticleCardData> = {
     category: "project",
     thumbnail: BASIC_THUMBNAIL,
     slug: "personal-project-journey",
-    views: 94,
-    readingTime: 7,
   },
   etc: {
     title: "개발자를 위한 생산성 팁",
@@ -64,8 +54,6 @@ const mockArticles: Record<string, ArticleCardData> = {
     category: "etc",
     thumbnail: BASIC_THUMBNAIL,
     slug: "productivity-tips",
-    views: 267,
-    readingTime: 6,
   },
 };
 
