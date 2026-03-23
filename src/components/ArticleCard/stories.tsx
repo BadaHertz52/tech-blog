@@ -57,9 +57,9 @@ const mockArticles: Record<string, ArticleCardData> = {
   },
 };
 
-const meta: Meta<typeof ArticleCard> = {
+const meta: Meta<typeof ArticleCard.Loaded> = {
   title: "Components/ArticleCard",
-  component: ArticleCard,
+  component: ArticleCard.Loaded,
   parameters: {
     layout: "centered",
   },
@@ -71,14 +71,14 @@ const meta: Meta<typeof ArticleCard> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof ArticleCard>;
+type Story = StoryObj<typeof ArticleCard.Loaded>;
 
 export const AllCategories: Story = {
   name: "All Categories",
   render: () => (
     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
       {Object.values(mockArticles).map((article) => (
-        <ArticleCard key={article.slug} article={article} />
+        <ArticleCard.Loaded key={article.slug} article={article} />
       ))}
     </div>
   ),
