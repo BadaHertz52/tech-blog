@@ -11,9 +11,9 @@ import {
 } from "@/utils/mdx";
 import ArticleHeader from "./_components/ArticleHeader";
 import ArticleNavigation from "./_components/ArticleNavigation";
+import ArticleStatsWrapper from "./_components/ArticleStatsWrapper";
 import ArticleThumbnail from "./_components/ArticleThumbnail";
 import TableOfContents from "./_components/TableOfContents";
-import { useArticleStatsTracker } from "./_hooks/useArticleStatsTracker";
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -26,8 +26,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound();
   }
 
-  useArticleStatsTracker(slug);
-
   const article = getArticleBySlug(slug);
   const { prev, next } = getAdjacentArticles(slug);
   const thumbnailUrl = resolveArticleImagePath(slug, article.thumbnail);
@@ -36,6 +34,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <>
+      <ArticleStatsWrapper slug={slug} />
       <TableOfContents.Loaded headings={headings} slug={slug} />
       <div className="flex w-full flex-col gap-14 md:flex-1">
         <ArticleThumbnail.Loaded src={thumbnailUrl} alt={article.title} />
