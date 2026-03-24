@@ -1,26 +1,50 @@
+import { ReactNode } from "react";
+
 import ArticleCard from "@/components/ArticleCard";
 import ButtonLink from "@/components/ButtonLink";
 import EmptyState from "@/components/EmptyState";
 import { ROUTES } from "@/constants/paths";
 import { ArticleCardData } from "@/types/article";
 
-interface ArticlesContentProps {
+function Wrapper({ children }: { children: ReactNode }) {
+  return <section className="relative h-full w-full">{children}</section>;
+}
+
+function Grid({ children }: { children: ReactNode }) {
+  return (
+    <ul className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">{children}</ul>
+  );
+}
+
+function Loading() {
+  return (
+    <Wrapper>
+      <Grid>
+        {Array.from({ length: 6 }).map((_, i) => (
+          <li key={i}>
+            <ArticleCard.Loading />
+          </li>
+        ))}
+      </Grid>
+    </Wrapper>
+  );
+}
+
+interface LoadedProps {
   articleCards: ArticleCardData[];
 }
 
-export default function ArticlesContent({
-  articleCards,
-}: ArticlesContentProps) {
+function Loaded({ articleCards }: LoadedProps) {
   return (
-    <section className="relative h-full w-full">
+    <Wrapper>
       {articleCards.length > 0 ? (
-        <ul className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <Grid>
           {articleCards.map((article) => (
             <li key={article.slug}>
-              <ArticleCard article={article} />
+              <ArticleCard.Loaded article={article} />
             </li>
           ))}
-        </ul>
+        </Grid>
       ) : (
         <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 text-center">
           <EmptyState>
@@ -41,6 +65,10 @@ export default function ArticlesContent({
           </EmptyState>
         </div>
       )}
-    </section>
+    </Wrapper>
   );
 }
+
+const ArticlesContent = { Loading, Loaded };
+
+export default ArticlesContent;

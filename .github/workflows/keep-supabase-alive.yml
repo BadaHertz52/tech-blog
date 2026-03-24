@@ -1,0 +1,63 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # 5일마다 09:00 UTC에 실행
+    - cron: "0 9 */5 * *"
+  workflow_dispatch: # 수동 실행 지원
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    name: Ping Supabase article_stats table
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Ping Supabase REST API
+        run: |
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X GET \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/article_stats?limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+            -H "Content-Type: application/json")
+
+          # 응답 코드 추출
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n 1)
+          BODY=$(echo "$RESPONSE" | head -n -1)
+
+          echo "HTTP Status Code: $HTTP_CODE"
+          echo "Response: $BODY"
+
+          # 상태 코드 확인 (200-299: 성공, 4xx: 클라이언트 에러, 5xx: 서버 에러)
+          if [[ $HTTP_CODE -ge 200 && $HTTP_CODE -lt 300 ]]; then
+            echo "✅ Supabase is alive!"
+            exit 0
+          elif [[ $HTTP_CODE -ge 400 && $HTTP_CODE -lt 500 ]]; then
+            echo "⚠️ Client error (4xx). Supabase might be sleeping or config issue."
+            exit 0
+          else
+            echo "❌ Server error or unexpected response (HTTP $HTTP_CODE)"
+            exit 1
+          fi
+
+      - name: Print keep-alive result
+        if: always()
+        run: |
+          echo ""
+          echo "=========================================="
+          echo "✅ Supabase Keep-Alive Ping Completed"
+          echo "=========================================="
+          echo ""
+          echo "🕐 Scheduled: Every 5 days at 09:00 UTC"
+          echo "📊 Target: article_stats table"
+          echo ""

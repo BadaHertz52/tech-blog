@@ -1,28 +1,85 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ReactNode } from "react";
 
+import Skeleton from "@/components/Skeleton";
 import { CATEGORY_LABELS } from "@/constants/article";
 import { ROUTES } from "@/constants/paths";
 import { ArticleCardData } from "@/types/article";
 import { resolveArticleImagePath } from "@/utils/article";
 
-interface ArticleCardProps {
+interface ArticleCardLoadedProps {
   article: ArticleCardData;
   className?: string;
 }
 
-export default function ArticleCard({
-  article,
+function Wrapper({
+  children,
   className = "",
-}: ArticleCardProps) {
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`group flex cursor-pointer flex-col gap-5 overflow-hidden ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+function Loading({ className = "" }: { className?: string }) {
+  return (
+    <Wrapper className={className}>
+      {/* 썸네일 스켈레톤 */}
+      <Skeleton
+        widthTwClass="w-full"
+        heightTwClass="h-56"
+        roundedTwClass="rounded-3xl"
+      />
+
+      {/* 텍스트 영역 스켈레톤 */}
+      <div className="flex flex-col gap-2">
+        {/* 날짜 */}
+        <Skeleton
+          widthTwClass="w-20"
+          heightTwClass="h-4"
+          roundedTwClass="rounded-md"
+        />
+
+        {/* 제목 */}
+        <Skeleton
+          widthTwClass="w-full"
+          heightTwClass="h-7"
+          roundedTwClass="rounded-md"
+        />
+
+        {/* 소개글 */}
+        <div className="flex flex-col gap-2">
+          <Skeleton
+            widthTwClass="w-full"
+            heightTwClass="h-5"
+            roundedTwClass="rounded-md"
+          />
+          <Skeleton
+            widthTwClass="w-3/4"
+            heightTwClass="h-5"
+            roundedTwClass="rounded-md"
+          />
+        </div>
+      </div>
+    </Wrapper>
+  );
+}
+
+function Loaded({ article, className = "" }: ArticleCardLoadedProps) {
   const formattedDate = article.date.replace(/-/g, ".");
   const thumbnailUrl = resolveArticleImagePath(article.slug, article.thumbnail);
 
   return (
     <Link href={ROUTES.article(article.slug)}>
-      <div
-        className={`group flex cursor-pointer flex-col gap-5 overflow-hidden ${className}`}
-      >
+      <Wrapper className={className}>
         {/* 썸네일 영역 */}
         <div className="relative aspect-video w-full flex-shrink-0 overflow-hidden rounded-3xl">
           <Image
@@ -60,7 +117,11 @@ export default function ArticleCard({
             {article.description}
           </p>
         </div>
-      </div>
+      </Wrapper>
     </Link>
   );
 }
+
+const ArticleCard = { Loading, Loaded };
+
+export default ArticleCard;

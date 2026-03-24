@@ -10,6 +10,10 @@ interface ShareButtonProps {
   url?: string;
   buttonClassName?: string;
   linkIconName?: "external-link" | "link2";
+  /**
+   * 링크 복사 성공 후, 액션
+   */
+  onCopySuccess?: () => void | Promise<void>;
 }
 
 export default function ShareButton({
@@ -17,6 +21,7 @@ export default function ShareButton({
   url,
   buttonClassName,
   iconClassName = "h-auto w-[16px] text-gray-600",
+  onCopySuccess,
 }: ShareButtonProps) {
   const handleCopyLink = async () => {
     try {
@@ -26,6 +31,7 @@ export default function ShareButton({
         variant: "success",
         description: "클립보드에 링크가 복사되었습니다!",
       });
+      onCopySuccess?.();
     } catch (error) {
       openToast({
         variant: "error",

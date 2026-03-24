@@ -11,6 +11,7 @@ import {
 } from "@/utils/mdx";
 import ArticleHeader from "./_components/ArticleHeader";
 import ArticleNavigation from "./_components/ArticleNavigation";
+import ArticleStatsWrapper from "./_components/ArticleStatsWrapper";
 import ArticleThumbnail from "./_components/ArticleThumbnail";
 import TableOfContents from "./_components/TableOfContents";
 
@@ -33,7 +34,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <>
-      <TableOfContents.Loaded headings={headings} />
+      <ArticleStatsWrapper slug={slug} />
+      <TableOfContents.Loaded headings={headings} slug={slug} />
       <div className="flex w-full flex-col gap-14 md:flex-1">
         <ArticleThumbnail.Loaded src={thumbnailUrl} alt={article.title} />
         <ArticleHeader.Loaded

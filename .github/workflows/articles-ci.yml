@@ -1,4 +1,4 @@
-name: Validate Articles
+name: Articles CI
 
 on:
   pull_request:
@@ -8,11 +8,12 @@ on:
     paths:
       - "public/articles/**"
       - "src/utils/validators/**"
-      - ".github/workflows/validate-articles.yml"
+      - ".github/workflows/articles-ci.yml"
 
 jobs:
   validate:
     runs-on: ubuntu-latest
+    name: Validate articles
 
     steps:
       - name: Checkout code
@@ -32,22 +33,38 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Generate article index
+        run: yarn generate:index
+
       - name: Validate changed articles
         run: yarn validate:articles
 
       - name: Run tests
         run: yarn test
 
-      - name: Print completion message
+      - name: Print validation completion
         run: |
           echo ""
           echo "=========================================="
-          echo "✅ Article Validation CI Completed"
+          echo "✅ Article Validation Completed"
           echo "=========================================="
           echo ""
           echo "📋 Results:"
+          echo "  • Article index generation: PASSED"
           echo "  • Article validation: PASSED"
           echo "  • Tests: PASSED"
           echo ""
-          echo "🎉 All checks passed. Ready for merge!"
+
+      - name: Sync article stats
+        run: yarn sync:stats
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
+      - name: Print sync completion
+        run: |
+          echo ""
           echo "=========================================="
+          echo "✅ Article Stats Sync Completed"
+          echo "=========================================="
+          echo ""

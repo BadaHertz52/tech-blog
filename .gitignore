@@ -11,3 +11,6 @@ dist/
 storybook-static/
 
 .claude/
+
+# env
+.env.local
