@@ -1,6 +1,10 @@
 "use server";
 
-import { dbIncrementShareCount, dbIncrementViewCount } from "./index";
+import {
+  dbGetArticleStats,
+  dbIncrementShareCount,
+  dbIncrementViewCount,
+} from "./index";
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
@@ -32,6 +36,16 @@ export const incrementShareCount = async (slug: string) => {
     return stats;
   } catch (error) {
     console.error("[Article Stats] Error incrementing share count:", error);
+    throw error;
+  }
+};
+
+export const getArticleStats = async (slug: string) => {
+  try {
+    const stats = await dbGetArticleStats(slug);
+    return stats;
+  } catch (error) {
+    console.error("[Article Stats] Error fetching article stats:", error);
     throw error;
   }
 };

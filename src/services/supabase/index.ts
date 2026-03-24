@@ -34,7 +34,6 @@ export const dbIncrementViewCount = async (
   );
 
   if (rpcError) {
-    console.error("incrementViewCount error:", rpcError);
     throw rpcError;
   }
 
@@ -65,7 +64,6 @@ export const dbIncrementShareCount = async (
   );
 
   if (rpcError) {
-    console.error("incrementShareCount error:", rpcError);
     throw rpcError;
   }
 
@@ -77,7 +75,30 @@ export const dbIncrementShareCount = async (
     .single();
 
   if (error) {
-    console.error("fetch article_stats error:", error);
+    throw error;
+  }
+
+  return data as ArticleStats;
+};
+
+/**
+ * get 함수 - 아티클 통계 조회
+ */
+
+export const dbGetArticleStats = async (
+  slug: string
+): Promise<ArticleStats | null> => {
+  const { data, error } = await supabase
+    .from(TABLES.ARTICLE_STATS)
+    .select("*")
+    .eq("slug", slug)
+    .single();
+
+  if (error) {
+    if (error.code === "PGRST116") {
+      return null;
+    }
+
     throw error;
   }
 
