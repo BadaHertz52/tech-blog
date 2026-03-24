@@ -37,7 +37,7 @@ jobs:
         run: yarn generate:index
 
       - name: Validate changed articles
-        run: yarn validate:articles:no-generate
+        run: yarn validate:articles
 
       - name: Run tests
         run: yarn test
@@ -56,7 +56,7 @@ jobs:
           echo ""
 
       - name: Sync article stats
-        run: yarn sync:stats:no-generate
+        run: yarn sync:stats
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
