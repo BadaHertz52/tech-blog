@@ -5,6 +5,7 @@ import BooksImage from "@/assets/images/home/books.webp";
 import ComputerImage from "@/assets/images/home/computer.webp";
 import DeskBgImage from "@/assets/images/home/desk-bg.webp";
 import GashaponImage from "@/assets/images/home/gashapon.webp";
+import WelcomeMessageImage from "@/assets/images/home/welcome-message.webp";
 import { ROUTES } from "@/constants/paths";
 
 export default function Home() {
@@ -18,43 +19,57 @@ export default function Home() {
         sizes="(max-width:768px) calc(100vw - 24px * 2), (max-width: 1440px) calc(100vw - 32px * 2), calc(1440px - 32px * 2)"
         className="h-auto w-full rounded-card"
       />
-      <Link
-        href={ROUTES.aboutMe}
-        style={{ width: "54.85%", top: "2.86%", left: "22.57%" }}
+      <div
         className="absolute"
+        style={{ width: "54.85%", top: "2.86%", left: "22.57%" }}
       >
         <Image
           src={ComputerImage}
-          alt="About Me 페이지로 이동"
+          alt="컴퓨터"
           placeholder="blur"
           sizes="55vw"
           className="h-auto w-full"
         />
+      </div>
+      <Link
+        href={ROUTES.aboutMe}
+        style={{
+          width: "16.39%",
+          top: "29.89%",
+          left: "43.54%",
+        }}
+        className="group absolute"
+      >
+        <Image
+          src={WelcomeMessageImage}
+          alt="환영 인사 및 About Me 페이지 이동 메세지"
+          className="h-auto w-full transition-transform duration-300 group-hover:scale-105"
+        />
       </Link>
       <Link
         href={ROUTES.articles}
-        style={{ width: "15.14%", top: "31.63%", right: "15%" }}
-        className="absolute"
+        style={{ width: "15.14%", top: "34.63%", right: "15%" }}
+        className="group absolute"
       >
         <Image
           src={BooksImage}
           alt="아티클 목록으로 이동"
           placeholder="blur"
           sizes="15vw"
-          className="h-auto w-full"
+          className="h-auto w-full transition-transform duration-300 group-hover:scale-105"
         />
       </Link>
       <button
         type="button"
         style={{ width: "15.14%", top: "47%", left: "18.5%" }}
-        className="absolute"
+        className="group absolute"
       >
         <Image
           src={GashaponImage}
           alt="아티클 추천 머신"
           placeholder="blur"
           sizes="15vw"
-          className="h-auto w-full"
+          className="h-auto w-full transition-transform duration-300 group-hover:scale-105"
         />
       </button>
     </div>
