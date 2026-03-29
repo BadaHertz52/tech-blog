@@ -4,8 +4,8 @@ import Link from "next/link";
 import BooksImage from "@/assets/images/home/books.webp";
 import ComputerImage from "@/assets/images/home/computer.webp";
 import DeskBgImage from "@/assets/images/home/desk-bg.webp";
-import GashaponImage from "@/assets/images/home/gashapon.webp";
 import WelcomeMessageImage from "@/assets/images/home/welcome-message.webp";
+import ArticleRecommendButton from "@/app/_components/ArticleRecommendButton";
 import { ROUTES } from "@/constants/paths";
 
 export default function Home() {
@@ -59,19 +59,7 @@ export default function Home() {
           className="h-auto w-full transition-transform duration-300 group-hover:scale-105"
         />
       </Link>
-      <button
-        type="button"
-        style={{ width: "15.14%", top: "47%", left: "18.5%" }}
-        className="group absolute"
-      >
-        <Image
-          src={GashaponImage}
-          alt="아티클 추천 머신"
-          placeholder="blur"
-          sizes="15vw"
-          className="h-auto w-full transition-transform duration-300 group-hover:scale-105"
-        />
-      </button>
+      <ArticleRecommendButton />
     </div>
   );
 }
