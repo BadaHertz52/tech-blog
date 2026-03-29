@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import CommingSoon from "./index";
+import ComingSoon from "./index";
 
 const meta = {
-  title: "Components/CommingSoon",
-  component: CommingSoon,
+  title: "Components/ComingSoon",
+  component: ComingSoon,
   tags: ["autodocs"],
 } satisfies Meta;
 
@@ -12,5 +12,5 @@ export default meta;
 type Story = StoryObj<Meta>;
 
 export const Default: Story = {
-  render: () => <CommingSoon />,
+  render: () => <ComingSoon />,
 };

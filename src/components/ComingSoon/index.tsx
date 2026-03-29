@@ -4,13 +4,13 @@ import BadaImage from "@/assets/images/bada-3d-half.webp";
 import ButtonLink from "@/components/ButtonLink";
 import { ROUTES } from "@/constants/paths";
 
-interface CommingSoonProps {
+interface ComingSoonProps {
   showHomeButton?: boolean;
 }
 
-export default function CommingSoon({
+export default function ComingSoon({
   showHomeButton = true,
-}: CommingSoonProps) {
+}: ComingSoonProps) {
   return (
     <article className="flex h-full w-full flex-col items-center justify-center gap-[22px] rounded-card bg-white px-[40px] pt-[40px]">
       <div className="flex flex-col items-center gap-6">

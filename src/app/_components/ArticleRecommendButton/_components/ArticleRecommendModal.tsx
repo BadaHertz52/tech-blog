@@ -1,6 +1,6 @@
 import { overlay } from "overlay-kit";
 
-import CommingSoon from "@/components/CommingSoon";
+import ComingSoon from "@/components/ComingSoon";
 import Modal, { MODAL_ANIMATION_DURATION_MS } from "@/components/Modal";
 
 interface ArticleRecommendModalProps {
@@ -17,7 +17,7 @@ function ArticleRecommendModal({
       <Modal.Header onClose={onClose} />
       <Modal.Content>
         <div className="-mt-[20px]">
-          <CommingSoon showHomeButton={false} />
+          <ComingSoon showHomeButton={false} />
         </div>
       </Modal.Content>
     </Modal>
