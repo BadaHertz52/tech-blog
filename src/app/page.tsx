@@ -43,8 +43,9 @@ export default function Home() {
         >
           <Image
             src={WelcomeMessageImage}
-            alt="환영 인사 및 About Me 페이지 이동 메세지"
+            alt="환영 인사 및 About Me 페이지 이동 메시지"
             placeholder="blur"
+            sizes="16vw"
             className="h-auto w-full transition-transform duration-300 group-hover:scale-105"
           />
         </Link>

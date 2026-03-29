@@ -83,7 +83,7 @@ const config: Config = {
       },
       borderRadius: {
         button: "12px", // rounded-button → 버튼용
-        card: "24px", // rounded-card → 카드/미디어용,
+        card: "24px", // rounded-card → 카드/미디어용
         default: "32px",
       },
       boxShadow: {

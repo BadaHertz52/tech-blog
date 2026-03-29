@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { overlay, OverlayProvider } from "overlay-kit";
 
 import Button from "@/components/Button";
-import Modal from "./index";
+import Modal, { MODAL_ANIMATION_DURATION_MS } from "./index";
 
 const meta = {
   title: "Components/Modal",
@@ -27,7 +27,7 @@ export const Alert: Story = {
       overlay.open(({ isOpen, close, unmount }) => {
         const handleClose = () => {
           close();
-          setTimeout(unmount, 300);
+          setTimeout(unmount, MODAL_ANIMATION_DURATION_MS);
         };
 
         return (
@@ -57,7 +57,7 @@ export const Confirm: Story = {
       overlay.open(({ isOpen, close, unmount }) => {
         const handleClose = () => {
           close();
-          setTimeout(unmount, 300);
+          setTimeout(unmount, MODAL_ANIMATION_DURATION_MS);
         };
 
         const handleConfirm = () => {
@@ -101,7 +101,7 @@ export const Content: Story = {
       overlay.open(({ isOpen, close, unmount }) => {
         const handleClose = () => {
           close();
-          setTimeout(unmount, 300);
+          setTimeout(unmount, MODAL_ANIMATION_DURATION_MS);
         };
 
         return (
