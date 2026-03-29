@@ -5,6 +5,8 @@ import useEscapeClose from "./hooks/useEscapeClose";
 import useFocusTrap from "./hooks/useFocusTrap";
 import useScrollLock from "./hooks/useScrollLock";
 
+export const MODAL_ANIMATION_DURATION_MS = 300;
+
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -25,9 +27,9 @@ function ModalHeader({ title, onClose }: ModalHeaderProps) {
   return (
     <header className="relative h-[64px] w-full px-5 py-5">
       {title && (
-        <h1 className="whitespace-nowrap text-[20px] font-bold leading-[1.2] tracking-[0.6px] text-black">
+        <h2 className="whitespace-nowrap text-[20px] font-bold leading-[1.2] tracking-[0.6px] text-black">
           {title}
-        </h1>
+        </h2>
       )}
       {onClose && (
         <button
@@ -61,9 +63,10 @@ function Modal({
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity ${
         isOpen ? "opacity-100" : "opacity-0"
       }`}
+      style={{ transitionDuration: `${MODAL_ANIMATION_DURATION_MS}ms` }}
     >
       {/* Backdrop */}
       <div
