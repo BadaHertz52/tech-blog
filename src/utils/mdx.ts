@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-import { ARTICLE_DATA_DIRECTORY } from "@/constants/paths";
+import { ARTICLE_DATA_DIRECTORY } from "@/constants/server-paths";
 import {
   AdjacentPosts,
   Article,

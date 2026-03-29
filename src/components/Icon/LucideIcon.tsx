@@ -14,6 +14,7 @@ import {
   PlayCircle,
   Search,
   Sun,
+  X,
 } from "lucide-react";
 import type { LucideProps } from "lucide-react";
 
@@ -35,6 +36,7 @@ export const LUCIDE_ICON_MAP: Record<string, React.FC<LucideProps>> = {
   search: Search,
   sun: Sun,
   link2: Link2,
+  x: X,
 };
 
 interface LucideIconProps extends LucideProps {
