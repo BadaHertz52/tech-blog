@@ -23,18 +23,23 @@ interface ModalContentProps {
 
 function ModalHeader({ title, onClose }: ModalHeaderProps) {
   return (
-    <div className="flex h-[51px] w-full items-center justify-between px-5 py-[10px]">
+    <header className="relative h-[68.8px] w-full px-5 py-5">
       {title && (
-        <p className="whitespace-nowrap text-[24px] font-extrabold leading-[1.2] tracking-[0.6px] text-black">
+        <h1 className="whitespace-nowrap text-[24px] font-bold leading-[1.2] tracking-[0.6px] text-black">
           {title}
-        </p>
+        </h1>
       )}
       {onClose && (
-        <button type="button" onClick={onClose} aria-label="모달 닫기">
+        <button
+          type="button"
+          className="absolute right-5 top-5"
+          onClick={onClose}
+          aria-label="모달 닫기"
+        >
           <Icon name="x" width={24} height={24} />
         </button>
       )}
-    </div>
+    </header>
   );
 }
 
@@ -71,7 +76,7 @@ function Modal({
         role="dialog"
         aria-modal="true"
         aria-label={ariaLabel}
-        className="relative flex w-auto rounded-[32px] bg-white shadow-[12px_12px_24px_0px_#e0e5ec,-12px_-12px_24px_0px_#ffffff]"
+        className="rounded-default relative w-auto min-w-[300px] bg-white shadow-[12px_12px_24px_0px_#6F6F6F]"
       >
         {children}
       </div>
