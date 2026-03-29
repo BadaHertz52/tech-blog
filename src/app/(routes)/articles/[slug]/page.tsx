@@ -28,8 +28,6 @@ export function generateStaticParams() {
   }));
 }
 
-export const revalidate = 60 * 60;
-
 export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
