@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
 
-import ArticleShareButton from "../ArticleShareButton";
 import Skeleton from "@/components/Skeleton";
 import { TocHeading } from "@/types/article";
+import ArticleShareButton from "../ArticleShareButton";
 import TocList from "./_components/TocList";
 
 function Panel({ children }: { children: ReactNode }) {
   return (
-    <div className="hidden w-[300px] flex-shrink-0 text-gray-medium md:block">
+    <div className="hidden w-[300px] flex-shrink-0 text-gray-medium xl:block">
       <div className="sticky top-32 flex flex-col gap-6 rounded-lg bg-white p-4">
         {children}
       </div>
