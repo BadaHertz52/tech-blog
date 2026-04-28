@@ -2,6 +2,7 @@ import Skeleton from "@/components/Skeleton";
 import Tag from "@/components/Tag";
 import { CATEGORY_LABELS, CATEGORY_LABELS_COLOR } from "@/constants/article";
 import { ArticleCategory } from "@/types/article";
+import ArticleShareButton from "../ArticleShareButton";
 import ArticleMeta from "./_components/ArticleMeta";
 
 function Wrapper({ children }: { children: React.ReactNode }) {
@@ -40,9 +41,10 @@ interface LoadedProps {
   category: ArticleCategory;
   title: string;
   date: string;
+  slug: string;
 }
 
-function Loaded({ category, title, date }: LoadedProps) {
+function Loaded({ category, title, date, slug }: LoadedProps) {
   return (
     <Wrapper>
       <ul>
@@ -56,8 +58,19 @@ function Loaded({ category, title, date }: LoadedProps) {
         </li>
       </ul>
       <h1>{title}</h1>
-      <div className="flex gap-[22px]">
+
+      <div className="flex items-center gap-4">
         <ArticleMeta variant="date" value={date} />
+        <div className="flex items-center gap-1 text-[#64748B] lg:hidden">
+          <ArticleShareButton
+            slug={slug}
+            iconClassName="h-auto w-[20px] stroke-[#64748B]"
+            buttonClassName="w-auto h-auto"
+          />
+          <p className="h-full text-sm leading-[22px] text-[#64748B]">
+            Share this post
+          </p>
+        </div>
       </div>
     </Wrapper>
   );

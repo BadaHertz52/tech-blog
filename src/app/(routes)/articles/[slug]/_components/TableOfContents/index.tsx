@@ -7,7 +7,7 @@ import TocList from "./_components/TocList";
 
 function Panel({ children }: { children: ReactNode }) {
   return (
-    <div className="hidden w-[300px] flex-shrink-0 text-gray-medium xl:block">
+    <div className="hidden w-[300px] flex-shrink-0 text-gray-medium lg:block">
       <div className="sticky top-32 flex flex-col gap-6 rounded-lg bg-white p-4">
         {children}
       </div>
