@@ -12,9 +12,12 @@ interface ValidationResult {
 }
 
 const getChangedArticleSlugs = (): string[] => {
-  // GITHUB_BASE_REF: GitHub Actions에서 제공하는 기본 브랜치 (main, release 등)
+  // GITHUB_BASE_REF: GitHub Actions에서 제공하는 기본 브랜치명 (main, release 등)
+  // CI 환경: origin/<브랜치명> 형태로 참조 (fetch된 remote 브랜치 사용)
   // 로컬 환경: undefined → origin/main을 기본값으로 사용
-  const baseRef = process.env.GITHUB_BASE_REF || "origin/main";
+  const baseRef = process.env.GITHUB_BASE_REF
+    ? `origin/${process.env.GITHUB_BASE_REF}`
+    : "origin/main";
 
   try {
     // article-index.json에서 등록된 아티클 목록 읽기
