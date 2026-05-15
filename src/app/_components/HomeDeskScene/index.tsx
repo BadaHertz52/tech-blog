@@ -20,6 +20,7 @@ export default function HomeDeskScene() {
   const isAllLoaded = loadedCount === TOTAL_IMAGES;
 
   const handleLoad = () => setLoadedCount((prev) => prev + 1);
+  const handleError = () => setLoadedCount((prev) => prev + 1);
 
   return (
     <div className="relative w-full">
@@ -37,6 +38,7 @@ export default function HomeDeskScene() {
           sizes="(max-width:768px) calc(100vw - 24px * 2), (max-width: 1440px) calc(100vw - 32px * 2), calc(1440px - 32px * 2)"
           className="h-auto w-full rounded-card"
           onLoad={handleLoad}
+          onError={handleError}
         />
         <div
           className="absolute"
@@ -48,7 +50,7 @@ export default function HomeDeskScene() {
             sizes="55vw"
             className="h-auto w-full"
             onLoad={handleLoad}
-
+          onError={handleError}
           />
         </div>
         <Link
@@ -66,7 +68,7 @@ export default function HomeDeskScene() {
             sizes="16vw"
             className="h-auto w-full transition-transform duration-300 group-hover:scale-105"
             onLoad={handleLoad}
-
+            onError={handleError}
           />
         </Link>
         <Link
@@ -80,7 +82,7 @@ export default function HomeDeskScene() {
             sizes="15vw"
             className="h-auto w-full transition-transform duration-300 group-hover:scale-105"
             onLoad={handleLoad}
-
+            onError={handleError}
           />
         </Link>
         <ArticleRecommendButton />

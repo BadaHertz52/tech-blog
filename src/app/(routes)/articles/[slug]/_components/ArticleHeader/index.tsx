@@ -61,13 +61,13 @@ function Loaded({ category, title, date, slug }: LoadedProps) {
 
       <div className="flex items-center gap-4">
         <ArticleMeta variant="date" value={date} />
-        <div className="flex items-center gap-1 text-[#64748B] lg:hidden">
+        <div className="flex items-center gap-1 text-slate-500 lg:hidden">
           <ArticleShareButton
             slug={slug}
-            iconClassName="h-auto w-[20px] stroke-[#64748B]"
+            iconClassName="h-auto w-[20px] stroke-slate-500"
             buttonClassName="w-auto h-auto"
           />
-          <p className="h-full text-sm leading-[22px] text-[#64748B]">
+          <p className="h-full text-sm leading-[22px]">
             Share this post
           </p>
         </div>
