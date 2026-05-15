@@ -94,6 +94,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           category={article.category}
           title={article.title}
           date={article.date}
+          slug={slug}
         />
         <MDXContent source={article.content} headings={headings} />
         <ArticleNavigation prev={prev} next={next} />
