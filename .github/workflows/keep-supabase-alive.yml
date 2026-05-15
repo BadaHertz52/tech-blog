@@ -2,8 +2,8 @@ name: Keep Supabase Alive
 
 on:
   schedule:
-    # 5일마다 09:00 UTC에 실행
-    - cron: "0 9 */5 * *"
+    # 매주 월/목 09:00 UTC 실행 (최대 4일 간격, Supabase 7일 pause 방지)
+    - cron: "0 9 * * 1,4"
   workflow_dispatch: # 수동 실행 지원
 
 jobs:
