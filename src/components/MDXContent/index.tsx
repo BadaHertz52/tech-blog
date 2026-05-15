@@ -1,15 +1,10 @@
-"use client";
-
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import { serialize } from "next-mdx-remote/serialize";
+import { MDXRemote } from "next-mdx-remote/rsc";
 import Image from "next/image";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
 import { generateUUID } from "@/utils/id";
-import EmptyState from "../EmptyState";
-import LoadingUI from "../LoadingUI";
 import "highlight.js/styles/felipec.css";
 import type { TocHeading } from "@/types/article";
 
@@ -194,65 +189,20 @@ interface MDXContentProps {
 }
 
 export default function MDXContent({ source, headings }: MDXContentProps) {
-  const [mdxSource, setMdxSource] = useState<MDXRemoteSerializeResult | null>(
-    null
-  );
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
-
-  useEffect(() => {
-    const compileMdx = async () => {
-      setIsLoading(true);
-      setHasError(false);
-
-      try {
-        const compiled = await serialize(source, {
-          mdxOptions: {
-            remarkPlugins: [remarkGfm],
-            rehypePlugins: [rehypeHighlight],
-          },
-        });
-        setMdxSource(compiled);
-      } catch (error) {
-        console.error("Failed to serialize MDX:", error);
-        setHasError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    compileMdx();
-  }, [source]);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-8">
-        <div className="flex flex-col items-center gap-3">
-          <LoadingUI />
-          <p className="text-sm text-gray-medium">글을 준비중이에요.</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (hasError || !mdxSource) {
-    return (
-      <div className="flex items-center justify-center py-8">
-        <EmptyState>
-          <EmptyState.Icon />
-          <EmptyState.Content>
-            <p>죄송해요. 이 글을 표시할 수 없어요.</p>
-          </EmptyState.Content>
-        </EmptyState>
-      </div>
-    );
-  }
-
   const mdxComponents = createMDXComponents(headings);
 
   return (
     <div className="flex w-full flex-col gap-[33px] px-[14px]">
-      <MDXRemote {...mdxSource} components={mdxComponents} />
+      <MDXRemote
+        source={source}
+        options={{
+          mdxOptions: {
+            remarkPlugins: [remarkGfm],
+            rehypePlugins: [rehypeHighlight],
+          },
+        }}
+        components={mdxComponents}
+      />
     </div>
   );
 }
