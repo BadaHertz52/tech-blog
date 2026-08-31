@@ -15,7 +15,11 @@ next-env.d.ts
 # Storybook
 storybook-static/
 
-.claude/
+.claude/*
+!.claude/rules/
+!.claude/rules/**
+!.claude/docs/
+!.claude/docs/**
 
 # env
 .env.local
