@@ -3,7 +3,9 @@
     "baseUrl": "..",
     "paths": {
       "@/assets/images/bada.webp": ["./.design-sync/shims/bada.ts"],
-      "@/assets/images/bada-3d-half.webp": ["./.design-sync/shims/bada-3d-half.ts"],
+      "@/assets/images/bada-3d-half.webp": [
+        "./.design-sync/shims/bada-3d-half.ts"
+      ],
       "next/image": ["./.design-sync/shims/next-image.tsx"],
       "next/link": ["./.design-sync/shims/next-link.tsx"]
     }

@@ -1,4 +1,4 @@
-import { CSSProperties, ComponentProps } from "react";
+import { ComponentProps, CSSProperties } from "react";
 
 import KNOWN_IMAGES from "./known-images";
 
@@ -30,10 +30,21 @@ export default function Image({
   const rawSrc = typeof src === "string" ? src : src?.src;
   const resolvedSrc = KNOWN_IMAGES[rawSrc] ?? rawSrc;
   const fillStyle: CSSProperties = fill
-    ? { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }
+    ? {
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+      }
     : {};
   return (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={resolvedSrc} alt={alt ?? ""} style={{ ...fillStyle, ...style }} {...rest} />
+    <img
+      src={resolvedSrc}
+      alt={alt ?? ""}
+      style={{ ...fillStyle, ...style }}
+      {...rest}
+    />
   );
 }
