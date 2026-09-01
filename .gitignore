@@ -20,6 +20,8 @@ storybook-static/
 !.claude/rules/**
 !.claude/docs/
 !.claude/docs/**
+!.claude/skills/
+!.claude/skills/**
 
 # env
 .env.local
