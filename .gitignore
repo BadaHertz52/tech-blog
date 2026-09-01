@@ -10,7 +10,9 @@ dist/
 # Storybook
 storybook-static/
 
-.claude/
+.claude/*
+!.claude/skills/
+!.claude/skills/**
 
 # env
 .env.local
