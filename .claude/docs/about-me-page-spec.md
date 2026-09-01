@@ -81,7 +81,7 @@
 
 ## 컴포넌트 구조
 
-```
+```text
 src/app/(routes)/about-me/
 ├── page.tsx
 ├── _constants/

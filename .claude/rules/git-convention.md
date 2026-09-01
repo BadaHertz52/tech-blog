@@ -62,7 +62,7 @@ fix: BlogCard 썸네일 이미지 오류 수정
 
 ### 브랜치 구조
 
-```
+```text
 main (기준점, 코드 변경 관리)
   ├── feature/* → main PR → release 머지 (코드/기능 변경)
   └── article/* → release PR 직접 (마크다운 아티클 추가)
