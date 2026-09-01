@@ -64,7 +64,7 @@ fix: BlogCard 썸네일 이미지 오류 수정
 
 ```text
 main (기준점, 코드 변경 관리)
-  ├── feature/* → main PR → release 머지 (코드/기능 변경)
+  ├── feat/* → main PR → release 머지 (코드/기능 변경)
   └── article/* → release PR 직접 (마크다운 아티클 추가)
 
 release (배포 브랜치, Vercel production)
@@ -74,25 +74,25 @@ release (배포 브랜치, Vercel production)
 
 | 브랜치 | 역할 | PR 방향 | 설명 |
 |--------|------|--------|------|
-| `main` | 기준점 | feature/* → main | 코드 변경 관리, 배포 전 최종 검증 |
+| `main` | 기준점 | feat/* → main | 코드 변경 관리, 배포 전 최종 검증 |
 | `release` | 배포 브랜치 | main → release / article/* → release | Vercel production 배포 |
-| `feature/*` | 기능 개발 | → main | 기능 추가, 버그 수정, 리팩토링 |
+| `feat/*` | 기능 개발 | → main | 기능 추가, 버그 수정, 리팩토링 |
 | `article/*` | 콘텐츠 추가 | → release 직접 | 마크다운 아티클만 추가 (코드 변경 금지) |
 
 ### article 브랜치 전략
 
 - **브랜치 생성**: `main`에서 브랜치 생성 → 최신 코드 상태 기준 보장
 - **PR 대상**: `release`로 직접 PR (코드 변경 없이 콘텐츠만 반영)
-- **허용 파일**: 마크다운 파일만 추가 (코드 변경 시 `feature/*` 사용)
+- **허용 파일**: 마크다운 파일만 추가 (코드 변경 시 `feat/*` 사용)
 - **브랜치 관리**: 짧게 유지하여 충돌 방지
 
 ### 워크플로우 예시
 
 **코드 변경 (feature 브랜치):**
 ```bash
-git checkout -b feature/8-article-detail-page
+git checkout -b feat/8-article-detail-page
 # 기능 구현...
-git push origin feature/8-article-detail-page
+git push origin feat/8-article-detail-page
 # → main으로 PR
 # → main 머지 후 release로 자동 배포
 ```
