@@ -210,12 +210,14 @@ components/
 
 ## Props 확장 규칙
 
-네이티브 HTML 태그의 props를 받을 때는 **`React.ComponentProps`**를 사용합니다:
+네이티브 HTML 태그의 props를 받을 때는 **`ComponentProps`**(react에서 직접 import)를 사용합니다:
 
 ```typescript
-// ✅ Good - React.ComponentProps 사용
+// ✅ Good - ComponentProps 직접 import
+import type { ComponentProps } from "react"
+
 interface SearchBarProps extends Omit<
-  React.ComponentProps<"input">,
+  ComponentProps<"input">,
   "value" | "className" | "type"  // 필요시 제외
 > {
   customProp?: string;
@@ -418,8 +420,10 @@ export default function ArticleCard({
   )
 }
 
-// ✅ Good - React.ComponentProps 상속도 OK
-interface ButtonProps extends React.ComponentProps<"button"> {
+// ✅ Good - ComponentProps 상속도 OK (직접 import)
+import type { ComponentProps, ReactNode } from "react"
+
+interface ButtonProps extends ComponentProps<"button"> {
   variant?: "primary" | "secondary";
   children: ReactNode;
 }
