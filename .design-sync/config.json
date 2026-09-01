@@ -1,0 +1,19 @@
+{
+  "shape": "storybook",
+  "projectId": "080de7cd-022a-4e20-8e0a-b909ff36ae9b",
+  "pkg": "tech-blog",
+  "globalName": "TechBlogDS",
+  "entry": "./src/design-sync-entry.ts",
+  "tsconfig": "./.design-sync/ds-tsconfig.json",
+  "storybookStatic": ".design-sync/sb-reference",
+  "storyImports": {
+    "loaders": { ".webp": "dataurl" }
+  },
+  "titleMap": {
+    "MDXContent": null
+  },
+  "provider": {
+    "component": "OverlayProvider"
+  },
+  "readmeHeader": ".design-sync/conventions.md"
+}

@@ -2,7 +2,10 @@
   "name": "tech-blog",
   "version": "1.0.2",
   "private": true,
+  "types": "./.design-sync/entry.d.ts",
+  "packageManager": "yarn@1.22.22",
   "scripts": {
+    "setup": "corepack enable",
     "generate:index": "node scripts/generate-article-index.js",
     "dev": "yarn generate:index && next dev",
     "build": "yarn generate:index && next build",
