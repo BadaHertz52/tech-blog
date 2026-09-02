@@ -245,8 +245,11 @@ const validateArticleStructure = (slug: string): ValidationError[] => {
 const validateAbsoluteThumbnailPath = (
   thumbnailPath: string
 ): ValidationError[] => {
+  // path.resolve는 "/"로 시작하는 경로를 파일시스템 루트 기준 절대경로로 취급하므로
+  // PUBLIC_DIRECTORY 기준 상대경로로 만들어주기 위해 선행 "/"를 제거한다.
+  const cleanPath = thumbnailPath.slice(1);
   // fullPath: 정규화된 절대 경로 (.. 포함해서 실제 위치 파악)
-  const fullPath = path.resolve(PUBLIC_DIRECTORY, thumbnailPath);
+  const fullPath = path.resolve(PUBLIC_DIRECTORY, cleanPath);
   // allowedRoot: 허용된 범위 (/public 디렉토리 내만 접근 가능)
   const allowedRoot = path.resolve(PUBLIC_DIRECTORY);
 

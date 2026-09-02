@@ -1,3 +1,6 @@
+# macOS
+.DS_Store
+
 # Dependencies
 node_modules/
 
@@ -6,11 +9,26 @@ node_modules/
 out/
 build/
 dist/
+*.tsbuildinfo
+next-env.d.ts
 
 # Storybook
 storybook-static/
 
-.claude/
+.claude/*
+!.claude/rules/
+!.claude/rules/**
+!.claude/docs/
+!.claude/docs/**
+!.claude/skills/
+!.claude/skills/**
 
 # env
 .env.local
+
+.design-sync/sb-reference/
+.design-sync/learnings/
+.design-sync/.cache/
+.design-sync/node_modules
+.ds-sync/
+ds-bundle/

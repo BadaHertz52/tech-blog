@@ -1,8 +1,10 @@
 {
   "slugs": [
-    "2026-03-11-ai-techblog-responsiblity-over-speed"
+    "2026-03-11-ai-techblog-responsiblity-over-speed",
+    "2026-09-01-js-number-ieee754-precision"
   ],
   "indexMap": {
-    "2026-03-11-ai-techblog-responsiblity-over-speed": 0
+    "2026-03-11-ai-techblog-responsiblity-over-speed": 0,
+    "2026-09-01-js-number-ieee754-precision": 1
   }
 }

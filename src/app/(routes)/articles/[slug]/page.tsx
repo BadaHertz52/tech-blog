@@ -88,7 +88,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     <>
       <ArticleStatsWrapper slug={slug} />
       <TableOfContents.Loaded headings={headings} slug={slug} />
-      <div className="flex w-full flex-col gap-14 md:flex-1">
+      <div className="flex w-full min-w-0 flex-col gap-14 md:flex-1">
         <ArticleThumbnail.Loaded src={thumbnailUrl} alt={article.title} />
         <ArticleHeader.Loaded
           category={article.category}

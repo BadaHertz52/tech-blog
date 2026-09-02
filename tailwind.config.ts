@@ -15,6 +15,7 @@ const config: Config = {
         black: "#000000",
         primary: {
           blue: "#056FE8",
+          blue700: "#186BCB",
         },
         // Secondary Colors
         secondary: {
@@ -46,6 +47,7 @@ const config: Config = {
       },
       fontFamily: {
         pretendard: ["Pretendard", "sans-serif"],
+        display: ["Space Grotesk", "sans-serif"],
       },
       fontSize: {
         // Design Token 기반 크기
@@ -88,6 +90,8 @@ const config: Config = {
       },
       boxShadow: {
         md: "0px 25px 50px -12px #e5e7eb",
+        clay: "0 20px 40px -8px rgba(5, 111, 232, 0.15)",
+        "clay-sm": "0 10px 20px -6px rgba(5, 111, 232, 0.12)",
       },
       screens: {
         xs: "425px", // min-width 425px
