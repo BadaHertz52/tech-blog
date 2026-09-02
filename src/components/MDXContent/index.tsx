@@ -166,7 +166,9 @@ const createMDXComponents = (headings: TocHeading[]) => ({
     </a>
   ),
   table: ({ children }: { children: ReactNode }) => (
-    <table className="w-full border-collapse bg-white">{children}</table>
+    <div className="overflow-x-auto">
+      <table className="w-full border-collapse bg-white">{children}</table>
+    </div>
   ),
   thead: ({ children }: { children: ReactNode }) => (
     <thead className="bg-gray-light">{children}</thead>
