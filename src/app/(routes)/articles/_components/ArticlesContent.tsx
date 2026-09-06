@@ -7,7 +7,9 @@ import { ROUTES } from "@/constants/paths";
 import { ArticleCardData } from "@/types/article";
 
 function Wrapper({ children }: { children: ReactNode }) {
-  return <section className="relative h-full w-full">{children}</section>;
+  return (
+    <section className="relative h-full w-full flex-1">{children}</section>
+  );
 }
 
 function Grid({ children }: { children: ReactNode }) {
